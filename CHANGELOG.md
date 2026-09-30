@@ -10,6 +10,41 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-09-30
+
+### Changed
+
+- **The Draft tab shows the directions first, and drafts only the ones you keep.** Drafting is
+  the slow and costly part of a run, so the first press now finds the directions the
+  specification supports and stops there. Each is listed with whether its supporting passage was
+  found in your specification. Remove the ones not worth drafting, edit a direction's wording in
+  the Continuation targets panel, then draft; only the directions you kept are drafted. Drafting
+  straight through, as before, is one click away.
+
+- **The web interface looks like the rest of the ObviouslyNot family.** Main buttons are black
+  and turn cyan when you point at them, secondary buttons are outlined, panels have softer corners
+  and a light shadow, labels are rounded tags, headings are stronger, and the ObviouslyNot mark sits
+  beside the name. The dark theme has matching versions of each.
+
+### Fixed
+
+- **A prosecution-history reading no longer lists the law as art.** Reading an Office Action, a
+  small model could report a statute, a rule or a court decision the examiner cited as if it
+  were a reference of record. Those are now withheld and named as withheld; patents and
+  publications, including a patent cited for double patenting, are unaffected.
+
+- **Buttons were drawn in the wrong typeface.** Almost every button in the web interface, Draft
+  Claims included, used the browser's default font rather than the interface's own.
+- **Two things were hard to read.** The label naming a defect's type was white text on amber, and
+  a secondary button's outline was too faint to show where the button ended. Both now meet the
+  contrast the rest of the interface does.
+- **A reopened matter said it had no drafted claims.** Opening a matter you had already drafted
+  showed "Drafted Claims (0)" above its claims. The count now counts the claims on the page.
+- **Opening a matter's link scrolled the top of the page away.** A bookmark, a reload or a link
+  straight to a matter opened partway down, with the model picker and the tabs out of sight.
+- **A ring outlined the whole page after every move between tabs**, and the cost of a matter and
+  of the last run sat against the edge of their panel. Both are gone.
+
 ## [0.4.0] - 2026-09-29
 
 ### Added
