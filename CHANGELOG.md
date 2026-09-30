@@ -10,6 +10,232 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-29
+
+### Added
+
+- **Every proposed direction now says what its supporting quote actually is.** The tool used
+  to answer one question about a quote, whether it appears in your specification, and a "no"
+  covered several different situations that call for different work from you. It now
+  distinguishes them: the quote is in the specification; it is not there at all; its parts are
+  each real but were never adjacent, so the model fused two true passages into a sentence your
+  document does not contain; it appears in more than one place, so it does not locate anything;
+  it is too short for a match to mean much; or it is in the parent claims rather than in the
+  specification. Each points at different work, and the one that used to be invisible is the
+  fused quote, because a practitioner can go and read both passages.
+
+- **Drafted claims are checked for two things a program can decide without asking a model.** A
+  claim reciting a number that appears in neither your specification nor the parent claims is
+  flagged with the surrounding text, because an invented quantity reads perfectly well in
+  otherwise correct prose. And a direction wholly contained in another is flagged as
+  redundant, so that near-duplicates are not several readings of one decision. Both report
+  what they found and where; neither is a verdict, and every judgement about what a finding
+  means remains yours.
+
+- **Small local models are asked for output in a shape the server enforces.** Where the server
+  supports it, the request now carries the structure of the expected answer rather than only
+  describing it in words. Measured while building it: a small local model returned an empty
+  result on a weakly worded prompt and returned usable output for the same prompt once the
+  shape was enforced. Servers that do not support it are unaffected.
+
+- **A run now says what happened to it rather than only that it failed.** Before a long run
+  starts, the tool checks whether your model server has a model wedged past its own unload
+  time, which is the state in which every later call waits behind it and reports a timeout
+  that looks like a slow model. It reports and never refuses, because a clock can drift. A
+  reply that was cut off mid-answer is now identified as truncated rather than reported as a
+  parsing failure, and failures are grouped by what you would do about them, so a network
+  problem and a model refusing to answer no longer read the same.
+
+- **Every drafting run now reports how much of your specification it actually read.** A line
+  at the end says what percentage of the document the located supporting quotes touch, and
+  where the largest stretch nothing cited begins. The tool could already tell you that a
+  proposed direction was fabricated; it could not tell you that it never looked at column 7,
+  and for a tool whose job is finding unclaimed matter that is the more expensive silence.
+  It is a disclosure and not a score: a low figure on a specification with little unclaimed
+  matter is correct.
+- **A specification too large for your model can now be read in overlapping windows instead
+  of being refused.** Off by default, because a model that can hold the whole document should
+  get the whole document, and set `CD_WINDOW_LARGE_SPECS=1` when the alternative is not
+  running at all. Windows overlap, by enough that a supporting quote is not cut in half at a
+  boundary. Every window is accounted for, including the ones that produce nothing, because a
+  window that quietly vanishes leaves a result that looks clean and is smaller than it should
+  be, and the run tells you the count rather than keeping it. A windowed run says so while it
+  is running, because it is a degraded mode and should not be mistaken for an ordinary one.
+  If every window fails, that is reported as a failure: a model server that was unreachable
+  for the whole run must not read as a specification with nothing left to claim.
+
+- **`continuation-drafter compare`, which asks which of two drafts is the better drafting job
+  and tells you how sure it is.** It controls for the fact that a judge can answer differently
+  depending on which draft it is shown first, which is a property of the model rather than of
+  your claims.
+
+  It reports one of three things: that one draft is better, that it could not find a
+  difference, or that it could not tell, with the reason. "Could not tell" is a real answer
+  and will be a common one. It also reports how consistent the judge was with itself, which is
+  the number that says whether to trust the rest.
+
+  Measured while building it: comparing a draft **against a copy of itself**, a small local
+  model agreed with itself on one pair in eight, while a larger one agreed every time and
+  answered tie on every pair. The small model, scored the old way, would have produced a
+  confident-looking preference between a document and itself.
+
+  **The larger model's run still came back "could not tell", and that is the tool working
+  rather than failing.** Eight comparisons cannot establish that two things are equivalent,
+  however unanimous they are: showing a difference is cheap and showing sameness is expensive,
+  so a run needs roughly a hundred comparisons before "could not find a difference" is an
+  answer the numbers support. A tool that reported "they are the same" from eight unanimous
+  ties would be telling you something it does not know.
+
+- **`continuation-drafter bench`, which measures whether your model server runs requests at
+  the same time or one after another.** It sends a few short requests both ways and reports
+  the difference. This matters because a multi-model panel is several requests: on a server
+  that runs them together it finishes in a fraction of the time, and on one that queues them
+  it does not. Which yours does depends on the server and the model format, not on this tool,
+  so it is measured rather than assumed.
+- **Panel scoring can run its model calls together.** Off by default, because raising memory
+  use on a machine that may already be near its limit should be a choice you make after
+  seeing your own number. `bench` tells you whether it is worth setting, and prints the
+  setting to use. Measured on one machine: a two-model, two-round panel went from 58 seconds
+  to 19. The revise loop stays sequential, because each pass reads the previous pass's output.
+
+- **Local models on any OpenAI-compatible server, not only Ollama.** `--provider local-openai`
+  points the local path at mlx-openai-server, vllm-mlx, llama.cpp's `llama-server`, LM Studio,
+  LocalAI or SGLang, with no API key. On Apple silicon these are the servers that run several
+  requests at once; Ollama's MLX engine handles them one at a time. Set
+  `CD_LOCAL_OPENAI_BASE_URL` if your server is not on the default port.
+
+  **Whether this counts as local is decided by where the request goes, not by the name.** If
+  the address you configure is not on this machine, the tool says so before your
+  specification is sent and treats the run as remote, because a machine on your own network
+  is still across a network.
+
+- **Repeated work on one specification is cheaper and faster.** Most of what the tool sends a model
+  is your specification, and it used to be re-read in full on every call. It is now arranged so a
+  model server or provider can reuse the part it has already read: on a local model, later passes
+  over the same specification spend seconds reading it instead of most of a minute; through
+  OpenRouter, Claude reads it from its prompt cache after the first call, which made a follow-up
+  question in the local web UI about an eighth of the cost. Measured before shipping, drafts scored
+  within the benchmark panel's margin of each other with and without the change.
+
+- **The revise loop does less work and stops sooner.** It used to rewrite the whole claim set on
+  every pass, however few claims needed it; it now rewrites only the claims that do, leaves the rest
+  exactly as they were, and stops when another pass would not help. A rewrite that damages the
+  claim it replaces is refused and the original kept. Measured on a small local model over six
+  specifications: the five that both versions finished took 18% less time, and the sixth, which
+  the old loop could not finish inside its time limit, now finishes. A deletion, or an instruction
+  you give, still revises the whole set.
+
+- **OpenRouter can be limited to the hosts you choose.** OpenRouter hands each call to one of the
+  companies hosting the model, and may choose a different one each time: a Claude model there is
+  hosted by Anthropic, Google, Amazon and Microsoft. `CD_OPENROUTER_PROVIDERS` names the hosts you
+  allow and `CD_OPENROUTER_ZDR=1` allows only hosts that keep nothing; both are also in the web
+  interface's Settings. The note printed before a run says which applies, and a limit no host
+  meets is refused before anything is sent, with advice on what to change.
+
+- **Check for updates, and install one after it verifies.** Settings has a Check for updates
+  button, and `continuation-drafter update` does the same from the command line. Nothing is
+  checked unless you ask; the check is one request to github.com carrying nothing about you, and
+  offline mode refuses it. Before anything is replaced, the release's checksums must carry a
+  valid signature from the key built into your copy, the download must match its checksum, a Mac
+  download must carry Apple's signature for this publisher and pass Gatekeeper, and the new
+  program must report the version it was fetched as; if any check fails, nothing changes. The
+  web interface restarts itself into the new version. This release is the first to carry it, so
+  it is the last one you download by hand.
+
+- **A run ends by saying what it cost and where the specification went.** Every command that
+  calls a model, and the web interface after each drafting run, revision, critique or
+  conversation turn, reports the model calls made, the tokens read and written, the cost as the
+  provider reported it, and the companies that served the calls, which through OpenRouter can be
+  more than one. A run on your own computer reports $0 beside what the same tokens would cost on
+  a leading hosted model at its list price, dated. On the command line it is printed last, and
+  also when a run fails partway; `draft --json` carries the same figures. In the web interface each
+  matter also keeps a running total of what it has cost so far and which companies received its
+  specification, shown while the matter is open.
+
+- **Per-call cost and cache use in the request log.** With `CONTINUATION_DRAFTER_LOG_REQUESTS=1`,
+  each line now shows the cost the provider reported for the call, how much of the prompt was read
+  from or written to a prompt cache, and, on a local model, how long it spent reading the prompt
+  and loading the model.
+
+### Changed
+
+- **A prompt cache holds your specification for a while after a call returns, and the tool now
+  asks for the shortest retention each provider offers it.** With an OpenAI key the tool asks for
+  in-memory retention; OpenAI's newer models refuse it (gpt-5.5 keeps a cache for up to 24 hours,
+  gpt-5.6 and later for 30 minutes after last use), and the tool then proceeds without the request. For Claude through OpenRouter the cache lasts up to an hour after its last
+  use. The setup page for remote providers now says what each provider keeps.
+
+### Fixed
+
+- **The confirmation before a remote run named OpenRouter whatever provider you had chosen.** It
+  now names the provider that will receive the specification, as the banner above it already did.
+
+- **`bench` no longer counts the time to load your model as evidence that your server
+  batches.** It timed a run of calls one after another, then the same calls at once, and
+  started the first timer on the very first call. If the model was not already in memory,
+  loading it landed entirely in the first measurement. On one machine that reported four
+  eight-token calls taking 237 seconds against 2.2 seconds, a ratio of 108x, and recommended
+  raising concurrency on that basis. It now makes one throwaway call first, and the same
+  machine reports 0.6 against 0.3, a ratio of 1.8. The recommendation was the thing at stake:
+  raising concurrency on a server that does not batch buys no speed and raises peak memory,
+  which is what this command exists to help you avoid.
+
+- **Runs against a local model no longer reload the model between passes.** Ollama unloads and
+  reloads a model whenever the requested context window changes, and this tool sized that window
+  from the exact length of each prompt, so no two passes of a run asked for the same one. Two
+  consecutive passes over one specification asked for windows nine tokens apart, and the model
+  was moved in and out of memory between them. The window is now rounded up to a fixed step, so
+  the passes of a run ask for the same one and the model stays where it is. Nothing about the
+  output changes: the same specification produces the same claims, the same coverage figure and
+  the same flags. What changes is how much of a run is spent waiting, and the larger your model
+  the more of it there was.
+
+- **Drafting no longer comes back empty on some local models.** The shared prompt layout sent
+  one system message for every step of a drafting run, and it told the model to answer in JSON.
+  Two of those steps ask for numbered claim text, not JSON, and on at least one local model the
+  drafting step returned a JSON object of claims instead: a complete, correct answer in a
+  container the tool does not read, so the run ended with "drafting produced no claims". Each
+  step now names the shape it wants, the shared message no longer names one for everybody, and
+  a claim set that arrives as JSON anyway is read rather than discarded.
+
+- **Prosecution-history questions are answered from the whole paper.** The record reading was
+  focused by the first question asked and then reused for later ones, so a follow-up about other
+  claims could be told the paper said nothing about them. Small local models also failed to read
+  some Office Actions at all, returning a field in a form the tool rejected.
+
+- **Saving a setting in the web UI no longer switches off an exported environment switch.**
+  Choosing a model saved the settings and, in doing so, cleared `CD_NO_LICENSE_RENEWAL` or the
+  request log if you had set them in your shell.
+
+- **The note about a specification leaving your machine no longer appears when it does not.**
+  It was shown for any provider other than Ollama, which was true of every provider until a
+  local OpenAI-compatible server became one, and it then announced that a specification sent
+  to your own computer had left it. It now follows the destination.
+- **The deprecated `OPENAI_BASE_URL` redirect.** Pointing that variable at a local Ollama
+  endpoint still works and is no longer the way to reach a non-Ollama local server: use
+  `--provider local-openai`. The old route could not work for those servers anyway, because
+  the Ollama client speaks Ollama's own protocol.
+
+- **A long run is no longer cut off by a deadline nothing could move.** A run carries a
+  deadline for each model call and one for the whole run, and the two were set separately:
+  20 minutes per call, retried once, inside a flat 30-minute run. A first call could spend
+  20 of the 30 minutes and the retry be killed mid-attempt, and in the local web UI the run
+  deadline was hardcoded, so no setting could lift it. The run deadline is now derived from
+  the per-call one so that a call and its retry always fit (45 minutes at the default), and
+  `CD_RUN_TIMEOUT_SECONDS` or `--timeout` overrides it. The recovery steps now say which of
+  the two deadlines stopped a run and name the setting that moves that one; a run killed by
+  its own budget used to be answered with advice about the other. Reported by a practitioner
+  running a large local model in the web UI.
+- **Eight more operations could not finish on a slow machine, for the same reason.** An
+  audit after the fix above found every other run-level deadline in the binary set
+  independently of the per-call one: five web handlers (chat, streamed chat, best practice,
+  critique, limitations) waited ten or fifteen minutes on calls allowed twenty, so the
+  operation was killed while the model was still legitimately working, and three commands
+  (`critique`, `bestpractice`, `judge`) defaulted to exactly twenty, which funds one call
+  with no margin and no retry. All are derived now, and a guard refuses a literal deadline
+  anywhere in the binary unless it is recorded as a different kind of wait (a model
+  download, a shutdown, a probe that degrades to "not detected").
+
 ## [0.3.0] - 2026-09-18
 
 ### Added

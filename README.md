@@ -33,7 +33,7 @@ Without a paid licence the binary makes no such call at all.
 
 | Piece | Role |
 |---|---|
-| `go/main.go` | CLI: `draft`, `export`, `critique`, `judge`, `panel`, `serve`, `models`, `version`, `license`, `activate`, `upgrade` |
+| `go/main.go` | CLI: `draft`, `export`, `critique`, `bestpractice`, `judge`, `panel`, `compare`, `bench`, `serve`, `models`, `version`, `license`, `activate`, `upgrade` |
 | `go/internal/server/` | HTTP server for the local web UI (runs on localhost:9473) |
 | `go/web/` | Alpine.js SPA served by the binary (no build step). HTML/CSS are embedded via go:embed; Alpine itself loads from a pinned CDN with a subresource-integrity hash, so the web UI needs network access on first load and is not air-gapped |
 | `go/internal/pipeline/draft.go` | Spec analysis, target extraction, drafting, and the verify->revise loop |
@@ -66,6 +66,13 @@ you use the CLI only, export the key in your shell. The binary does not read a `
    `ollama serve`. It listens on `http://localhost:11434`. Point the tool at a
    different host (for example a beefier machine on your LAN) with
    `export OLLAMA_BASE_URL=http://that-host:11434`.
+
+   **If you do that, your specification goes to that host.** It is still your
+   hardware and no third party is involved, but the text crosses a network and the
+   "nothing leaves this machine" guarantee is about *this* machine. The tool says so:
+   the command line prints a note naming the variable and the host before anything is
+   sent, and the web interface shows a banner beside the model picker. Leave the
+   variable unset for unpublished or privileged material.
 3. **Pull a model before you run.** The binary does **not** download models for
    you, and it assumes **no default model**: name one with `--model` or a
    `*_MODEL` env var, or the run fails fast with guidance. Pull one first:
@@ -85,6 +92,26 @@ you use the CLI only, export the key in your shell. The binary does not read a `
    tradeoff between window size and drafting quality.
 4. **Verify:** `ollama list` shows the model you pulled; `./continuation-drafter
    models` shows the configuration the tool resolved.
+
+### Option A2: a different local server (Ollama is not the only one)
+
+If you already run **mlx-openai-server, vllm-mlx, llama.cpp's `llama-server`, LM Studio,
+LocalAI or SGLang**, point the local path at it directly:
+
+```bash
+export CD_LOCAL_OPENAI_BASE_URL=http://127.0.0.1:1234/v1   # your server's address
+./continuation-drafter draft --provider local-openai --model <name> \
+  --spec spec.txt --parent parent.txt
+```
+
+No API key: a server you run does not issue you one. On Apple silicon several of these run
+requests at the same time where Ollama's MLX engine takes them one at a time, which matters
+for the panel and for `compare`. Run `bench` to see which yours does.
+
+**Whether this counts as local is decided by where the request goes, not by the name.** If the
+address you configure is not on this machine, the tool tells you before your specification is
+sent and treats the run as remote. A machine on your own network is still across a network,
+and the same is true of `OLLAMA_BASE_URL` pointed at another host.
 
 ### Option B: cloud models (faster, stronger)
 
@@ -108,6 +135,19 @@ goes to OpenRouter. Every command documented for earlier versions keeps working 
 
 Whichever you choose, the tool prints a one-line note naming the provider and the endpoint
 before your specification leaves the machine.
+
+**OpenRouter is a router, not the company that runs the model.** It sends each call to one of
+the companies hosting the model you chose, and may choose a different one each time: a Claude
+model there is hosted by Anthropic, Google, Amazon and Microsoft. Two settings limit that, and
+the note says which applies:
+
+- `CD_OPENROUTER_PROVIDERS`: the hosts you allow, comma-separated, as OpenRouter names them
+  (for example `anthropic`, or `anthropic,google-vertex`). Unset allows any host.
+- `CD_OPENROUTER_ZDR=1`: only hosts that keep nothing (zero data retention).
+
+If no host meets the limits, OpenRouter refuses the call before sending it anywhere and the
+error lists the hosts that do serve that model. Both settings are also in the web interface's
+Settings page.
 
 In the web interface each provider is a tab in the model picker, showing its models when its
 key is set and a key box when it is not. The lists are curated: text models only, no
@@ -237,12 +277,39 @@ overwrite an existing file unless you pass `--force`, and it carries the maturit
 notice inside the document, because an exported file gets read by people who never
 saw the terminal that made it.
 
+**Compare two drafts**, and find out how confident the answer is:
+
+```bash
+./continuation-drafter compare --spec spec.txt --parent parent.txt \
+  --a draft-a.txt --b draft-b.txt --rounds 8
+```
+
+It asks the judge about the same pair twice, once each way round, because a judge can answer
+differently depending on which draft it sees first. That is a property of the model, not of
+your claims. It reports one of three things: that one draft is better, that it could not find
+a difference, or that it could not tell, with the reason. **"Could not tell" is a real answer
+and will be a common one.** It also reports how consistent the judge was with itself, which is
+the number that says whether to trust the rest, and a small local model can score very badly
+on it.
+
+**Check whether your model server runs requests at the same time:**
+
+```bash
+./continuation-drafter bench
+```
+
+A multi-model panel is several requests. On a server that runs them together it finishes in a
+fraction of the time; on one that queues them it does not. Which yours does depends on the
+server and the model format rather than on this tool, so `bench` measures it and tells you
+whether setting `CD_CONCURRENCY` is worth it.
+
 **Other commands:** `judge` scores one draft against the rubric, returning
 per-claim verdicts with spec-anchor validation (T1) and honest-null: a claim it
 cannot anchor to the spec comes back `indeterminate`, not a low score (R&D; the
 score is not a ranking, the support audit is the useful part). `panel` scores
 candidate drafts with a multi-model judge (R&D: it separates gross differences
-but cannot rank near-equals, so read it as a spread, not a ranking); `models`
+but cannot rank near-equals, so read it as a spread, not a ranking);
+`bestpractice` reviews a draft for single-actor enforceability; `models`
 prints the resolved model configuration; `version` prints build info. Run
 `<command> --help` for every flag.
 
@@ -303,6 +370,27 @@ licence it additionally makes the monthly licence-renewal call described under S
 `CD_NO_LICENSE_RENEWAL=1` disables. An air-gapped firm should run with that variable set and a
 long-dated token issued out of band.
 
+## Updating
+
+Nothing checks for updates on its own. When you want to know, press **Check for updates** in
+Settings, or run:
+
+```
+continuation-drafter update --check
+continuation-drafter update           # asks before installing
+continuation-drafter update --yes     # installs without asking
+```
+
+The check is one request to github.com that carries nothing about you or your matters; GitHub
+sees an ordinary web request. Offline mode (`CD_NO_LICENSE_RENEWAL=1`) refuses it.
+
+Before anything is replaced, the release's `checksums.txt` must carry a valid signature from
+the key built into your copy, the download must match its checksum, a Mac download must carry
+Apple's signature for this publisher and pass Gatekeeper, and the new program must report the
+version it was fetched as. If any check fails, nothing changes and the error says so; download
+the new version from the releases page instead. The Mac app is replaced whole, and from the web
+interface it restarts itself and the page reloads when the new version is running.
+
 ## License keys
 
 Keys are Ed25519-signed, offline-verified, and stored locally in
@@ -344,17 +432,40 @@ key verifies and reports a tier without changing what the tool will do.
   critic on a small local default, the critic can choke on a big spec. Point the
   critic at a model that also fits the spec.
 - `--max-tokens` / `MAX_COMPLETION_TOKENS` (default 16000) is the per-call
-  completion cap. Two deadlines bound a run: `--timeout` (default 30m for `draft`)
-  is the whole run's, and `CD_REQUEST_TIMEOUT_SECONDS` (default 1200, twenty
-  minutes) is each model call's, which is the one a long specification on a large
-  local model hits first. A run that fails "after 2 attempts, each timing out"
-  needs the second raised, not the first.
+  completion cap. Two deadlines bound a run and they are related rather than set
+  separately: `CD_REQUEST_TIMEOUT_SECONDS` (default 1200, twenty minutes) is each
+  model call's, and the whole run's is derived from it so that one call and one
+  retry always fit, which is 45 minutes at the default. `--timeout` and
+  `CD_RUN_TIMEOUT_SECONDS` override the second. The error says which one stopped
+  a run: "after 2 attempts, each timing out" is a call, and a bare "context
+  deadline exceeded" is the run.
 - Keys come from the environment first, then from `~/.continuation-drafter/config.json`
-  (mode 0600), never from a flag and never from a log. The binary reads exactly
-  one key, `OPENROUTER_API_KEY`; all remote inference goes through OpenRouter, so
-  no per-vendor key is used. The environment always wins, so exporting the
+  (mode 0600), never from a flag and never from a log. Each cloud provider has its
+  own key, `OPENROUTER_API_KEY`, `OPENAI_API_KEY` and `ANTHROPIC_API_KEY`, and you
+  need only the ones you actually use. The environment always wins, so exporting a
   variable overrides whatever is saved in the file.
-- `--json` emits a structured envelope on stdout instead of plain text.
+- `--json` emits a structured envelope on stdout instead of plain text. For `draft` it now
+  also carries the **targets** the drafting was aimed at, each with the result of looking for
+  its supporting quote: located, absent, quoted from the parent claims rather than the
+  specification, and so on, with a sentence saying what that points at.
+- **Every run reports how much of your specification it read**, as a percentage and the
+  largest stretch nothing cited. The tool could always tell you a proposed direction was
+  fabricated; this is what tells you it never looked at part of the document.
+- `CD_CONCURRENCY` runs independent model calls together, and **defaults to 1**. Run
+  `bench` first: on a server that queues requests, raising it buys no speed and raises peak
+  memory on a machine that may already be near its limit.
+- `CD_WINDOW_LARGE_SPECS=1` reads a specification too large for your model in overlapping
+  windows instead of refusing. **Off by default**, because a model that can hold the whole
+  document should get the whole document, and windowing costs attention that overlapping
+  does not give back. It is for when the alternative is not running at all. A windowed run
+  **says so while it runs** and reports how many windows produced nothing, because a degraded
+  run should not be mistaken for an ordinary one and a window that quietly produces nothing
+  leaves a result that looks clean and is smaller than it should be. If every window fails,
+  the run fails: a model server that was unreachable throughout must not read as a
+  specification with nothing left to claim.
+- `CD_NO_BROWSER=1` stops the tool opening a browser window, which matters if you script it.
+- `CD_NO_LICENSE_RENEWAL=1` disables the one outbound call this binary makes on its own,
+  described under Setup, and refuses update checks (see Updating).
 
 **Model choice matters more than it looks, and context is the first filter.**
 A specification is ~1 token per 4 characters and the whole thing goes into the

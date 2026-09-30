@@ -11,15 +11,27 @@ Direct link: [Security tab](https://github.com/Obviously-Not/patent-continuation
 
 continuation-drafter is a local command-line tool and local web UI. It reads a
 specification and a set of parent claims from your filesystem and sends them to
-an inference backend you choose: a local Ollama instance (nothing leaves your
-machine) or a remote OpenAI-compatible endpoint you configure. There is no
-service operated on your behalf, so the attack surface is the binary and the
-files it touches.
+an inference backend you choose: a model on this machine (nothing leaves it) or a
+remote endpoint you configure. There is no service operated on your behalf, so the
+attack surface is the binary and the files it touches.
+
+**On this machine means on this machine, and the binary decides that from the address
+rather than from the name.** A local model can be pointed at another host through
+`OLLAMA_BASE_URL` or `CD_LOCAL_OPENAI_BASE_URL`, and a host on your own network is
+still across a network. In that case the tool tells you, naming the variable and the
+destination, before anything is sent. The disclosure and the request are computed from
+one resolver so they cannot disagree; they did disagree until 2026-09-25, which is the
+kind of report this section is asking for.
 
 In scope:
 
 - Anything that sends specification text to a destination the operator did not
-  configure, or that widens the local-only guarantee of the Ollama path
+  configure, or that widens the local-only guarantee of the on-machine path
+- **A disclosure that disagrees with where the request goes**, in either direction: a
+  run that reaches another host without saying so, and a run that claims your
+  specification left the machine when it did not. The second is a real finding, not a
+  cosmetic one, because a warning that fires on a local call teaches a reader to scroll
+  past the one that matters
 - Disclosure of the API key or license keys held in
   `~/.continuation-drafter/config.json`, including through logs, error text,
   process arguments, or a loosening of that file's 0600 permissions

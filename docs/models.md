@@ -142,6 +142,8 @@ available locally, these drafted all ten specifications including the 645 KB one
 | `gemma4:31b` | 9/10 | **30 GB, flat** | fails only the 645 KB spec |
 | `qwen3-coder:30b` | 10/10 | 44 GB at 65k, **122 GB at 262k** | grows steeply with context |
 | `gemma4:12b` | 9/10 | 12 GB, flat | uneven quality across specs |
+| `qwen3.5:9b` | 10/10 | 6.6 GB to **13.7 GB** | measured 2026-09-21, scored 65.0 against `gemma4:12b`'s 67.3; finishes every spec, KV cache grows with the spec |
+| `qwen3.5:4b` | 2/10 | not measured | answers, but not in the structured form the first pass needs; unreliable, not rankable |
 | `devstral-small-2:24b` | 7/10 | 20 GB to **187 GB** | steep growth |
 | `deepseek-r1:70b` | 6/10 | 111 GB at 65k | returns prose, not JSON, on several |
 
@@ -160,6 +162,17 @@ and weaker on quality but finished every specification tested.
 It is NOT placed above `gemma4:31b`: 85.5 against 81.3 is 4.2 points measured in
 different batches, and a cross-batch difference under about four points is not a
 ranking here.
+
+**On a PC, the graphics card's memory decides the tier, not the system memory.** Every
+figure in this file was measured on a Mac, where the processor and the graphics chip share
+one pool and the model sits on the GPU whole. A PC with a separate card holds only what
+fits in the card's own memory on the GPU and runs the rest on the processor, which is many
+times slower. Reported by a practitioner on 2026-09-21: a 64 GB Windows machine with an 8 GB
+card could not finish a 32,400-token specification with `qwen3.8:27b` (about 18 GB) inside
+the twenty-minute per-call deadline, with the GPU at 5.5 of 8 GB and the server process at
+18 GB of system memory; `qwen3.5:9b` (6.6 GB) drafted it. With an 8 GB card, choose from the
+16 GB tier whatever the system memory, and expect a specification past roughly 30,000
+tokens to spill even the 9b model, since its cache grows with the input.
 
 **Model file size does not predict memory in use.** `qwen3-coder:30b` is an 18 GB
 download that occupies 122 GB once given a context window large enough for the
@@ -206,6 +219,29 @@ specification is too large for a model, halve the completion budget and retry.
 This does not rescue a model whose window is genuinely too small. A 131k-token
 window cannot hold a 165k-token specification at any output budget.
 
+## If a local run is slow, most of it may have been moving the model (fixed 2026-09-26)
+
+Ollama unloads and reloads a model whenever the requested context window changes. This tool
+sized that window from the exact length of each prompt, and no two passes of a run send the same
+number of characters, so **every pass reloaded the model**. Two consecutive passes over one
+specification asked for windows nine tokens apart, and the weights were moved between them.
+
+Measured on the running server: two calls at a context of 8192 left the model loaded; a third at
+**8193** reloaded it. One token.
+
+The window is now rounded up to a fixed step, so the passes of a run ask for the same one and the
+model stays where it is. **Nothing about the output changes**: the same specification produces the
+same claims, the same coverage figure and the same flags. Verified by running the same fixture
+before and after and comparing.
+
+**The timings published on this page predate that change and were measured with the reload
+present.** The measured drafting results, scores and coverage figures are unaffected, because the
+reload cost time and changed nothing the model produced. The wall-clock figures ("2 to 12 minutes
+each") are therefore an upper bound on this hardware rather than a current measurement, and the
+larger your model the more of that time was weights rather than drafting. They are left as
+recorded rather than adjusted by estimate, because a timing this page has not re-measured is not
+a timing this page should publish.
+
 ## If a model returns nothing after a long wait, it is a thinking model
 
 Added 2026-08-29, from the batch C run.
@@ -251,6 +287,15 @@ specification as readily as on a 645 KB one, and drafts normally the moment the 
 removed. If a Mistral model returns a bad-request error, remove `--reasoning-effort` before
 suspecting anything else. It was measured at its default for that reason, and every other
 batch D model at `high`.
+
+**Two deadlines, and the error says which one stopped you.** Each model call has its own
+(`CD_REQUEST_TIMEOUT_SECONDS`, twenty minutes by default) and the whole run has one,
+derived from it so that a call and its one retry always fit, 45 minutes at the default and
+overridable with `CD_RUN_TIMEOUT_SECONDS` or `--timeout`. A failure naming the provider
+("after 2 attempts, each timing out") is a call; a bare "context deadline exceeded" is the
+run. Until 2026-09-22 the run deadline was a flat 30 minutes set independently of the
+per-call 20, so a first call could spend 20 of the 30 and the retry be killed mid-attempt,
+and in the local web UI it was hardcoded: no variable could move it.
 
 **A context refusal is not a truncation.** A model with a 128k window (`meta/muse-glimmer-30b`
 is the measured case) refuses the two largest specifications in the corpus before any call is
@@ -319,6 +364,31 @@ name Anthropic or OpenAI directly and the model goes as you wrote it.
 | OpenRouter | `openrouter` | `OPENROUTER_API_KEY` | `OPENROUTER_BASE_URL` |
 | OpenAI | `openai` | `OPENAI_API_KEY` | `CD_OPENAI_BASE_URL` |
 | Anthropic | `anthropic` | `ANTHROPIC_API_KEY` | `CD_ANTHROPIC_BASE_URL` |
+| **a server on this machine** | `local-openai` | **none** | `CD_LOCAL_OPENAI_BASE_URL` |
+
+**The fourth is not a cloud provider and is listed here because it shares the addressing.**
+`--provider local-openai` reaches any OpenAI-compatible server you run yourself:
+mlx-openai-server, vllm-mlx, llama.cpp's `llama-server`, LM Studio, LocalAI, SGLang. It needs
+no key, because a server you run does not issue you one.
+
+**Why you might want it over Ollama.** On Apple silicon several of those run requests at the
+same time, where Ollama's MLX engine takes them one at a time whatever `OLLAMA_NUM_PARALLEL`
+says. That matters for the panel and for `compare`, which are several requests each. It is a
+property of the server rather than of this tool, so measure rather than assume:
+
+```bash
+continuation-drafter bench
+```
+
+**Whether it counts as local is decided by the address, not the name.** If
+`CD_LOCAL_OPENAI_BASE_URL` is not on this machine, the run is treated as remote and the tool
+says so before your specification is sent. A box on your own network is still across a
+network, and the same is true of `OLLAMA_BASE_URL`.
+
+**What the catalog can tell you is thinner here.** A local server's `/v1/models` usually
+returns ids and no context window, so the picker says "not reported by this provider" rather
+than rendering a blank that reads as zero. Nothing in this document's measured table was taken
+through this path; the figures below are Ollama runs.
 
 ```bash
 export ANTHROPIC_API_KEY=...
