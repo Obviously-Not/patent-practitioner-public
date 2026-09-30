@@ -10,6 +10,25 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-09-30
+
+### Added
+
+- **A public patent to try it on.** The `samples` folder carries a granted application's public
+  record: the Patent Center file history of 18/541,216 (US 12,299,058), exactly as Patent Center
+  serves it, with its specification and its allowed claims. They let you try the whole flow
+  before any client material goes near the tool. The download page walks through it.
+
+### Fixed
+
+- **v0.5.0 was assembled from two runs of the release.** One upload failed and the release was
+  finished by a second run, so it went out without its Linux arm64 binary (since restored, byte
+  for byte, to the checksum it was signed with), and its checksums file does not match its macOS
+  binaries or its software bills of materials, which came from the other run. Those macOS
+  binaries are genuine and signed, but on a Mac the command-line `update` refuses them, as it
+  should. The Mac app updates normally. This release is built in one run, and a release can no
+  longer be published unless every file its checksums name is attached and matches.
+
 ## [0.5.0] - 2026-09-30
 
 ### Changed
