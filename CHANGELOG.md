@@ -10,7 +10,22 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
-## [0.6.1] - 2026-10-01
+## [0.6.3] - 2026-10-01
+
+### Fixed
+
+- **The remote-model notice covers file histories.** With a remote model selected, the notice
+  said your specification and claims leave the machine. Asking what the examiner said also sends
+  the text of the file-history papers it reads, and the notice now says so.
+- **Opening the app when its port is taken.** If something already held the port the interface
+  uses, the app stopped with a network error and advice about something else. It now handles
+  each case: a copy of this program that is already open is simply shown; an older version that
+  is open is offered to be closed and replaced; and a port held by something that does not
+  answer, such as an earlier copy started from its disk image after the image was ejected, is
+  stepped around, with the app opening on the next free port and saying why. A port you chose
+  yourself is never moved, and if it is busy the advice now says how to use another.
+
+## [0.6.2] - 2026-10-01
 
 ### Changed
 
