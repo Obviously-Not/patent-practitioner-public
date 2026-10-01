@@ -172,7 +172,7 @@ machine" guarantee belongs to the local path only.
 ### On a Mac, without a terminal
 
 Download **`continuation-drafter-macos.dmg`** from the
-[latest release](https://github.com/Obviously-Not/patent-continuation-public/releases/latest),
+[latest release](https://github.com/Obviously-Not/patent-practitioner-public/releases/latest),
 open it, drag **Continuation Drafter** to Applications, and double-click it. The drafting
 interface opens in your browser. macOS 11 or later; one download runs on Apple silicon and
 Intel.
@@ -192,7 +192,7 @@ from your current directory).
 ```bash
 # Download a prebuilt binary (pick your OS and architecture: darwin-arm64,
 # darwin-amd64, linux-amd64, linux-arm64, or windows-amd64.exe).
-gh release download --repo Obviously-Not/patent-continuation-public \
+gh release download --repo Obviously-Not/patent-practitioner-public \
   --pattern 'continuation-drafter-darwin-arm64'
 chmod +x continuation-drafter-darwin-arm64
 mv continuation-drafter-darwin-arm64 continuation-drafter
@@ -372,8 +372,8 @@ long-dated token issued out of band.
 
 ## Updating
 
-Nothing checks for updates on its own. When you want to know, press **Check for updates** in
-Settings, or run:
+Nothing checks for updates on its own unless you ask it to. When you want to know, press
+**Check for updates** in Settings, or run:
 
 ```
 continuation-drafter update --check
@@ -384,12 +384,23 @@ continuation-drafter update --yes     # installs without asking
 The check is one request to github.com that carries nothing about you or your matters; GitHub
 sees an ordinary web request. Offline mode (`CD_NO_LICENSE_RENEWAL=1`) refuses it.
 
+Settings also has a switch, off until you turn it on, that makes the same check each time the
+app opens and shows a link in the header when a newer release exists. It never installs anything
+by itself.
+
 Before anything is replaced, the release's `checksums.txt` must carry a valid signature from
 the key built into your copy, the download must match its checksum, a Mac download must carry
 Apple's signature for this publisher and pass Gatekeeper, and the new program must report the
 version it was fetched as. If any check fails, nothing changes and the error says so; download
 the new version from the releases page instead. The Mac app is replaced whole, and from the web
 interface it restarts itself and the page reloads when the new version is running.
+
+## For IT departments
+
+A firm's IT department can enforce four settings rather than trust them: models on this machine
+only, no update check, offline mode, and the firm's own model server. They are set through Group
+Policy or Intune on Windows and a configuration profile on a Mac, and a practitioner cannot change
+them. The keys and where to set them are on [patentcontinuation.com/security](https://patentcontinuation.com/security).
 
 ## License keys
 
@@ -424,8 +435,12 @@ key verifies and reports a tier without changing what the tool will do.
   `vendor/name` slash form to force one remote. If a bare name is not a pulled
   local model, the error hints at the remote form. See
   [`docs/models.md`](docs/models.md).
-- `--revise-loops N` (default 3) is how many critic/revise passes run; each pass
-  costs two more model calls. `0` gives the raw first-pass draft.
+- `--revise-loops N` (default 3) is how many critic/revise passes are ALLOWED; each pass
+  costs two more model calls. `0` gives the raw first-pass draft. The loop stops early when
+  the critic finds nothing, or when a pass stops reducing what it finds, so fewer passes than
+  you allowed is the normal outcome. With `--json`, `revise_loops` reports how many revisions
+  were actually adopted, alongside `revise_loops_run`, `revise_loops_discarded` and
+  `revise_loops_configured`; a pass whose answer could not be parsed keeps the previous claims
 - **The critic runs on its own model.** By default it is the draft model; set
   `CRITIC_MODEL` (or `critique --model`) to make the revise loop cross-family.
   Gotcha worth stating: if you draft on a large-window remote model but leave the

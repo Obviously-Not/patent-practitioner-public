@@ -10,6 +10,90 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-10-01
+
+### Added
+
+- **An optional update check when the app opens.** Settings has a new switch, off unless you turn
+  it on. When it is on, opening the app makes the same request as pressing Check for updates and
+  shows a link in the header if a newer release exists. It never installs anything by itself, and
+  offline mode refuses it.
+- **Settings your IT department can enforce.** A firm can now require models on this machine
+  only, turn off the update check, force offline mode, or name its own model server, through
+  Group Policy or Intune on Windows and a configuration profile on a Mac. A practitioner sees
+  which settings their organization has set, and cannot change them.
+- **Release notes in the app.** Check for updates now shows what changed in the new release, not
+  only its version number.
+- **An offer to move the Mac app out of the disk image.** Opened straight from the disk image, the
+  app asks whether to copy itself into Applications and open from there, because a copy left
+  running from the disk image cannot be updated.
+
+### Changed
+
+- **Advice for a model server that is not running fits your machine.** It used to say to run a
+  terminal command everywhere. It now says to install Ollama if it is not installed, to open the
+  Ollama app on a Mac or Windows machine where it is, and names the command only where that is the
+  normal way to start it. The same advice appears on the command line, in the `models` report and
+  in the browser.
+- **Update is offered only where it can work.** A copy that cannot replace itself, because it is
+  running from a disk image or from a folder you cannot write to, says so and why, instead of
+  failing partway through an install.
+- **Double-clicking the program on Windows no longer leaves a console window open**, and a problem
+  at startup is shown in a dialog rather than printed to a window that closes.
+
+### Fixed
+
+- **A provider that declines to answer is reported as a refusal rather than as a bad answer.**
+  Some endpoints answer a request they will not fulfil with an ordinary successful reply that
+  simply contains no text. The tool accepted that as a completed generation, so the failure
+  surfaced one step later as "no parseable targets" or "unparseable JSON", which reads as the
+  model answering badly and sends you after the wrong remedy: the model, the format, the token
+  limit. Both the local and the remote path now stop on an empty answer and report what the
+  endpoint actually said, including the reason it gave for stopping and the prompt tokens it read,
+  and the recovery steps no longer offer a larger token limit for a reply that was never
+  generated. An empty answer is also no longer retried, because an endpoint that declined this
+  request declines it again at the same price.
+- **A scoring panel says when it was short.** A panel model that fails or declines is skipped and
+  the run continues on the models that answered, which is the intended behaviour; but the report
+  named every model that had been configured and gave no sign that one of them contributed to no
+  score. The caveat now names any model that returned nothing and reports how many scoring calls
+  produced a judgment, and the JSON payload carries the same facts: `panel_models` is the set that
+  actually scored, with `panel_models_silent`, `judgments_scored` and `judgments_asked` beside it.
+  No score changes; the means were always computed from the judgments that arrived.
+- **`revise_loops` now reports the revisions that were actually taken.** It reported the number
+  you asked for. So a run where three revise passes were requested said three whether three
+  revisions were adopted, three were thrown away because the model answered in a shape the parser
+  could not read, or the critique converged on the first look and none ran at all. Two drafters,
+  one whose revisions are accepted and one whose are all discarded, produced identical JSON. The
+  field is now the count adopted, with `revise_loops_run`, `revise_loops_discarded` and
+  `revise_loops_configured` beside it, and a pass that produces nothing usable says so while the
+  run is going rather than passing in silence. Same in the web interface, and the revise endpoint
+  gained the two counts it was missing.
+- **The revise prompt stopped showing the model a format it would then refuse.** It displayed the
+  current claims as `[1] ... [2] ...` while the claims already carried their own numbers, so a set
+  was shown double-numbered, and asked for "the full numbered claim set" with no example. A model
+  that copied the format it had just been shown had its whole answer discarded and the prior claims
+  kept, silently. The claim set is now shown the way the tool reads one back.
+- **A model the server does not have is reported as that, and nothing else.** Asking for a model
+  that has not been pulled produced `API error (status 404)` followed by the server's raw JSON. It
+  now says which server was asked and which model it does not have, and the recovery steps are the
+  ones for a missing model rather than advice worked out from the wording of the message. The same
+  applies to an OpenAI-compatible server you run yourself. Three other kinds of 404 that are NOT
+  about the model (a routing limit, a zero-data-retention limit, and a router's own temporary
+  unavailability) keep the advice that is right for each of them.
+- **The browser gets the same diagnosis the command line does.** When a failure is one the
+  tool can name exactly, the web interface used to work it out again from the wording of the
+  error message rather than from what the client had already established. Mostly it agreed;
+  for one failure it did not. A server that reads only part of your specification was answered
+  with "raise the token limit", which makes the problem worse, because the size of input a
+  model accepts is its context window minus the output budget. It now leads with choosing a
+  model whose window fits, and says that nothing in the output would have shown you the
+  specification was cut.
+- **A failure with a specific diagnosis carries its full set of recovery steps.** Failures the
+  tool can name exactly (a model that does not fit in memory, a server that read only part of
+  your specification, an endpoint that returned nothing) printed a single next step, where every
+  other failure carries at least two.
+
 ## [0.5.1] - 2026-09-30
 
 ### Added

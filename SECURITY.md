@@ -5,7 +5,7 @@
 Please report security issues privately. Do not open a public GitHub issue.
 
 Use GitHub's **private vulnerability reporting**: navigate to the Security tab of this repository and click **Report a vulnerability**. This routes the report directly to the maintainers without making it public.
-Direct link: [Security tab](https://github.com/Obviously-Not/patent-continuation-public/security).
+Direct link: [Security tab](https://github.com/Obviously-Not/patent-practitioner-public/security).
 
 ## Scope
 
