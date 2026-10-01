@@ -10,6 +10,17 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.6.4] - 2026-10-01
+
+### Fixed
+
+- **Opening the Mac app again brings the interface back.** Closing the browser tab leaves the
+  program running, and clicking the app after that did nothing, because macOS sends a click on a
+  running app to that app and this one has no window to show. The app now starts the interface
+  as a separate background process and then exits, so every click is a fresh start: it finds the
+  interface that is already running and opens it in your browser again. The same applies after
+  an update installed from inside the app. **Stop** in the browser tab still quits it.
+
 ## [0.6.3] - 2026-10-01
 
 ### Fixed
