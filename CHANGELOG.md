@@ -10,6 +10,20 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.6.1] - 2026-10-01
+
+### Changed
+
+- **Continuation Drafter is now Patent Practitioner Tools.** It reads Office actions as well as
+  drafting continuation claims, and the old name described one of those. The command
+  (`continuation-drafter`), the download file names and your saved settings are unchanged, and a
+  copy you update from inside the app keeps working as before. On a Mac, an updated copy keeps its
+  old name in the Applications folder; if you download the new version instead, you will have
+  both, and the old one can be deleted.
+- **The places an IT department sets its policies moved with the name**, on Windows and on a Mac.
+  Policies set under the 0.6.0 locations no longer apply; the new ones are on
+  [patentcontinuation.com/security](https://patentcontinuation.com/security).
+
 ## [0.6.0] - 2026-10-01
 
 ### Added

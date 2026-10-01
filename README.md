@@ -173,7 +173,7 @@ machine" guarantee belongs to the local path only.
 
 Download **`continuation-drafter-macos.dmg`** from the
 [latest release](https://github.com/Obviously-Not/patent-practitioner-public/releases/latest),
-open it, drag **Continuation Drafter** to Applications, and double-click it. The drafting
+open it, drag **Patent Practitioner Tools** to Applications, and double-click it. The drafting
 interface opens in your browser. macOS 11 or later; one download runs on Apple silicon and
 Intel.
 
