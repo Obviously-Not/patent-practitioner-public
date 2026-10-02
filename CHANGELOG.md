@@ -10,6 +10,22 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.6.6] - 2026-10-02
+
+### Changed
+
+- **The examiner's citations are read without a model.** Opening a rejection's citations now
+  matches each limitation to the examiner's restatement of it and reads the citation that follows,
+  on this computer, instantly, with no model and nothing sent anywhere. It places a citation for
+  far more limitations than the model-based reading it replaces, names the reference each
+  citation follows, labels a citation to the application's own disclosure as such, and shows a
+  citation the examiner gave once for several limitations as covering them. Paragraph marks that a
+  scan misreads, lists of paragraphs (including several inside one bracket, "[0034-0038, 0107]")
+  and element numbers are now read as citations. A reference the examiner misspells is still
+  recognised, and a very short limitation is placed only where all of its words are restated.
+- **A claim number a scan reads as letters is repaired** ("AO. (New)" for claim 40) when it is the
+  next claim in sequence, so that claim no longer runs into the one before it.
+
 ## [0.6.5] - 2026-10-02
 
 ### Added
