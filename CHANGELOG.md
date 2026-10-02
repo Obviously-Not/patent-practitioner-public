@@ -10,6 +10,54 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.6.5] - 2026-10-02
+
+### Added
+
+- **Each drafted claim against the parent's claims.** With parent claims pasted, every
+  independent drafted claim now shows the parent claim it is nearest to (several, when the parent
+  claims the same subject more than once), which of that claim's limitations it keeps, and any
+  limitation that appears in no parent claim. With the parent's file history attached, each
+  limitation also shows where it entered the record: filed with the application, or added in a
+  dated response, with the ground that response answered. It is a word comparison with no model
+  and no score, and it says what the claims contain rather than what to do about it. It appears
+  under each claim in the browser and after the claims in `draft`, and as `parent_comparison`
+  in `draft --json`.
+- **Every item an Office action states, not only its rejections.** Asking what the examiner said
+  now also reports each objection, each requirement (a restriction, an election of species, a
+  requirement for information) and the action's own statements of claim status, each with the
+  examiner's words shown as the paper prints them and checked against it. The reading counts the
+  items the paper's own wording states and says when it lists fewer, so a missed item is visible;
+  it also lists any pending claim it found no item or status for. Lines printed on the Office Action Summary form,
+  whose checkboxes a scan does not show, are shown as form lines rather than as items. A file
+  history read by an earlier version is read again, once, the next time it is asked about.
+- **The action's own statements.** A final action's "made final" sentence and the period for reply
+  are quoted from the paper; the period is never turned into a date. Where Patent Center's label
+  and the paper's own statement disagree, both are shown.
+- **What the rules say about each kind of item**, quoted beside it with the date its text was
+  retrieved: where a rejection and an objection are reviewed, and what a reply to a non-final or
+  final action is held to. Each quotation is checked against a copy of its source.
+- **The examiner's citations, limitation by limitation.** For a rejection under 35 U.S.C. 102 or
+  103, on request, each limitation of the claims that action examined beside the reference and
+  passage the examiner cited for it. Every passage is labelled as cited by the examiner and not
+  checked against the reference.
+- **Restriction requirements are recognised and read** in a file history; they were previously
+  listed as other papers and not read. Ex parte Quayle actions are recognised too.
+- **Numbers in neither the specification nor the parent claims.** A drafted claim reciting a
+  number found in neither is now listed under that claim, with the phrase around it.
+
+### Fixed
+
+- **Amended claim listings are read without their editing marks.** In a scanned claims paper, text
+  deleted in double brackets, struck-through text, the underscores under inserted text and the
+  page headers a listing repeats were read as claim text: deleted text counted as still present
+  on the timeline, and a page header could be split into a limitation. All four are now removed
+  before a claims paper is compared or split.
+- **The file-history timeline uses the claim numbers printed in the paper,** and says which
+  numbering it shows, rather than counting claims by position. It also lists a claim's preamble
+  apart from its limitations, and recognises an Advisory Action, so an amendment the examiner
+  did not enter is credited to the response that did enter it.
+
 ## [0.6.4] - 2026-10-01
 
 ### Fixed
