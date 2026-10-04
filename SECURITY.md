@@ -15,6 +15,14 @@ an inference backend you choose: a model on this machine (nothing leaves it) or 
 remote endpoint you configure. There is no service operated on your behalf, so the
 attack surface is the binary and the files it touches.
 
+**Since 0.7.0 it can also reach three more places, each only when the operator asks or has
+turned it on**, and none in offline mode or where an IT department sets the
+`DisablePatentLookups` policy: Google Patents, to fetch a reference the examiner cited, by its
+number and nothing else; and a patent search, either on the operator's own Google Cloud project
+(BigQuery) or through SerpApi with the operator's own key. A search sends the query, which the
+tool writes from the operator's request and shows, with where it will go, before it is sent
+unless the operator has turned that confirmation off.
+
 **On this machine means on this machine, and the binary decides that from the address
 rather than from the name.** A local model can be pointed at another host through
 `OLLAMA_BASE_URL` or `CD_LOCAL_OPENAI_BASE_URL`, and a host on your own network is
@@ -27,6 +35,9 @@ In scope:
 
 - Anything that sends specification text to a destination the operator did not
   configure, or that widens the local-only guarantee of the on-machine path
+- A reference fetch that carries anything but the reference's number, a search sent without
+  the confirmation the operator left on, or either one made in offline mode or under the
+  `DisablePatentLookups` policy
 - **A disclosure that disagrees with where the request goes**, in either direction: a
   run that reaches another host without saying so, and a run that claims your
   specification left the machine when it did not. The second is a real finding, not a

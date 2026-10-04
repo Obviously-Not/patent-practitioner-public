@@ -10,6 +10,103 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-10-04
+
+### Added
+
+- **Ask what the examiner cited.** In Discuss, a question such as "what did the examiner cite
+  against claim 1 in the final?" now lays out the examiner's citations for that rejection,
+  limitation by limitation, the same table as the button under each rejection. When the question
+  does not name an action it uses the latest one with a prior-art rejection and says so; when more
+  than one rejection fits, it lists them instead of choosing. No model is used.
+- **The conversation can see the record arithmetic.** Where each parent limitation entered the
+  record, how each drafted claim compares with its nearest parent claim, and numbers in the drafted
+  claims found in neither the specification nor the parent claims are now part of what Discuss
+  answers from. Choosing what to run now also takes the loaded file history into account.
+- **The examiner's citations beside the reference's own words.** A rejection's citation table can
+  now fetch the references it cites from Google Patents by number (the request carries the number
+  and nothing else), and shows each reference's text at the examiner's locator: a published
+  application's paragraph, the paragraphs naming an element number, and a granted patent's column
+  and line read from its printed page, which is marked as approximate. Fetching asks each time
+  unless you turn on the Settings switch; offline mode refuses it.
+- **Search patents from Discuss, on your own account.** Set up a Google Cloud project (BigQuery) or a
+  SerpApi key in Settings, then ask for a search in your own words. The search is written for you and
+  shown, with where it would go, before anything is sent, unless you turn that off. Results list the
+  documents the query returned with the paragraphs where its terms appear. A search says nothing
+  about whether anything is new.
+- **Install OCR from Settings** on a Mac with Homebrew; elsewhere Settings shows the command.
+- **Searching with Google Cloud uses the login already on your computer.** If you have signed in with
+  `gcloud auth application-default login`, searches run in that project with nothing to type into
+  Settings; Settings and the confirmation before each search name the project. The confirmation says
+  how much of your Google Cloud query allowance the search reads, and a search that would read more
+  than a set limit (a search of the full description does) is refused before it reads anything.
+- **A new policy for IT departments**, `DisablePatentLookups`, turns off fetching references and
+  searching.
+- **Score a claim set from Discuss.** It runs the scoring panel on your configured panel models
+  and shows each model's score on its own, with the panel's limits. When only one model scored,
+  it says so.
+- **Help with the reply to an Office action.** Under each action: an outline of every rejection,
+  objection, requirement and official notice it states, with the examiner's words; a place for your
+  draft reply and proposed claims; a claim listing with status identifiers, additions underlined and
+  deletions struck through; the specification's passages for a limitation you propose to add; and a
+  .docx skeleton with each section on its own page. Ask "check my reply" in Discuss for the same
+  checks.
+- **Checks over a draft reply.** Each is a fact about the text, with the rule quoted beside it where
+  one applies: items the draft does not mention, quotations not found in the action, the
+  specification, the claims or the references you have, amended claims with no stated support or
+  distinction, an interview the draft does not mention, rejected claims a reply to a final action
+  leaves open, and sentences a rule or holding bears on (characterising "the invention", calling a
+  document prior art, quoting words a claim does not contain, arguing one reference against a
+  combination). None says whether an answer is adequate.
+- **Draft the reply from Discuss.** Ask for it in your own words ("draft the reply to the final,
+  claim 1 only"). It drafts each item of the action separately, on your configured model, from the
+  examiner's citations and, for each reference you have, the passages nearest the claim's
+  limitations, as units you adopt, edit or discard one at a time; adopting puts the text in your draft reply under the
+  item's heading. Every quotation shown was found in its source; a unit with a quotation that was
+  not is withheld and says so, and a sentence stating an outcome or citing law the tool cannot check
+  is removed with a note. A statement that a reference does not describe something is shown with the
+  reference's passages closest to the claim's words. Two parts of each draft are read from the
+  claims with no model: which claims depend from which, and the limitations the other rejected
+  independent claims recite in the same words. The draft says nothing about whether an
+  argument will persuade.
+- **The .docx export carries your draft reply** when you have one, with a last page listing what the
+  checks found, to read and delete before filing.
+
+### Changed
+
+- **A new app icon.** The Dock, the Finder, the browser tab and the window's header now show the
+  program's own icon, a document with the not-equal sign.
+- **A reading lists every rejection the action states.** Where the model reading an Office action
+  leaves out a rejection, objection or requirement that the action states in its standard form,
+  the item is now added from the action's own statement of it and marked as such. Claim lists
+  written with "&" are now recognised. References in a rejection statement are read whole.
+- **Reopening a matter keeps each answer's result**, such as a citation table or a reading, not
+  only the sentence written around it.
+- **An answer that says why an amendment was made carries a note** that the record shows when a
+  limitation entered and the ground of that round, and that why it was added is the practitioner's
+  reading.
+- **An answer that says a rejection is improper, or that claims will or should be allowed, carries
+  a note** that the tool states no outcome. Above a drafted reply or a search, Discuss shows what
+  was drafted or searched instead of a paragraph from the model.
+- **A search is written one idea per group of terms**, searches the claims unless you ask for the
+  abstract or the description, and reads "before 2019" as before January 1, 2019.
+
+### Fixed
+
+- **A citation to an element by its number shows the paragraphs about that element nearest the
+  limitation.** It showed the first two paragraphs naming the number, which could be about something
+  else entirely when a reference uses the number in several places.
+- **A reference cited number first is known by its name.** An action that cites "US 8,991,523
+  (Shen)", "US 2017/0280849 to Provost et al." or "US 2,461,121, “Markham,”" refers back to it as
+  Shen, Provost or Markham, and the program had taken the first word, "US", as the name. The
+  examiner's citations to such a reference were not placed beside it, and where an action cited two
+  references that way a quotation of one could be reported as not found in the references you
+  have.
+- **Claims filed twice on one day are read as the action read them.** When a preliminary amendment
+  was filed the same day as the application, the claims an action examined could be taken from the
+  other paper, so an action rejecting claims 21-40 was shown beside claims 1-20. The paper holding
+  the claims the action names is now used.
+
 ## [0.6.6] - 2026-10-02
 
 ### Changed

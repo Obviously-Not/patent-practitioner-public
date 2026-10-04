@@ -397,8 +397,9 @@ interface it restarts itself and the page reloads when the new version is runnin
 
 ## For IT departments
 
-A firm's IT department can enforce four settings rather than trust them: models on this machine
-only, no update check, offline mode, and the firm's own model server. They are set through Group
+A firm's IT department can enforce five settings rather than trust them: models on this machine
+only, no update check, offline mode, the firm's own model server, and no fetching of cited
+references or patent searches. They are set through Group
 Policy or Intune on Windows and a configuration profile on a Mac, and a practitioner cannot change
 them. The keys and where to set them are on [patentcontinuation.com/security](https://patentcontinuation.com/security).
 
