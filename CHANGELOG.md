@@ -10,6 +10,23 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-10-06
+
+### Changed
+
+- **Settings has a card for cited references and patent search**, holding the two "without asking"
+  switches and the search accounts, and one for OCR. They had grown inside the Updates card.
+- **Settings uses the width of a large screen**: its cards flow into two columns at 1920 pixels
+  and three at 2560, where one column left the right part of every card empty. On a laptop it is
+  one column, as before.
+- **In Discuss, the examiner's quoted words run as wide as the answer above them**, rather than
+  stopping a fifth short of it.
+- **Spacing**: the search account fields in Settings are styled like every other field and keep
+  their width beside a long label; "Installed" and "None set up" line up with their labels; the
+  prosecution record's dates no longer touch the edge of their panel; the cost panel's lines are
+  evenly spaced; Restore and Delete in the trash no longer touch; and a page opened with no matter
+  no longer shows an empty tab strip as a second rule under the header.
+
 ## [0.7.1] - 2026-10-06
 
 ### Fixed
