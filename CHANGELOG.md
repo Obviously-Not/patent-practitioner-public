@@ -10,6 +10,39 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-10-06
+
+### Fixed
+
+- **A statutory double patenting rejection is read once and named as one.** A rejection "as
+  claiming the same invention" under 35 U.S.C. 101 could appear twice in what the examiner said,
+  once as a 101 rejection and once as double patenting, and be drafted twice. It now appears once,
+  named as the paper names it.
+- **A drafted reply no longer offers a terminal disclaimer for statutory double patenting**, which
+  MPEP 804.02 says does not overcome it; it lays out an amendment and an argument instead, and a
+  draft of your own that proposes one is flagged with the rule quoted.
+- **Each item is drafted from the examiner's own reasoning,** not only the opening sentence of the
+  rejection, so the reply answers the reason the examiner gave.
+- **A sentence removed from a drafted unit is removed whole.** An abbreviation such as "U.S." or
+  "No." could split a sentence, leaving a fragment at the start of the unit.
+- **A rejection the examiner states without "is" or "are"** ("Claims 18 and 19 rejected under
+  ...") is now counted, so the count of what the action states, and the items read from it, include
+  it.
+- **The check over a draft reply counts only an interview held in that action's round,** not one
+  held after the reply was filed.
+- **The claim listing is readable for a heavily rewritten claim.** A rewritten limitation is shown
+  deleted whole and its replacement added whole, words a clause keeps stay unmarked, and a page's
+  number and docket line no longer appear inside a claim.
+- **The examiner's claims worksheet is no longer read as the claims,** so an action's citations are
+  laid out against the claims the applicant filed before it, and a national-stage claims paper's
+  running header ("WO ... PCT/...") no longer appears inside a claim.
+- **Reading a long file history no longer stops partway** when you close the page or open another
+  matter while it reads, and the time allowed grows with the number of pages.
+- **Attaching the application keeps the file history** already loaded, with the references
+  fetched for it and your draft reply.
+- **The reply form under an action** has full-width text boxes, and each box and button is named
+  for screen readers.
+
 ## [0.7.0] - 2026-10-04
 
 ### Added
