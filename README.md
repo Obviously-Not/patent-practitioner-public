@@ -434,8 +434,9 @@ key verifies and reports a tier without changing what the tool will do.
   `vendor/name` slash form to force one remote. If a bare name is not a pulled
   local model, the error hints at the remote form. See
   [`docs/models.md`](docs/models.md).
-- `--revise-loops N` (default 3) is how many critic/revise passes are ALLOWED; each pass
-  costs two more model calls. `0` gives the raw first-pass draft. The loop stops early when
+- `--revise-loops N` is how many critic/revise passes are ALLOWED; each pass costs two more
+  model calls. It defaults to the count saved in the web interface under Settings, Drafting,
+  which is 1 until changed, so the command line and the web interface revise alike. `0` gives the raw first-pass draft. The loop stops early when
   the critic finds nothing, or when a pass stops reducing what it finds, so fewer passes than
   you allowed is the normal outcome. With `--json`, `revise_loops` reports how many revisions
   were actually adopted, alongside `revise_loops_run`, `revise_loops_discarded` and

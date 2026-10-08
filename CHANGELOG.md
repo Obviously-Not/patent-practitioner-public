@@ -10,6 +10,84 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.7.4] - 2026-10-08
+
+### Fixed
+
+- **Drafting no longer writes a software claim for an invention with no software in it.** The
+  drafting instructions were written around computer-implemented examples, and on a mechanical
+  specification that discloses no software a draft could include a computer-readable-medium claim
+  the specification does not support. A claim in a second statutory class is now proposed only in a
+  form the specification describes, in any technical field.
+- **The critique reports each defect as the kind it is.** It showed the model a sample defect, and
+  smaller local models reported what they found in the sample's words, so subject matter the
+  specification lacks came back as a missing antecedent.
+- **Advice after a timeout gives the right numbers.** The suggested setting is worked out from the
+  limit that stopped the run, and the per-call default is stated for local and remote models
+  separately: it said 20 minutes for both, and a remote model's is 12.
+- **Advice after a timeout names the limit that stopped the run and the command that was run.** A
+  run stopped by `--timeout` was told to set `CD_RUN_TIMEOUT_SECONDS`, which does not move a deadline
+  given on the command line; it now suggests a longer `--timeout`. The suggested command is the one
+  you ran rather than always `draft`, `--timeout` is offered only to commands that take it, and the
+  step about cutting the specification down is left out when the specification is small enough to
+  be read whole. A run's deadline that fired during a model call is no longer reported as that
+  call's own timeout, and is no longer retried.
+- **A model that repeats itself until it reaches the output cap is stopped and reported.** The cap
+  used to be doubled and the call tried again, which a looping model fills with more of the same: a
+  small local model was measured running for over half an hour this way. The error says the model
+  was repeating itself and suggests a different model.
+- **A criterion score outside its range no longer moves a claim's score.** Each score a judge gives
+  is held to that criterion's range, so a judge answering out of range can no longer score a claim
+  above 100.
+- **Advice after a cut-off answer suggests a larger output cap than the default**; it suggested the
+  default itself.
+- **Advice to switch models no longer names a particular model.** It points to
+  `continuation-drafter models`, which names the measured local model that fits this machine, or asks
+  for a model your remote provider offers.
+- **A specification in Japanese, Greek or another script whose characters take more than one byte is
+  no longer refused as unreadable.**
+- **A scoring panel's time limit grows with the panel**, counting its rounds, its models and the
+  adversary, instead of allowing for three model calls whatever its size.
+- **The drafted reply to a section 101 rejection can quote the specification paragraphs shown with
+  it.** Its drafting instruction said the material held no guidance while the material held both the
+  guidance and those paragraphs.
+- **The model picker's "Fits" label uses the same memory allowance as the recommendation.**
+- **The cost of a late reply knows every day the Office was closed.** Its list of closures held only
+  executive orders and days of mourning, so a reply period ending on a day the Office closed for
+  weather, or on December 24 or 26, 2025, rolled over to the wrong day. Every whole-day closure the
+  Office lists since 2018 is now counted.
+- **A filed claim that refers to another claim reads as dependent wherever it is counted**, including
+  one that names the other claim after its first limitation or after a status line. The excess-claims
+  count and the reply's other checks had read some of these as independent, while the proofread read
+  them as dependent.
+- **Every Anthropic model is listed in the model picker**, not only the first page of the catalog.
+- **A long quotation in a drafted reply is checked against its source.** Quotations of up to 1,400
+  characters are looked for in the record, the specification and the references in hand; above 600
+  characters they were passed over without a check. Their length is counted in characters, so a
+  quotation with curly quotes or dashes is no longer measured as longer than it reads.
+
+### Changed
+
+- **The section 101 material looks for the evidence your argument needs.** Beside a section 101
+  rejection it showed the specification's paragraphs that describe an improvement, which is what a
+  software reply argues from. A claim that diagnoses or treats a patient is now read for paragraphs on
+  the treatment and its clinical result (MPEP 2106.04(d)(2)), and a composition or other product of
+  nature for paragraphs on how it differs from what occurs in nature (MPEP 2106.04(c)), each with that
+  guidance quoted and a line saying which evidence was looked for and why.
+- **Suggested requests in the conversation refer to your matter**, its claims and its targets,
+  rather than to an example invention, and read the same whatever the technical field.
+- **The judge's criteria are worded for every field.** Eligibility names each judicial exception
+  (an abstract idea, a law of nature, a natural phenomenon) rather than a software-shaped "technical
+  effect", enablement depth and the mechanism question name structures, compositions, steps and
+  conditions, and a support quotation's location is asked for as the specification marks it. Scores
+  now carry `judge-rubric@1.2.0` and are not comparable with scores marked 1.1.0.
+- **A panel report gives each draft one score.** The panel's score across the dimensions it assesses
+  was also printed as a support score anchored to 35 U.S.C. 112(a); it is reported once, as the
+  draft's aggregate, and the support section holds the support holes the adversarial reader found.
+- **One number of revise passes everywhere, set in Settings.** The command line revised three times
+  by default, the revise button once and the Draft tab not at all; each now runs the count saved under
+  Settings, Drafting, which is 1 until changed. `--revise-loops` still sets it for one command-line run.
+
 ## [0.7.3] - 2026-10-08
 
 ### Fixed
