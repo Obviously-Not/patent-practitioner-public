@@ -10,6 +10,227 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.7.3] - 2026-10-08
+
+### Fixed
+
+- **The Prosecution record list shows every paper.** On a file history whose papers carry no page
+  numbers, two papers with the same title (such as the examiner's lists of references) left the
+  list empty while its count said how many papers there were, and the browser logged an error.
+- **Each Office action has its own reply.** The draft reply and proposed claims were one per
+  matter and shown under every action, so a unit adopted for one action appeared under all of them,
+  and the reply exported for one action could carry another's text. Each action now keeps its own
+  reply, its own checks and its own export, named for the application and the action ("18541216
+  reply to non-final 2024-07-08.docx"). A reply written before this version is moved to the action
+  its drafted reply answered.
+- **Adopting a drafted unit no longer erases what you had typed.** The reply saves as you type,
+  says when it is saved, and the browser asks before you leave while a save is still going.
+- **Escape no longer leaves Settings while you are typing in a field**, which threw away what you
+  had typed, and closing the menu with Escape no longer leaves the page.
+- **Clear asks for a second click**, says what it will clear, and sits apart from the run buttons.
+  One click erased the specification and the drafted claims.
+- **Stopping a run keeps the claims you had.** A run stopped while it was checking its claims put
+  them on the matter as unchecked, in place of the checked claims from the run before. The claims on
+  screen now stay, dimmed, until a run finishes.
+- **The web interface works with no network access.** It loaded the Alpine.js library from a
+  public CDN when the page opened; the library is now part of the program, and the page makes no
+  request to any other site.
+- **The "added during prosecution" labels are readable in the dark theme.**
+- **A run survives reloading the page.** Reloading during a draft or a reply in the conversation
+  picks the run up again instead of losing it, and a run that finishes while the tab is in the
+  background says so in the tab's title.
+- **Ctrl+Enter works on Windows and Linux** wherever Cmd+Enter does, and on the Draft tab it runs
+  the main button's action; it used to draft straight through, and could start a draft from inside
+  a direction you were editing.
+- **When Ollama is not answering, the models page and the Draft tab say so first**, with what to do
+  and where to set its address, and no longer offer to download models it cannot see.
+- **A matter in the trash opened by its address says it is in the trash** and offers Restore,
+  instead of opening as if it were live.
+- **An attached application keeps its file name** after the matter is reopened.
+- **Nothing on the page jumps while a matter loads.**
+- **Check my reply reads the claims you propose.** The amended-claim checks read status identifiers
+  from the remarks, so with the claims in their own box they never ran. They read the claims box now,
+  with each claim's status as the listing decides it, so a claim you change without typing an
+  identifier is checked as amended, and the amended claims missing a statement of support or of
+  distinction are named in one line instead of one line each.
+- **Check my reply no longer counts a prior-art rejection as answered unless the draft names one of
+  its references and one of its claims.** A sentence naming claim 1 and "103" counted as answering
+  every 103 rejection of claim 1. The check now also reads "double-patenting" and "double patenting"
+  alike, a reference misspelled by one letter, and the dependent claims answered as a class where the
+  draft answers the claim they depend from.
+- **The "prior art" and "the invention" flags read only your own words.** They no longer flag the
+  words of a quotation, a rule restated after its citation, statutory language, a transcript, a
+  denial ("is not prior art"), the standard legal tests ("the scope and content of the prior art") or
+  the art the examiner cited ("the prior art rejection").
+- **The official notice flag appears only when the action took official notice**, and a reply under
+  37 CFR 1.116 or the After Final Consideration Pilot is told that the rejected claims remain open
+  unless the amendment is entered, rather than that it mentions no request for continued examination.
+  A reply that names a request for continued examination is not flagged.
+- **A sentence bearing on several items is reported once**, naming each.
+- **A quotation found only in your own papers in the record says so** and is not counted as found:
+  a quotation repeated from reply to reply was found in the previous reply and reported as verified.
+  A bracketed alteration of a phrase and a footnote marker glued to a word no longer make a quotation
+  read as not found.
+- **The claim listing gives the status you would file more often.** Two claims papers filed on the
+  same day are read in the order they were filed, a record that begins with a later paper is no longer
+  taken for the claims as filed (which marked unchanged claims Original instead of Previously
+  presented), and a page's running header or two claims printed on one line no longer read as part
+  of a claim.
+- **The claim listing gives every pending claim a status.** A claim left out of your proposed claims
+  was listed as unchanged; it is listed as not in the proposed claims and the check names it. A
+  cancelled range ("1-20. (Canceled)") cancels each claim in it, and a claim number followed by a
+  comma, a scan's running header, and the characters a scan confuses no longer make an unchanged
+  claim read as amended.
+- **Reading an Office action that states two kinds of requirement no longer fails.** A restriction
+  stating both a restriction and an election of species, where the reading listed neither, stopped
+  the reading.
+- **The references an action names are read whole and one at a time.** A reference followed by the
+  next sentence where the action's full stop is missing carried that sentence in its name, two
+  references joined by some of the ways examiners combine them were read as one, and a reference with
+  "and" or a semicolon inside its own brackets was cut in two. A file history loaded before this
+  version keeps the reading it stored.
+- **Papers are named the way the record names them**: "final Office action of 2022-06-02" in an
+  exported reply's title, a quotation's place and the checks, where the program's own label for the
+  kind of paper ("office action final") was shown.
+- **A heading for one claim says "Claim 12"**, not "Claims 12", in the record view, the checks and the
+  exports.
+- **"Draft a reply to the 101 rejection" drafts that item.** A request naming 101 or 112 drafted
+  every item of the action; only 102 and 103 narrowed it.
+- **Show in draft finds a finding about the claims in the claims box**, going to the claim it names
+  or saying the claim is not among the proposed claims; it searched the remarks alone and said the
+  text was gone.
+- **A file history's papers are named for what they are.** An amendment filed with a request for
+  continued examination counted the request twice, a supplemental amendment after a final rejection
+  was read as a final rejection, and a request for a corrected notice of allowance as a notice of
+  allowance.
+- **A claim range a scan prints with two dashes, and an objection written without "are"**
+  ("Claims 2, 8, 17, and 20 objected to as being dependent upon a rejected base claim"), are read.
+- **Two more forms of claim listing are read**: "(Previously Cancelled)" as canceled, and "(Currently
+  Amended - Withdrawn)" as withdrawn rather than amended.
+- **A quotation found in a paper of the record no longer carries a paragraph number from that paper.**
+  A remarks paper citing "[0049]" before the quoted words had its quotation placed at [0049].
+- **Fees the USPTO schedule qualifies** ("less any amount previously paid") are read; they had been
+  missing.
+
+### Added
+
+- **Download a reply from the chat**: a drafted reply in the conversation has its own export
+  button, the same export as the one under the action.
+- **Restore a drafted unit after adopting or discarding it.** Restore takes an adopted unit's text
+  back out of your reply exactly as it went in, and says so if you have since changed that text in
+  your reply rather than guessing what to remove. After each action the next unit is ready to act
+  on, a count shows how many units you have adopted, and screen readers hear what happened.
+- **Adopt the edit shows what your edit changes** against the drafted text before it goes in.
+- **Check my reply leads with a one-line summary** and lists its findings by the kind of fact they
+  state: the items the action states, quotations, the claims, the record, and sentences a rule
+  bears on. Each finding says whether it is new or still there since you last checked this reply,
+  findings that went away are listed, each rule is on its own line, a finding about a sentence can
+  be shown in your draft, and you can mark a finding not useful (the mark is kept with the reply
+  and hides nothing). Items you asked to leave out of a drafted reply are no longer counted as
+  missing.
+- **A quotation found in its source says where**: which paper of the record, or which paragraph of
+  the specification, with the passage around it one click away.
+- **Try the sample**: with no matters yet, one click opens a matter holding the short published-style
+  application the walkthrough uses, with its filed claims, so a first run needs nothing from you.
+- **A skip link**, and headings for each paper of the record and each item it states, so a screen
+  reader can move between them; buttons repeated under each action name the action and its date.
+- **After a final action, the paths the rules provide**, in the order of the rules, each with its
+  fee for your entity size at the dated USPTO fee schedule, how many requests for continued
+  examination the record already holds, and, for each proposed amendment, the words it adds that no
+  claim the action examined holds. Which path to take is yours; the panel lists them.
+- **Entity size in Settings** (large, small or micro), which every fee the program shows is given
+  for. Until you set it, fees are shown for a large entity, and the after-final panel says so.
+- **Section 101 material** under each section 101 rejection in the record view: the action's own
+  sentences for each step of the analysis, the paragraphs of the specification that describe an
+  improvement, and the USPTO guidance, quoted. The same material reaches the reply drafter for that
+  item.
+- **Check my reply names a term the proposed claims write two ways** ("document clip" and
+  "documentclips"), for the claims an amendment touches.
+- **The words each amendment adds, and where the specification holds them**: for each claim you amend
+  or add, the words it adds, how many of them the paragraphs your remarks cite hold, and where the
+  specification holds the others. Counts and places, never a finding that a paragraph supports the
+  amendment.
+- **The exported reply carries a support table and a quotation appendix**, each on its own sheet to
+  adopt or delete: the paragraphs holding the most of each amendment's new language, and every
+  quotation of four words or more with where it was found, the ones not found first.
+- **What filing a reply on a date costs**: enter a date under an action's period and see the extension
+  month it falls in with its fee, and the days counted against patent term adjustment, with the rules
+  quoted. It is arithmetic for the date you enter and never a deadline; your docket is the system of
+  record.
+- **Restriction requirements**: the groups as the action states them, its sentences about linking
+  claims, and an election statement with its blanks for you to complete. The limitations an action
+  reads under 35 U.S.C. 112(f) are listed under it, Check my reply states facts about withdrawn claims
+  for rejoinder, and names a placeholder term an amendment adds ("module configured to").
+- **Interview agenda**: every item the action states, in its words, with the claims, the references
+  and the language your proposed amendments add, to paste into the Applicant Initiated Interview
+  Request and delete from. When a draft says an interview took place, Check my reply names the items
+  of a complete record of its substance (MPEP 713.04) its sentences about the interview do not
+  identify.
+- **References of record and an IDS**: the patent documents the examiner and the applicant cited,
+  read from the file history, the count against the size-fee tiers, and which paragraph of 37 CFR
+  1.97 an IDS filed on a date you enter falls under. Attach a related application's file history to
+  list the documents of record there and not here; only its reference papers are read and kept.
+- **Excess-claims fees** for the proposed claims, counted against the most claims the record's papers
+  presented, with the note that a fee paid on a count the papers do not show is not known.
+- **Report of the action (.docx)**: the action's kind and date, each item in the examiner's words with
+  the claims it affects, the period as the action states it, and after a final action the paths with
+  their fees, for you to send to a client or adapt. It says nothing about what the action means or
+  what to do.
+- **Official notice in the record view**: each official notice an action takes, in its words, with
+  MPEP 2144.03 quoted.
+- **A drafted reply in the shape practitioners file**: each item of the action comes with a heading
+  ("Rejection of Claims 1-20 under 35 U.S.C. 101"), an opening statement ("In the final Office Action
+  of June 2, 2022, claims 1-20 were rejected under 35 U.S.C. 101.") and, for a rejection or an
+  objection, a closing request that it be withdrawn, each written from the action and adopted, edited
+  or discarded like any drafted text. Adopted, the opening goes first under its heading and the request
+  last, in whatever order you adopt them, and the exported reply sets the headings in bold. A heading or
+  an opening statement alone does not count as answering an item.
+- **The claim listing one element per line**, in the app and in the exported reply: the preamble, each
+  element, and each list of sub-elements indented by tabs, as a listing is typed.
+- **The Office Action Summary against the action**: where the form's claim fields and the action's
+  statements disagree (a claim listed as rejected that no rejection names, a claim rejected that the
+  form does not list), the record view and the report of the action say so, with the form's line
+  quoted.
+- **Check my reply reminds you of the signature and date**: when the draft carries no signature in the
+  /Name/ form, or is dated before the action or after today.
+- **Check my reply compares the remarks with the claims you typed**: where the remarks say a claim
+  is amended, canceled or new and the status you typed for it in your proposed claims says otherwise
+  ("the remarks say claim 3 is amended, and the proposed claims give claim 3 (Previously
+  presented)"). Only claims typed with a status identifier are compared.
+- **Declarations and appeal briefs in a draft**: Check my reply names the statement and warning 37 CFR
+  1.68 requires, or the claims, when a declaration's text lacks them, says what 37 CFR 1.116(e) asks
+  of evidence after a final action, and names the sections 37 CFR 41.37(c)(1) requires that no
+  heading of an appeal brief names.
+
+### Changed
+
+- **What the examiner said leads with the action you asked about**, open, with every other paper
+  one line each that shows the date of the reply the record holds after it.
+- **The right-hand panel scrolls on its own**, so it stays beside the work instead of making the
+  page tens of thousands of pixels tall, and each paper in the prosecution record links to its
+  reading.
+- **The examiner's citations are a table**: the limitation, where the examiner cited it, and the
+  reference's own words there, all at the same weight, with a control to hide it again. The claims
+  paper is named by its date rather than its file name.
+- **Find support lists the passage carrying most of the limitation's words first**, says how many
+  of them each passage carries, marks them, and no longer breaks a passage at "e.g.".
+- **Buttons say when they are working**, and when the program does not answer, the message says
+  nothing was sent or saved.
+- **The conversation keeps the start of a long answer on screen** rather than scrolling it away,
+  and a control you tab to is never hidden behind the message box.
+- **Rename a matter in place** in the matter list; the browser's pop-up is gone, the list's icons
+  are larger targets, and deleting a matter for good asks for a second click on the page.
+- **The More menu is a plain list of buttons** that Tab moves through and Escape closes.
+- **Settings save as you change them**, the search services too, and say so; each checkbox sits
+  beside its label.
+- **The theme follows your system's light or dark setting** as it changes, until you choose one.
+- **The directions are listed once** on the Draft tab, under the button that drafts them; the
+  side panel keeps the count and opens to edit a direction's wording.
+- **Progress lines are in plain words**, and the page works at phone width without scrolling
+  sideways.
+- **A reply with nothing written downloads the report of the action** in place of the outline as a
+  document; once there is a draft or proposed claims, the reply downloads as before.
+
 ## [0.7.2] - 2026-10-06
 
 ### Changed

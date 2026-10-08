@@ -35,7 +35,7 @@ Without a paid licence the binary makes no such call at all.
 |---|---|
 | `go/main.go` | CLI: `draft`, `export`, `critique`, `bestpractice`, `judge`, `panel`, `compare`, `bench`, `serve`, `models`, `version`, `license`, `activate`, `upgrade` |
 | `go/internal/server/` | HTTP server for the local web UI (runs on localhost:9473) |
-| `go/web/` | Alpine.js SPA served by the binary (no build step). HTML/CSS are embedded via go:embed; Alpine itself loads from a pinned CDN with a subresource-integrity hash, so the web UI needs network access on first load and is not air-gapped |
+| `go/web/` | Alpine.js SPA served by the binary (no build step). HTML, CSS, fonts and Alpine itself are embedded via go:embed and served from the binary, so the web UI makes no request to any other site |
 | `go/internal/pipeline/draft.go` | Spec analysis, target extraction, drafting, and the verify->revise loop |
 | `go/internal/pipeline/critic.go` | Cross-family critic that flags per-claim defects for the revise loop |
 | `go/internal/pipeline/judge.go` | Claim-quality rubric judge with spec-anchor validation |
@@ -361,11 +361,9 @@ you supply. Every output is for a licensed practitioner to check and decide on.
 
 The server binds to `127.0.0.1` only (localhost, not network-accessible). Your inputs
 (spec, parent claims, drafts) stay on your machine; the only place they are sent is the
-LLM provider you configure. One honest caveat: the web UI loads the Alpine.js library
-from a pinned CDN (with an integrity hash) when the page opens, so the browser makes one
-request to that CDN on load. That request carries no spec or claim data, but it does mean
-the **web UI needs network access on first load and is not fully air-gapped**. The CLI has
-no such dependency. With a local model and no paid licence it runs fully offline; with a paid
+LLM provider you configure. The web UI loads everything it needs, including the Alpine.js
+library, from this program, so the browser makes no request to any other site and the web
+UI works with no network access. With a local model and no paid licence it runs fully offline; with a paid
 licence it additionally makes the monthly licence-renewal call described under Setup, which
 `CD_NO_LICENSE_RENEWAL=1` disables. An air-gapped firm should run with that variable set and a
 long-dated token issued out of band.
