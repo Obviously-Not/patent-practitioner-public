@@ -174,7 +174,7 @@ machine" guarantee belongs to the local path only.
 Download **`continuation-drafter-macos.dmg`** from the
 [latest release](https://github.com/Obviously-Not/patent-practitioner-public/releases/latest),
 open it, drag **Patent Practitioner Tools** to Applications, and double-click it. The drafting
-interface opens in your browser. macOS 11 or later; one download runs on Apple silicon and
+interface opens in your browser. macOS 13 Ventura or later; one download runs on Apple silicon and
 Intel.
 
 macOS asks once whether you are sure you want to open something downloaded from the

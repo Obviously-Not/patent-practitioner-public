@@ -10,6 +10,22 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.7.5] - 2026-10-10
+
+### Security
+
+- **Built with Go 1.27, which fixes nine security advisories in the standard library's networking
+  and TLS code.** Every earlier release was built with Go 1.25, which no longer receives fixes.
+
+### Changed
+
+- **macOS 13 Ventura or later is required.** Earlier notes said macOS 11, which was never right:
+  the previous releases needed macOS 12. On an older Mac the updater does not install this
+  version, and the one you have keeps working.
+- **On macOS and Windows, `SSL_CERT_FILE` and `SSL_CERT_DIR`, when set, now decide which
+  certificate authorities are trusted** for connections to model providers and patent sources,
+  instead of the system's store. Most machines set neither.
+
 ## [0.7.4] - 2026-10-08
 
 ### Fixed
