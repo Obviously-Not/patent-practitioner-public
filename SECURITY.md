@@ -31,10 +31,30 @@ destination, before anything is sent. The disclosure and the request are compute
 one resolver so they cannot disagree; they did disagree until 2026-09-25, which is the
 kind of report this section is asking for.
 
+**A model the local server runs elsewhere is refused.** Ollama can list a cloud model beside
+the ones it runs and send each request for it on to another host, while the address the tool
+dials is still this machine. Before sending to a local model the tool asks Ollama where it runs
+that model, in its description of the model and in its list of models (the only place Ollama
+names the host for a cloud model), refuses one Ollama forwards (naming the host), and treats a
+server it cannot ask as one it will not send to. If an answer says another host generated it anyway, the tool withholds
+that answer, says that one request left and where it went, and refuses every later call to that
+model. It cannot see forwarding by a server other than Ollama, or by a proxy in front of one,
+that says nothing about it.
+
+**What the tool asks a local model server, and where.** Every such question goes to the address
+configured for that server and nowhere else, and each answer is read for numbers only. Of
+Ollama: its version and what it holds (`/api/version`, `/api/ps`), what it says about a model
+(`/api/show`), and its list of models (`/api/tags`), the last to see where each model runs and to
+work out what a window costs in memory before asking for it. Of an OpenAI-compatible server: its model list, and the tables in
+which llama.cpp (`/props`, `/slots`) and LM Studio (`/api/v1/models`) say what window a model is
+loaded at. Of a server that says nothing, the tool measures the window with three prompts of
+generated text that carry nothing of the specification.
+
 In scope:
 
 - Anything that sends specification text to a destination the operator did not
-  configure, or that widens the local-only guarantee of the on-machine path
+  configure, or that widens the local-only guarantee of the on-machine path, including a
+  model the local server forwards elsewhere reaching it without the refusal above
 - A reference fetch that carries anything but the reference's number, a search sent without
   the confirmation the operator left on, or either one made in offline mode or under the
   `DisablePatentLookups` policy

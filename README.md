@@ -47,7 +47,7 @@ Without a paid licence the binary makes no such call at all.
 
 You need the binary (download it from the latest release, or see below to build
 it), and **at least one inference backend**:
-local **Ollama** (private: your specification never leaves your machine) or a key for one of
+local **Ollama** (private: a model Ollama runs on your machine never sends your specification off it) or a key for one of
 three cloud providers, **OpenRouter**, **OpenAI** or **Anthropic** (faster and stronger, but
 the spec is sent to a third party). You can set up several and choose per run with
 `--provider` and `--model`.
@@ -96,7 +96,10 @@ you use the CLI only, export the key in your shell. The binary does not read a `
 ### Option A2: a different local server (Ollama is not the only one)
 
 If you already run **mlx-openai-server, vllm-mlx, llama.cpp's `llama-server`, LM Studio,
-LocalAI or SGLang**, point the local path at it directly:
+LocalAI or SGLang**, point the local path at it directly. Ollama stays the recommended local
+server, because the tool sets the context window on every call there and checks what that
+window costs in memory; LM Studio is the alternative, since it says what window it loaded a model
+at and refuses a prompt longer than it rather than cutting it.
 
 ```bash
 export CD_LOCAL_OPENAI_BASE_URL=http://127.0.0.1:1234/v1   # your server's address
@@ -107,6 +110,32 @@ export CD_LOCAL_OPENAI_BASE_URL=http://127.0.0.1:1234/v1   # your server's addre
 No API key: a server you run does not issue you one. On Apple silicon several of these run
 requests at the same time where Ollama's MLX engine takes them one at a time, which matters
 for the panel and for `compare`. Run `bench` to see which yours does.
+
+**The window your server holds the model at is known before your specification is sent.** An
+OpenAI-compatible request has no field for the context window: the server chose it when it
+loaded the model, and a longer prompt is cut or refused. So the tool reads the window llama.cpp,
+vLLM and LM Studio (for a loaded model) declare, or uses the one you state, and refuses a call
+that does not fit it. A server that says nothing is measured first, with two short prompts and
+one as long as the run needs, which carry no part of your specification and can take a few
+minutes on a large model. When that says nothing either, the number is needed from you:
+
+```bash
+export CD_LOCAL_OPENAI_CONTEXT_TOKENS=16384   # LM Studio's context length, llama.cpp's -c / -np, vLLM's --max-model-len
+```
+
+or Settings in the web interface, for one model. With no window known the run is refused and
+says where your server shows it. An Ollama address given here is run on Ollama's own API, which
+sets the window on every call, so nothing has to be stated.
+
+A server that declares no window, such as `mlx_lm.server`, reads a prompt until memory runs out,
+and only on Ollama does the tool price a window in memory before asking for it. On such a server,
+choose a model whose window your machine can hold; [`docs/models.md`](docs/models.md) has the
+measurement.
+
+A whole run (draft, critique and judge) has been measured through llama.cpp, vLLM and LM Studio.
+LM Studio does not honour the tool's request that a model not think, so turn thinking off for the
+model there. On the MLX servers a small model did not hold the JSON a scoring step needs: a draft
+still completes, saying which review did not; choose a model that holds it on Ollama. [`docs/models.md`](docs/models.md) has the details.
 
 **Whether this counts as local is decided by where the request goes, not by the name.** If the
 address you configure is not on this machine, the tool tells you before your specification is
@@ -165,7 +194,9 @@ specification, is not a trade worth making.
 **Confidentiality:** a remote model sends the specification to a third party.
 That is fine for published patents and **not** for anything unpublished or
 privileged, use the local path (Option A) for those. The "nothing leaves your
-machine" guarantee belongs to the local path only.
+machine" guarantee belongs to the local path only, and to a model the local server runs
+itself: a cloud model that Ollama lists and forwards to another host is refused, and the
+model list marks it.
 
 ## Run it
 
@@ -235,7 +266,7 @@ DRAFT_MODEL=<model> ./continuation-drafter draft --demo
 continuation claims out on stdout; live progress prints to stderr:
 
 ```bash
-# Local model (your specification never leaves your machine)
+# Local model (your specification stays on your machine)
 DRAFT_MODEL=qwen3:32b ./continuation-drafter draft \
   --spec ../fixtures/micro/micro_spec.txt \
   --parent ../fixtures/micro/micro_parent_claims.txt
@@ -301,7 +332,8 @@ on it.
 A multi-model panel is several requests. On a server that runs them together it finishes in a
 fraction of the time; on one that queues them it does not. Which yours does depends on the
 server and the model format rather than on this tool, so `bench` measures it and tells you
-whether setting `CD_CONCURRENCY` is worth it.
+whether to say in Settings how many requests your server runs at once. A remote provider runs
+three at once already.
 
 **Other commands:** `judge` scores one draft against the rubric, returning
 per-claim verdicts with spec-anchor validation (T1) and honest-null: a claim it
@@ -466,9 +498,11 @@ key verifies and reports a tier without changing what the tool will do.
 - **Every run reports how much of your specification it read**, as a percentage and the
   largest stretch nothing cited. The tool could always tell you a proposed direction was
   fabricated; this is what tells you it never looked at part of the document.
-- `CD_CONCURRENCY` runs independent model calls together, and **defaults to 1**. Run
-  `bench` first: on a server that queues requests, raising it buys no speed and raises peak
-  memory on a machine that may already be near its limit.
+- **How many model calls run at once** (a panel's rounds, a reply's items): one at a time on
+  a model server you run, unless Settings says it runs more; three at once at a remote
+  provider. A panel on your own server runs model by model, so each model loads once.
+  `CD_CONCURRENCY` overrides both. Run `bench` before raising the local number: on a server
+  that queues requests, more at once buys no speed and raises peak memory.
 - `CD_WINDOW_LARGE_SPECS=1` reads a specification too large for your model in overlapping
   windows instead of refusing. **Off by default**, because a model that can hold the whole
   document should get the whole document, and windowing costs attention that overlapping

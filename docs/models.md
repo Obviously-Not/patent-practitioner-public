@@ -44,6 +44,14 @@ known limitation, not a bug; the tool reports the parse failure honestly and the
 UI surfaces it as an error rather than fabricating a result. Use a stronger model
 (a larger local model or a remote model via OpenRouter) for the scoring surfaces.
 
+**On a server you run, a score can depend on what that server computed before it.** Measured on
+2026-10-11 with `gemma4:26b` at the judge's temperature of 0: one claim set scored 37 on a freshly
+loaded model and 79 after the server had judged a different claim set, ten times out of ten each,
+and turning the server's prompt cache off did not change it. With `qwen2.5:14b` the verdict was the
+same both ways. `compare`, a panel's rounds and judging drafts one after another are the case it
+reaches, and the run says so wherever it reports a score. To score drafts on equal terms, score each
+on a freshly loaded model (`ollama stop <model>` between them).
+
 ## Spec size is the first filter, before any model question
 
 > **Updated 2026-07-20:** the fixed 160k-char refusal below is superseded by a
@@ -125,6 +133,28 @@ model regardless of how well it drafts.
 
 This produces an awkward result worth stating plainly: `qwen3:32b` drafted the
 best claims in the screen and **cannot be used on a full-length specification**.
+
+**That is Ollama, where the tool chooses the window.** An OpenAI-compatible server
+(`--provider local-openai`) chose its window when it loaded the model, and a request has no
+field to ask for another, so a longer prompt is cut or refused. Before your specification is
+sent the tool finds that window: what the server declares, else what you state
+(`CD_LOCAL_OPENAI_CONTEXT_TOKENS`, or Settings for one model), else by measuring it with
+prompts that carry none of your specification. It refuses a call that does not fit, and a run
+whose window nothing can say. Where each server sets it:
+
+| Server | Where the window is set |
+|---|---|
+| Ollama, its own API | nothing to set: the tool asks for the window on every call |
+| llama.cpp | `-c N`, which is shared among the `-np` slots: each holds N divided by the slots |
+| LM Studio | the context length chosen when the model is loaded, in its load settings |
+| vLLM | `--max-model-len N` |
+
+**What a window costs in memory.** On Ollama every request the server runs at once
+(`OLLAMA_NUM_PARALLEL`) holds the whole window again. Before a model is loaded at a larger
+window the tool works this out from the model's own description and refuses one that cannot fit
+this machine at all, and says when the load is tight. Ollama does not report how many requests
+it runs at once, so say it in Settings if you changed it; `models` reports it for a model loaded
+now.
 
 ## Measured against a real corpus (2026-07-30)
 
@@ -343,6 +373,19 @@ The binary sends `think: false` by default, so this is handled. Set
 Symptom if you ever hit it: `done_reason=length` with no usable content, on an
 input far too small to justify it.
 
+## Cloud models in an Ollama list
+
+Ollama can serve a model it does not run. Once a person signs in to Ollama, a cloud model can
+be pulled and listed beside the others, and each request for it is sent on to another host.
+The address this tool dials is still your machine, so without a check the specification would
+leave while every note said it had not.
+
+The tool asks Ollama where it runs each model before sending anything to it, and refuses one
+Ollama forwards, naming the host. The model list marks such a model and does not offer it, and
+`models` names it with its host. Choose a model Ollama runs itself, or a named remote provider,
+whose note says where the specification goes. This reads what Ollama says about itself: a
+server other than Ollama, or a proxy, that forwards a request without saying so is not seen.
+
 ## Remote models (OpenRouter)
 
 Any model with a **slash**, or a recognized remote prefix (`claude-`, `gemini-`,
@@ -385,10 +428,37 @@ continuation-drafter bench
 says so before your specification is sent. A box on your own network is still across a
 network, and the same is true of `OLLAMA_BASE_URL`.
 
-**What the catalog can tell you is thinner here.** A local server's `/v1/models` usually
-returns ids and no context window, so the picker says "not reported by this provider" rather
-than rendering a blank that reads as zero. Nothing in this document's measured table was taken
-through this path; the figures below are Ollama runs.
+**Which local server.** Ollama is the recommended one: the tool sets the window on every call,
+checks what a window costs in memory, and can see a model the server would forward to another
+machine. LM Studio is the alternative: it declares the window of a model it has loaded, refuses
+a prompt longer than it rather than cutting it, and runs several requests at once since 0.4.0.
+An Ollama address given as `local-openai` is run on Ollama's own API, and the run says so.
+
+**A server that declares no window can run your Mac out of memory.** `mlx_lm.server` reads a
+prompt of any length until memory runs out: measured on a 128 GiB MacBook on 2026-10-10, a prompt
+past what memory held ran Metal out of memory and the server dropped the request with no answer.
+The tool refused that run rather than draft from a cut specification, but on such a server it
+cannot price a window in memory before asking for it, as it does on Ollama, so the memory was
+spent before the refusal. mlx-openai-server and vllm-mlx declare no window either, and
+mlx-openai-server started with `--context-length 8192` still read a 16,384-token prompt whole
+(measured 2026-10-11). With a server like that, choose a model whose window your machine can
+hold, or use Ollama.
+
+**What runs end to end, measured 2026-10-12** (a draft, a critique and a judge of the walkthrough
+fixture through each server). llama.cpp, vLLM and LM Studio ran all three with `qwen3:8b` or
+`Qwen3-4B`. The tool asks a server you run not to let a model think, and sends a structured step its
+JSON schema, as it does on Ollama. **LM Studio ignores the first**, so a model that thinks there
+runs correctly but writes about three times as much: turn thinking off for the model in LM Studio,
+or choose one that does not think. **On `mlx_lm.server`, mlx-openai-server and vllm-mlx, a 4B model
+did not hold the JSON a scoring step needs** (two of them do not constrain to the schema): a draft
+still completes, saying that its best-practices review did not, and on mlx-openai-server `judge`
+failed outright. Use a model that holds the contract on Ollama, as the table above describes.
+
+**What the picker and `models` show for it** is what the server declares: each model's window
+and where the server says it, or that it does not and that a run measures it first. Nothing is
+sent to find out. Nothing in this document's measured table was taken through this path; the
+figures below are Ollama runs, measured with Ollama's defaults, and they do not say how many
+requests at once the server held the window for.
 
 ```bash
 export ANTHROPIC_API_KEY=...
@@ -449,7 +519,8 @@ target-extraction step.
 **Confidentiality.** A remote model means the specification leaves the machine
 and reaches a third party. For published patents that is fine. For an
 unpublished or privileged application it is not: use a local model. The
-"nothing leaves your machine" property belongs to the local path only, and is
+"nothing leaves your machine" property belongs to the local path only, and to a model the
+local server runs itself (see "Cloud models in an Ollama list"), and is
 not a property of the tool as a whole. Two things can leave, and they are different in kind:
 your SPECIFICATION, only ever to a model provider you configure, and, if you hold a paid
 licence, your LICENCE KEY to the renewal endpoint about once a month. The second carries no

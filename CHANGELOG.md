@@ -10,6 +10,94 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-10-12
+
+### Security
+
+- **A model your Ollama server forwards to another machine is refused.** Ollama can list a
+  cloud model beside the ones it runs and send each request for it on to another host, while
+  the address this tool dials is still your machine. The tool now asks Ollama where it runs a
+  model before sending to it, refuses one it forwards and names the host, and will not send to
+  a server it cannot ask. The model list marks such a model and does not offer it, and
+  `models` names it.
+
+### Changed
+
+- **An Ollama server given as the OpenAI-compatible local provider runs on Ollama's own API**,
+  which sets the context window on every call. The run says so.
+- **A panel at a remote provider runs three calls at once**, as a reply's items already did.
+  On a model server you run it is still one at a time, now model by model so each model loads
+  once, and Settings has a field for how many requests your server runs at once.
+  `CD_CONCURRENCY` still overrides both.
+- **A local model reached as an OpenAI-compatible server gets the local per-call deadline**,
+  20 minutes rather than 12, as the advice after a timeout already said.
+- **The window your OpenAI-compatible server holds a model at is known before anything is
+  sent.** The tool reads what llama.cpp, vLLM and LM Studio declare, or uses the window you
+  state (`CD_LOCAL_OPENAI_CONTEXT_TOKENS`, or Settings, for one model), says which before the
+  first call, and does not send a call that would not fit. A server that says nothing is
+  measured, with prompts that carry nothing of your specification. A run whose window nothing
+  can say is refused with the place your server shows it, where it used to assume a large fixed
+  limit.
+- **A llama.cpp or LM Studio server's own count of requests at once is used** for a panel and a
+  reply's items when Settings does not say.
+- **Before a model on Ollama is loaded at a larger window, the tool works out what that window
+  costs in memory**, counting each request your server runs at once, and refuses one that cannot
+  fit this machine at all, before anything is sent. When the load is merely tight it says so.
+- **The end of a run says what each model server held each model at**: the window, who chose it,
+  how many requests at once it holds it for, any reload the run did not cause, and any part of
+  the model held outside GPU memory. `models` and the picker say the same of a model loaded now.
+- **A score from a model server on your machine says it can depend on what that server computed
+  before it.** Measured, one judge model gave the same claim set a different score after the
+  server had judged another claim set than on a freshly loaded model, ten times out of ten, and
+  turning the server's prompt cache off did not change that; another model gave the same verdict
+  both ways. `judge`, `panel`, `compare` and the web app's scoring say so, with how to score drafts
+  on equal terms.
+- **`models` and the model picker say what your OpenAI-compatible server declares**: each
+  model's window and where the server says it, or that it does not and what a run then does. An
+  Ollama address given there is said to be Ollama. Nothing is sent to find out.
+
+### Fixed
+
+- **A run works through your own OpenAI-compatible server end to end.** Measured through llama.cpp,
+  vLLM and LM Studio, four things that stopped it are fixed: a structured step is sent its JSON
+  schema, which LM Studio requires and which vLLM uses to keep a small model's JSON well formed;
+  a model is asked not to think, as on Ollama, and any deliberation a server returns is
+  kept out of the answer, where it had been drafted as a claim; an answer that ran out of room is
+  retried at a size the window admits, where the retry had been refused; and every request carries
+  its length limit in the form each server reads, where one server had generated without a limit.
+- **A draft keeps its claims when the best-practices review does not finish.** The command line
+  failed the whole run when that review's answer could not be read, discarding claims already
+  drafted and checked, and the web app kept them without saying why. Both now keep the claims and
+  say the review did not complete, and why.
+- **The web app asks your model server for the window each run needs**, where it used to keep
+  asking for the largest window any earlier run had needed, for as long as it ran, so one long
+  specification made every later run on that model load it at that size and hold that much
+  memory. What the server says about a model, its version and how many requests it runs at once
+  are asked again for each run too, so a model pulled again or a server that updated itself is
+  seen.
+- **A specification an OpenAI-compatible server cut is no longer drafted from in silence.** A
+  local server such as LM Studio or llama.cpp chooses its own context window, and some cut a
+  longer prompt without saying so. The tool now checks what the server reports reading against
+  what it sent, on every OpenAI-compatible server as it already did on Ollama, and a run that
+  finds its prompts were cut stops and saves nothing, keeping what the matter held.
+- **A server's "prompt too long" refusal is named for what it is**, with the window the server
+  holds the model at when it says, and how to raise it, instead of a generic request failure.
+- **A check that could not read the whole specification says so.** When the final critique, the
+  best-practices review or a panel member was refused or cut by a smaller window, the draft
+  still stands and the result says which check fell short and why.
+- **The picker's tab for your own OpenAI-compatible server works.** It asked for a key such a
+  server does not issue, listed nothing, and said its models send your specification off this
+  machine.
+- **`models` no longer prints a model on your own server as remote** when its name has a slash,
+  as vLLM, MLX and LM Studio name models, and `models --json` now carries the machine report.
+- **Two prompts a server you run cut to the same length are caught even when its prompt cache
+  served part of one.** The check compared the cache figures too, which is right for a provider
+  and let such a pair through on your own server.
+- **A prompt cut to half the window on Ollama's own API is caught** when it is only a little
+  longer than the window, where the earlier check could not see it.
+- **`bench --calls 8` runs eight calls at once.** A limit of four inside the program capped it
+  while the advice recommended eight.
+
 ## [0.7.5] - 2026-10-10
 
 ### Security
