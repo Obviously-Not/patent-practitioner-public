@@ -10,105 +10,179 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-13
+
+### Added
+
+- **Address the items.** A reply's steps include one per Office action's items: for each, choose
+  arguments, amendments or both, and draft it on its own; an amendment's reach into the claims that
+  depend on it is stated beside the item. Each cited reference shows its publication, filing and
+  priority dates as its source gives them, beside the earliest date the application claims, read
+  from the specification's cross-reference, the filing receipt, the application data sheet or the
+  bibliographic data sheet; where every date given is after that date, in an application examined
+  under the first-inventor-to-file provisions, that is stated as a fact about the dates, with 35
+  U.S.C. 102(a) quoted. Whether a reference is prior art stays yours to decide.
+- **The previous round, compared.** When the matter holds the action before, each item of the
+  latest action is labelled maintained, modified or new against it, with what changed (claims named
+  or no longer named, references cited or no longer cited), and each earlier item it no longer
+  states is labelled withdrawn, beside the action's own statement of the withdrawal and the sentences
+  of its Response to Arguments that name the item. The labels also show on Address the items.
+- **Decisions carried into each draft.** Under any message of yours in a matter's conversation,
+  *Keep for every draft* keeps it as an instruction that every later draft of that matter's claims
+  or reply follows, after any instruction you type, until you remove it. The conversation also
+  knows which step you asked from, so a request reads in the context of the step on screen.
+- **A reply of yours as a template.** Add one of your filed replies under Papers, and each drafted
+  section opens and closes in its form, with the action's claims, ground and references written
+  in. Only the form is used: a sentence of the template copied into a drafted point is removed.
+- **Continuation claims in stages.** Embodiments lists what the specification discloses beyond the
+  parent's claims, each saying how it differs from them, or that it only narrows a parent claim.
+  Draft one independent claim and two dependents toward the one you choose; edit them in place or
+  revise them with an instruction of your own; then expand them into a full set of the size and
+  claim types you choose, with the types the specification describes offered, keeping your reviewed
+  claims first and as you left them. Each drafted claim says which embodiment it was drafted toward
+  and, when it keeps every limitation of a parent claim and adds to it, that by its words it narrows
+  that claim; words the specification's text does not use are listed beside it.
+
+- **A matter starts from what you are working on**: a reply to an Office action, or claims for a
+  continuation application, each with a sample. A reply runs in steps (Papers, The action,
+  Address the items, The reply) and continuation claims in theirs (Papers, Embodiments, Claims), and
+  the conversation sits below every step.
+- **The action, summarized.** For each Office action: whether it is final, the response deadline
+  computed from the mailing date, with each month of extension and the six-month date, and the
+  warning to check every date against your docket, which is the system of record; each item the
+  action states, grouped by what the examiner applied (§ 101, § 103, § 112 by subsection, double
+  patenting, objections, requirements, allowed or allowable claims) and attributed to the action;
+  and a table of the claims the action examined, what each depends from, and every item stated
+  against it. The report of the action carries the same.
+
+- **Each paper is added on its own.** An Office action, the previous response, the current claims,
+  the specification and a cited reference each go in their own slot under Papers, as a PDF, a Word
+  file or text, scanned or not. A paper's kind and date are read from its own words (an action's
+  from its cover sheet, a response's from its signature), shown for you to confirm or correct, and
+  a response is read as its claim listing and its remarks. A complete Patent Center download still
+  goes in whole, and keeps the papers you added.
+- **Papers says what the work needs and which claims it reads**: the papers still missing for the
+  matter's task, and the claims in use, with a choice of another claims paper for the reply.
+- **A whole application is read at its claims heading**, on the command line (`draft --document`)
+  and in the app alike: the claims below "What is claimed is:" or "CLAIMS" are the parent claims.
+
+### Fixed
+
+- **Each month of extension runs to the day matching the mailing date** (MPEP 710.01(a)), for
+  actions mailed late in a month too: after an action of November 30, a month of extension runs
+  to March 30.
+- **Statutory and nonstatutory double patenting are kept apart** in the claim table, and a double
+  patenting ground is worded as one.
+
+- **Work done while the app answers a question stays in place.** Claims you adopt, a
+  specification you edit, references fetched and reply drafts saved while a request is running
+  are kept when it finishes, and a file history being read keeps the readings made meanwhile.
+- **Attaching a new application keeps everything you supplied about the matter**: its parent
+  claims, file histories, references, draft replies, spending and chosen model.
+- **"Use these claims" opens them on the Claims step.**
+- **Each requirement is headed by what it requires**: a restriction as a Restriction
+  Requirement, and a requirement for information as a Requirement for Information, with drafting
+  guidance for answering it.
+- **Claims you change are marked unchecked** until a critique reads them.
+- **Every check of a reply reads which claims depend from which the same way.**
+- **A Word document's struck-through text is read as deleted**, so a claim listing's deletions
+  are not read back into the claims.
+- **A reference found under a different kind code from the one cited says so** beside the
+  citation.
+
 ## [0.8.0] - 2026-10-12
+
+### Added
+
+- **The window your OpenAI-compatible server holds a model at is known before anything is
+  sent.** The tool reads what llama.cpp, vLLM and LM Studio declare, or uses the window you
+  state (`CD_LOCAL_OPENAI_CONTEXT_TOKENS`, or Settings, for one model), says which before the
+  first call, and sends only calls that fit. A server that declares nothing is measured, with
+  prompts that carry nothing of your specification, and when nothing can say the window the run
+  tells you where your server shows it.
+- **`models` and the model picker show what your OpenAI-compatible server declares**: each
+  model's window and where the server states it, or what a run does when it does not. An Ollama
+  address given there is recognised as Ollama. Nothing is sent to find out.
+- **The memory a larger window needs is worked out before a model on Ollama is loaded at it**,
+  counting each request your server runs at once. A window this machine cannot hold is declined
+  before anything is sent, and a tight fit is pointed out.
+- **The end of a run reports what each model server held each model at**: the window, who chose
+  it, how many requests at once it holds it for, any reload from outside the run, and any part of
+  the model held outside GPU memory. `models` and the picker report the same for a model loaded
+  now.
+- **Scores from a model server on your machine come with guidance for scoring like for like.**
+  Measured: one judge model scored a claim set differently after the server had judged another
+  claim set than on a freshly loaded model, ten times out of ten, with or without the server's
+  prompt cache; another model gave the same verdict both ways. `judge`, `panel`, `compare` and
+  the web app's scoring say so, and say how to score drafts on equal terms: each on a freshly
+  loaded model.
+- **Settings has a field for how many requests your model server runs at once.**
 
 ### Security
 
-- **A model your Ollama server forwards to another machine is refused.** Ollama can list a
-  cloud model beside the ones it runs and send each request for it on to another host, while
-  the address this tool dials is still your machine. The tool now asks Ollama where it runs a
-  model before sending to it, refuses one it forwards and names the host, and will not send to
-  a server it cannot ask. The model list marks such a model and does not offer it, and
-  `models` names it.
+- **A model your Ollama server forwards to another machine is identified and not used.** Ollama
+  can list a cloud model beside the ones it runs and send each request for it on to another host,
+  while the address this tool dials is still your machine. The tool asks Ollama where it runs a
+  model before sending to it, declines one it forwards and names the host, and sends only to a
+  server that can say where it runs the model. The model list marks such a model and does not
+  offer it, and `models` names it.
 
 ### Changed
 
 - **An Ollama server given as the OpenAI-compatible local provider runs on Ollama's own API**,
   which sets the context window on every call. The run says so.
-- **A panel at a remote provider runs three calls at once**, as a reply's items already did.
-  On a model server you run it is still one at a time, now model by model so each model loads
-  once, and Settings has a field for how many requests your server runs at once.
-  `CD_CONCURRENCY` still overrides both.
-- **A local model reached as an OpenAI-compatible server gets the local per-call deadline**,
-  20 minutes rather than 12, as the advice after a timeout already said.
-- **The window your OpenAI-compatible server holds a model at is known before anything is
-  sent.** The tool reads what llama.cpp, vLLM and LM Studio declare, or uses the window you
-  state (`CD_LOCAL_OPENAI_CONTEXT_TOKENS`, or Settings, for one model), says which before the
-  first call, and does not send a call that would not fit. A server that says nothing is
-  measured, with prompts that carry nothing of your specification. A run whose window nothing
-  can say is refused with the place your server shows it, where it used to assume a large fixed
-  limit.
-- **A llama.cpp or LM Studio server's own count of requests at once is used** for a panel and a
-  reply's items when Settings does not say.
-- **Before a model on Ollama is loaded at a larger window, the tool works out what that window
-  costs in memory**, counting each request your server runs at once, and refuses one that cannot
-  fit this machine at all, before anything is sent. When the load is merely tight it says so.
-- **The end of a run says what each model server held each model at**: the window, who chose it,
-  how many requests at once it holds it for, any reload the run did not cause, and any part of
-  the model held outside GPU memory. `models` and the picker say the same of a model loaded now.
-- **A score from a model server on your machine says it can depend on what that server computed
-  before it.** Measured, one judge model gave the same claim set a different score after the
-  server had judged another claim set than on a freshly loaded model, ten times out of ten, and
-  turning the server's prompt cache off did not change that; another model gave the same verdict
-  both ways. `judge`, `panel`, `compare` and the web app's scoring say so, with how to score drafts
-  on equal terms.
-- **`models` and the model picker say what your OpenAI-compatible server declares**: each
-  model's window and where the server says it, or that it does not and what a run then does. An
-  Ollama address given there is said to be Ollama. Nothing is sent to find out.
+- **A panel at a remote provider runs three calls at once**, as a reply's items do. On a model
+  server you run it goes model by model, so each model loads once, as many calls at a time as the
+  server runs: the figure in Settings, else the one llama.cpp or LM Studio declares, else one.
+  `CD_CONCURRENCY` overrides both.
+- **A local model reached as an OpenAI-compatible server gets the local per-call deadline** of
+  20 minutes, matching the advice after a timeout.
+- **A draft keeps its claims when the best-practices review does not finish**, on the command line
+  and in the web app alike, and says the review did not complete and why.
 
 ### Fixed
 
-- **A run works through your own OpenAI-compatible server end to end.** Measured through llama.cpp,
-  vLLM and LM Studio, four things that stopped it are fixed: a structured step is sent its JSON
-  schema, which LM Studio requires and which vLLM uses to keep a small model's JSON well formed;
-  a model is asked not to think, as on Ollama, and any deliberation a server returns is
-  kept out of the answer, where it had been drafted as a claim; an answer that ran out of room is
-  retried at a size the window admits, where the retry had been refused; and every request carries
-  its length limit in the form each server reads, where one server had generated without a limit.
-- **A draft keeps its claims when the best-practices review does not finish.** The command line
-  failed the whole run when that review's answer could not be read, discarding claims already
-  drafted and checked, and the web app kept them without saying why. Both now keep the claims and
-  say the review did not complete, and why.
-- **The web app asks your model server for the window each run needs**, where it used to keep
-  asking for the largest window any earlier run had needed, for as long as it ran, so one long
-  specification made every later run on that model load it at that size and hold that much
-  memory. What the server says about a model, its version and how many requests it runs at once
-  are asked again for each run too, so a model pulled again or a server that updated itself is
-  seen.
-- **A specification an OpenAI-compatible server cut is no longer drafted from in silence.** A
-  local server such as LM Studio or llama.cpp chooses its own context window, and some cut a
-  longer prompt without saying so. The tool now checks what the server reports reading against
-  what it sent, on every OpenAI-compatible server as it already did on Ollama, and a run that
-  finds its prompts were cut stops and saves nothing, keeping what the matter held.
-- **A server's "prompt too long" refusal is named for what it is**, with the window the server
-  holds the model at when it says, and how to raise it, instead of a generic request failure.
-- **A check that could not read the whole specification says so.** When the final critique, the
+- **A run through your own OpenAI-compatible server works end to end**, measured through
+  llama.cpp, vLLM and LM Studio. Each structured step is sent its JSON schema, which LM Studio
+  requires and vLLM uses to keep a small model's JSON well formed; a model is asked not to think,
+  as on Ollama, and any deliberation a server returns is kept out of the answer; an answer that
+  runs out of room is retried at a size the window admits; and every request carries its length
+  limit in the form each server reads.
+- **Each run in the web app asks your model server for the window that run needs**, so a long
+  specification sizes its own run and the next run sizes its own. What the server says about a
+  model, its version and how many requests it runs at once are read for each run too, so a model
+  pulled again or a server that updated itself is seen.
+- **A prompt an OpenAI-compatible server cut is caught.** A local server such as LM Studio or
+  llama.cpp chooses its own context window, and some cut a longer prompt without saying so. The
+  tool checks what the server reports reading against what it sent, on every OpenAI-compatible
+  server as on Ollama, and a run that finds its prompts were cut stops and saves nothing, keeping
+  what the matter held.
+- **A server's "prompt too long" answer is named for what it is**, with the window the server
+  holds the model at when it says, and how to raise it.
+- **A check that read only part of the specification says so.** When the final critique, the
   best-practices review or a panel member was refused or cut by a smaller window, the draft
-  still stands and the result says which check fell short and why.
-- **The picker's tab for your own OpenAI-compatible server works.** It asked for a key such a
-  server does not issue, listed nothing, and said its models send your specification off this
-  machine.
-- **`models` no longer prints a model on your own server as remote** when its name has a slash,
-  as vLLM, MLX and LM Studio name models, and `models --json` now carries the machine report.
-- **Two prompts a server you run cut to the same length are caught even when its prompt cache
-  served part of one.** The check compared the cache figures too, which is right for a provider
-  and let such a pair through on your own server.
-- **A prompt cut to half the window on Ollama's own API is caught** when it is only a little
-  longer than the window, where the earlier check could not see it.
-- **`bench --calls 8` runs eight calls at once.** A limit of four inside the program capped it
-  while the advice recommended eight.
+  stands and the result says which check fell short and why.
+- **The picker's tab for your own OpenAI-compatible server lists your server's models without a
+  key**, and describes them as running on this machine.
+- **`models` names a model on your own server as local** when its name has a slash, as vLLM, MLX
+  and LM Studio name models, and `models --json` carries the machine report.
+- **Two prompts a server you run cut to the same length are caught, including when its prompt
+  cache served part of one.**
+- **A prompt cut to half the window on Ollama's own API is caught**, including when it is only a
+  little longer than the window.
+- **`bench --calls 8` runs eight calls at once**, as the advice recommends.
 
 ## [0.7.5] - 2026-10-10
 
 ### Security
 
 - **Built with Go 1.27, which fixes nine security advisories in the standard library's networking
-  and TLS code.** Every earlier release was built with Go 1.25, which no longer receives fixes.
+  and TLS code.** Go 1.27 is the supported line, so updating brings these fixes.
 
 ### Changed
 
-- **macOS 13 Ventura or later is required.** Earlier notes said macOS 11, which was never right:
-  the previous releases needed macOS 12. On an older Mac the updater does not install this
+- **macOS 13 Ventura or later is required**, and the previous releases run on macOS 12 or later.
+  On an older Mac the updater does not install this
   version, and the one you have keeps working.
 - **On macOS and Windows, `SSL_CERT_FILE` and `SSL_CERT_DIR`, when set, now decide which
   certificate authorities are trusted** for connections to model providers and patent sources,
@@ -136,9 +210,8 @@ repository is private and its commit subjects are not published.
   step about cutting the specification down is left out when the specification is small enough to
   be read whole. A run's deadline that fired during a model call is no longer reported as that
   call's own timeout, and is no longer retried.
-- **A model that repeats itself until it reaches the output cap is stopped and reported.** The cap
-  used to be doubled and the call tried again, which a looping model fills with more of the same: a
-  small local model was measured running for over half an hour this way. The error says the model
+- **A model that repeats itself until it reaches the output cap is stopped and reported**, rather
+  than given a larger cap, which a looping model only fills with more of the same. The error says the model
   was repeating itself and suggests a different model.
 - **A criterion score outside its range no longer moves a claim's score.** Each score a judge gives
   is held to that criterion's range, so a judge answering out of range can no longer score a claim
@@ -183,8 +256,9 @@ repository is private and its commit subjects are not published.
 - **The judge's criteria are worded for every field.** Eligibility names each judicial exception
   (an abstract idea, a law of nature, a natural phenomenon) rather than a software-shaped "technical
   effect", enablement depth and the mechanism question name structures, compositions, steps and
-  conditions, and a support quotation's location is asked for as the specification marks it. Scores
-  now carry `judge-rubric@1.2.0` and are not comparable with scores marked 1.1.0.
+  conditions, and a support quotation's location is asked for as the specification marks it. Each
+  score is labelled with its rubric version, `judge-rubric@1.2.0`, so drafts are compared with
+  drafts scored under the same version.
 - **A panel report gives each draft one score.** The panel's score across the dimensions it assesses
   was also printed as a support score anchored to 35 U.S.C. 112(a); it is reported once, as the
   draft's aggregate, and the support section holds the support holes the adversarial reader found.
@@ -222,8 +296,7 @@ repository is private and its commit subjects are not published.
   picks the run up again instead of losing it, and a run that finishes while the tab is in the
   background says so in the tab's title.
 - **Ctrl+Enter works on Windows and Linux** wherever Cmd+Enter does, and on the Draft tab it runs
-  the main button's action; it used to draft straight through, and could start a draft from inside
-  a direction you were editing.
+  the main button's action, the same as clicking it.
 - **When Ollama is not answering, the models page and the Draft tab say so first**, with what to do
   and where to set its address, and no longer offer to download models it cannot see.
 - **A matter in the trash opened by its address says it is in the trash** and offers Restore,
@@ -684,9 +757,8 @@ repository is private and its commit subjects are not published.
 
 ### Changed
 
-- **Advice for a model server that is not running fits your machine.** It used to say to run a
-  terminal command everywhere. It now says to install Ollama if it is not installed, to open the
-  Ollama app on a Mac or Windows machine where it is, and names the command only where that is the
+- **Advice for a model server that is not running fits your machine.** It says to install Ollama if it is not
+  installed, to open the Ollama app on a Mac or Windows machine where it is, and names the command only where that is the
   normal way to start it. The same advice appears on the command line, in the `models` report and
   in the browser.
 - **Update is offered only where it can work.** A copy that cannot replace itself, because it is
@@ -736,13 +808,11 @@ repository is private and its commit subjects are not published.
   about the model (a routing limit, a zero-data-retention limit, and a router's own temporary
   unavailability) keep the advice that is right for each of them.
 - **The browser gets the same diagnosis the command line does.** When a failure is one the
-  tool can name exactly, the web interface used to work it out again from the wording of the
-  error message rather than from what the client had already established. Mostly it agreed;
-  for one failure it did not. A server that reads only part of your specification was answered
-  with "raise the token limit", which makes the problem worse, because the size of input a
-  model accepts is its context window minus the output budget. It now leads with choosing a
-  model whose window fits, and says that nothing in the output would have shown you the
-  specification was cut.
+  tool can name exactly, the web interface answers from what the client has established about
+  it. For a server that reads only part of your specification, it leads with choosing a model
+  whose window fits, since the size of input a model accepts is its context window minus the
+  output budget, and says that nothing in the output would have shown you the specification
+  was cut.
 - **A failure with a specific diagnosis carries its full set of recovery steps.** Failures the
   tool can name exactly (a model that does not fit in memory, a server that read only part of
   your specification, an endpoint that returned nothing) printed a single next step, where every
@@ -806,15 +876,14 @@ repository is private and its commit subjects are not published.
 
 ### Added
 
-- **Every proposed direction now says what its supporting quote actually is.** The tool used
-  to answer one question about a quote, whether it appears in your specification, and a "no"
-  covered several different situations that call for different work from you. It now
-  distinguishes them: the quote is in the specification; it is not there at all; its parts are
+- **Every proposed direction says what its supporting quote is.** Beyond whether a quote appears
+  in your specification, the tool tells apart the situations that call for different work from
+  you: the quote is in the specification; it is not there at all; its parts are
   each real but were never adjacent, so the model fused two true passages into a sentence your
   document does not contain; it appears in more than one place, so it does not locate anything;
   it is too short for a match to mean much; or it is in the parent claims rather than in the
-  specification. Each points at different work, and the one that used to be invisible is the
-  fused quote, because a practitioner can go and read both passages.
+  specification. Each points at different work: a fused quote, for one, can be checked by
+  reading both passages.
 
 - **Drafted claims are checked for two things a program can decide without asking a model.** A
   claim reciting a number that appears in neither your specification nor the parent claims is
@@ -902,16 +971,15 @@ repository is private and its commit subjects are not published.
   is still across a network.
 
 - **Repeated work on one specification is cheaper and faster.** Most of what the tool sends a model
-  is your specification, and it used to be re-read in full on every call. It is now arranged so a
-  model server or provider can reuse the part it has already read: on a local model, later passes
+  is your specification, and it is arranged so a model server or provider can reuse the part it
+  has already read: on a local model, later passes
   over the same specification spend seconds reading it instead of most of a minute; through
   OpenRouter, Claude reads it from its prompt cache after the first call, which made a follow-up
   question in the local web UI about an eighth of the cost. Measured before shipping, drafts scored
   within the benchmark panel's margin of each other with and without the change.
 
-- **The revise loop does less work and stops sooner.** It used to rewrite the whole claim set on
-  every pass, however few claims needed it; it now rewrites only the claims that do, leaves the rest
-  exactly as they were, and stops when another pass would not help. A rewrite that damages the
+- **The revise loop does less work and stops sooner.** Each pass rewrites only the claims that need it,
+  leaves the rest exactly as they were, and stops when another pass would not help. A rewrite that damages the
   claim it replaces is refused and the original kept. Measured on a small local model over six
   specifications: the five that both versions finished took 18% less time, and the sixth, which
   the old loop could not finish inside its time limit, now finishes. A deletion, or an instruction
@@ -1015,8 +1083,7 @@ repository is private and its commit subjects are not published.
   deadline was hardcoded, so no setting could lift it. The run deadline is now derived from
   the per-call one so that a call and its retry always fit (45 minutes at the default), and
   `CD_RUN_TIMEOUT_SECONDS` or `--timeout` overrides it. The recovery steps now say which of
-  the two deadlines stopped a run and name the setting that moves that one; a run killed by
-  its own budget used to be answered with advice about the other. Reported by a practitioner
+  the two deadlines stopped a run and name the setting that moves that one. Reported by a practitioner
   running a large local model in the web UI.
 - **Eight more operations could not finish on a slow machine, for the same reason.** An
   audit after the fix above found every other run-level deadline in the binary set
@@ -1154,8 +1221,8 @@ repository is private and its commit subjects are not published.
   independent or which claim it depends on, what distinguishes it, and how many findings it
   carries. Clicking one jumps to it.
 
-- **Answers in the Discuss tab are formatted.** Headings, lists, bold and quoted terms used to
-  arrive as their own punctuation.
+- **Answers in the Discuss tab are formatted**, with headings, lists, bold and quoted terms shown
+  as such.
 
 ### Changed
 
@@ -1364,14 +1431,11 @@ repository is private and its commit subjects are not published.
   specification, which this session does not have" about a document plainly on screen.
   Dropping a file also names an untitled matter now, which only the Browse path did.
 
-- **A drafting run's work reaches the matter it belongs to.** The page never told the run which
-  matter it was for, so everything a Draft run computed, the claims, the findings, the craft
-  flags and the continuation targets, was written to nothing. The Discuss tab could see none
-  of it, and the monthly counter could not tell a re-run of a matter from a new one.
+- **A drafting run's work reaches the matter it belongs to.** Everything a Draft run computes,
+  the claims, the findings, the craft flags and the continuation targets, is saved to its matter,
+  so the Discuss tab can use it and the monthly counter tells a re-run of a matter from a new one.
 
-- **The continuation targets a drafting run identifies are kept and shown.** The run reported
-  "5 drafting target(s) identified" in its own progress log and the panel beside it was empty,
-  because the targets were used to draft and then discarded. They now appear in the rail, with
+- **The continuation targets a drafting run identifies are kept and shown** in the rail, with
   the same in-spec or strategy badge as everywhere else. A run fills an empty rail and never
   replaces targets you have edited, since those are what the conversation drafts from.
 

@@ -354,13 +354,30 @@ The binary includes a local web UI. Start it with `serve`:
 ./continuation-drafter serve --port 8080 --no-browser
 ```
 
-The interface has two tabs.
+The interface starts with what you are working on: a reply to an Office action, or claims for
+a continuation application. Each matter then runs in steps.
 
-**Draft** takes a whole patent application, specification and existing claims in one
-document, and runs the drafting pipeline over it with progress streaming as it goes.
+**A reply to an Office action** runs Papers, The action and The reply. Under Papers you add each
+paper as you have it, as a PDF, a Word file or text: the Office action, the current claims, the
+specification, the previous response, earlier papers or the complete Patent Center file history,
+and any cited reference. Each paper's kind and date are read from its own words, for you to
+confirm, and Papers says which claims the reply reads and what is still missing. The action shows
+each item in the examiner's own words, grouped by what the examiner applied, with the response
+deadline computed from the mailing date and a table of the claims, what each depends from and
+every item stated against it. Check the deadline against your docket, which is the system of
+record: the deadline is your responsibility. The reply holds your reply to that action and the
+checks over it.
 
-**Discuss** is a conversation over the same document. You attach the application once, then
-ask in your own words, and the tool selects one of its passes and runs it:
+**Continuation claims** run Papers, Embodiments and Claims. Embodiments reads the parent's
+specification and its claims (or a whole application, read at its claims heading) and lists what
+the specification discloses beyond them, each saying how it differs from the parent's claims, or
+that it only narrows one, with its supporting passage. Draft first claims toward one (an
+independent claim and two dependents), edit them or revise them with an instruction of your own,
+then expand them into a full set of the size and claim types you choose, keeping your reviewed
+claims first. Draft straight through finds the embodiments and drafts toward them in one run.
+
+**The conversation** sits below every step. You ask in your own words, and the tool selects one
+of its passes and runs it:
 
 | You ask about | It runs |
 |---|---|
@@ -383,7 +400,7 @@ whether its supporting quote was located verbatim in your specification, and eac
 you disagree with it. Directions you keep are what the drafting pass writes claims to, so the
 set of claims you get is the set you chose.
 
-Both tabs share the rest: drag-drop or paste, model selection from what this machine can
+Every step shares the rest: drag-drop or paste, model selection from what this machine can
 actually reach, light and dark themes following your system preference, and licence-key
 activation.
 
