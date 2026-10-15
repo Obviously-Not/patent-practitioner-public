@@ -357,16 +357,26 @@ The binary includes a local web UI. Start it with `serve`:
 The interface starts with what you are working on: a reply to an Office action, or claims for
 a continuation application. Each matter then runs in steps.
 
-**A reply to an Office action** runs Papers, The action and The reply. Under Papers you add each
-paper as you have it, as a PDF, a Word file or text: the Office action, the current claims, the
-specification, the previous response, earlier papers or the complete Patent Center file history,
-and any cited reference. Each paper's kind and date are read from its own words, for you to
-confirm, and Papers says which claims the reply reads and what is still missing. The action shows
-each item in the examiner's own words, grouped by what the examiner applied, with the response
-deadline computed from the mailing date and a table of the claims, what each depends from and
-every item stated against it. Check the deadline against your docket, which is the system of
-record: the deadline is your responsibility. The reply holds your reply to that action and the
-checks over it.
+**A reply to an Office action** runs Papers, The action, Address the items and The reply. A line
+above the steps says what the matter is: the application, the latest action and its date, the
+computed deadline and whether its mailing date is confirmed, and the claims in use. Under Papers you
+add each paper as you have it, as a PDF, a Word file or text, one at a time or several at once: the
+Office action, the current claims, the specification, the previous response, earlier papers or the
+complete Patent Center file history, and any cited reference. Each paper's kind and date are read
+from its own words, for you to confirm, and Papers says which claims the reply reads and what is
+still missing. The action shows each item in the examiner's own words, grouped by what the examiner
+applied, with the response deadline computed from the mailing date and a table of the claims, what
+each depends from and every item stated against it. Check the deadline against your docket, which
+is the system of record: the deadline is your responsibility.
+
+Address the items gives each item of the action a workspace of its own: its state, the examiner's
+citations limitation by limitation, a response approach you choose (arguments, amendments, both, cancelling the
+claims, a terminal disclaimer where the item allows one, or your own words), and its drafted units.
+Each unit is marked as a record fact (written from the record with no model), suggested text, or
+text for review; you add it to your reply, edit it or dismiss it, and an added unit can be taken out
+again. A unit saying what a reference does not describe shows the passages it rests on and is added
+only once you say what you reviewed. The reply holds your reply to that action and the checks over
+it, led by their counts.
 
 **Continuation claims** run Papers, Embodiments and Claims. Embodiments reads the parent's
 specification and its claims (or a whole application, read at its claims heading) and lists what
@@ -374,7 +384,10 @@ the specification discloses beyond them, each saying how it differs from the par
 that it only narrows one, with its supporting passage. Draft first claims toward one (an
 independent claim and two dependents), edit them or revise them with an instruction of your own,
 then expand them into a full set of the size and claim types you choose, keeping your reviewed
-claims first. Draft straight through finds the embodiments and drafts toward them in one run.
+claims first. Draft straight through finds the embodiments and drafts toward them in one run. Each
+embodiment names the paragraph its passage was found at, and those found at one paragraph are listed
+together. Critique findings are shown by weight: those the program checked in the text, those for
+your review, and notes; a finding the claim text answers is set aside, with one line saying why.
 
 **The conversation** sits below every step. You ask in your own words, and the tool selects one
 of its passes and runs it:

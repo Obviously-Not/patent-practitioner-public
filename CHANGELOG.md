@@ -10,6 +10,142 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-10-14
+
+### Added
+
+- **The papers you upload are kept with the matter, and a quotation opens at its page.** An Office
+  action or other paper you add, and a Patent Center file history, is kept as a PDF in the matter's
+  own folder beside its text, and goes with the matter when it is deleted. Each kept paper links its
+  PDF from the record, and a drafted unit's quotation of the action opens the PDF at the page the
+  quotation is on.
+- **Notes on your reply.** Add a note to a section of the reply or to the whole of it, for yourself or
+  a colleague; resolve it when it is dealt with and it is kept, folded under Resolved, with Reopen.
+  Open notes are counted under the export buttons, on their section in the document view, and in Next
+  steps. Notes are never written into the exported reply.
+
+### Changed
+
+- **Each item of an Office action is its own workspace.** Address the items lists every item with its
+  state (no approach chosen, approach chosen, to review, in your draft, reviewed), filterable by state,
+  and its counts of units pending, waiting on a review scope, added, edited, dismissed and withheld.
+  An item opens in place with the examiner's statement and the action's own words for it, the
+  examiner's citations for a prior-art rejection, the response approach, and its drafted units, each
+  added to the reply (the one filled button), edited or dismissed there, and taken out or restored
+  again. Each row leads with the statute and claims (*§ 103 · Claims 1-2, 4-5 and 7*), the references
+  by name beneath, and the approach; the item's full heading opens with it, and the step's tab counts
+  the items with text in your draft (*3 of 8*). Drafting an item again (*Draft the 5 pending units
+  again*) replaces its pending units and keeps the ones you added. *Add the 3 record facts* names the facts it
+  adds. A drafting request typed in the conversation files its units under the same items. Drafted
+  units from matters saved before this version are moved onto their items when the matter opens.
+- **Working one item at a time, and the reply as a document.** When the step has the width (in focus
+  or on a large screen), Address the items shows the list beside the open item, and the rail shows how
+  that item was matched to the previous action's. The reply can be read as a document, its section
+  headings in bold with what the last check found for each, and compared with what you last exported.
+  Each drafted unit keeps its history: drafted, and by which model, then each add, edit, dismissal and
+  confirmation. A critique finding's words can be shown in its claim; the previous round's items sit
+  side by side; a group of embodiments resting on one passage can be given your name for it. Settings
+  offers a compact density, and *Focus on this step* folds the matter list and the rail away.
+- **Embodiments say where their passage is, and a second discovery sits beside the first.** Each
+  embodiment's badge reads *Passage located, [0045]* (or *Passage located* where the specification
+  numbers no paragraphs). *Run discovery again* keeps the embodiments you kept and lists what it found
+  beside them, to keep or dismiss each. Embodiments whose passages were located at the same paragraph
+  are listed together under a line saying so. A dismissed embodiment stays with the matter, under
+  *Dismissed*, with Restore.
+- **Several papers of the record at once.** Under Papers, drop or choose several actions, responses,
+  claims and notices together: each is read in turn, sorted by its own words, and listed for you to
+  confirm its kind and date, with any it could not sort under *Not sorted*. Once a template is loaded
+  it folds to one line saying what was found, with its forms, Replace and Remove a click away.
+- **The prosecution record is grouped by round.** Each round opens at an Office action and holds the
+  papers dated before the next; papers before the first action are their own group, as are papers
+  with no date, such as claims pasted as text, and each paper says how it was read (text layer, OCR, partly read with the reason, or not read). Where each
+  limitation of a parent's claims entered its record is shown on a continuation's Claims step.
+- **The round comparison says how each pair was matched.** A strip above it counts the items by
+  label (modified, maintained, new, withdrawn), *Changes only* folds the maintained ones, and each
+  paired item says what it was matched by: its ground, and the claims and references the two items
+  have in common.
+- **Critique findings by weight.** A line above the claims counts the findings checked in the text,
+  those for your review, and the notes. The program checks two things itself and marks them *Checked
+  in the text*: a dependent claim naming a claim not before it in the set, and a gap or repeat in the
+  claim numbers. Words not found in the specification's text are a *Note*, in the ordinary text
+  colour rather than as a warning, saying which of them the
+  record's other papers use. Each finding can be marked reviewed; the marks stay with the matter
+  until the claims are critiqued again. On a continuation matter, Next steps also offers the next
+  pass to run.
+- **The check of your reply leads with its counts.** One row per kind, with done of total and how many
+  are open: the items the action states
+  with matching draft text detected, the quotations found in the sources in hand, the amended claims
+  whose added words were all located in the specification's text, and the facts about the claims,
+  the record and the sentences a rule bears on, each opening onto its details, which name items by their short titles. The Reply step and the
+  conversation show the same check the same way, a check asked for in the conversation is answered
+  with those counts, and the drafted statements of absence still waiting for confirmation are counted
+  beside it. An argument set under its item's heading counts as answering that item when it names
+  the item's references or ground, as the heading names its claims.
+- **What each piece of text is, said in words.** Each drafted unit carries a badge with a word and a
+  symbol: *Record fact* (written from the record with no model), *Suggested text* (drafted, not yet
+  added) or *Review* (a check flagged it, or its review scope is not yet confirmed); each quotation is
+  a *Source quote* with a chip naming the paper and, where the source numbers its text, the paragraph,
+  claim or column. A cited passage's status is one short phrase wherever it is shown (*Found at
+  [0026]*, *Approximate location*, *Figure citation, not reviewed*), with the longer reason a click
+  away. Units are added with *Add to draft* and set aside with *Dismiss*; *Add the 3 record facts* adds
+  an item's record facts at once, and never a drafted argument or amendment. A unit's evidence is
+  grouped by source: its quotations, its checks, then each reference with what of it was read, each
+  passage shortened to four lines with Show all. With a unit selected, j and k move between units and
+  a, e, d and s add, edit, dismiss and open the evidence. Every unit and item
+  button is named, for a screen reader or voice control, by the words it shows. Paper kinds are named
+  from one table the matter carries.
+- **The message box sits at the foot of the conversation and stays out of the way.** It no longer
+  lies over the page as you scroll, is one line when empty (Esc folds it back to one line), and,
+  with an item open under Address the items, says which item you are asking about; the question is
+  read as being about that item.
+- **Next steps on a matter are the matter's own.** On an open matter the rail lists what the matter
+  has left, under headings saying what each blocks or is for: *Blocks adding text* (review scopes to
+  confirm), *Before you rely on the date* (dates to confirm), *To do* (a paper to add, an action to
+  read, items with no approach, quotations in your reply not found in the sources in hand, items your
+  reply does not mention yet) and *To review* (units pending); each takes you to the step where it is
+  done, and to the item it is about. When a request fails, its recovery steps show first. Whether OCR
+  is available is on the model page, beside the local models installed and which providers have a
+  key.
+- **A line above the steps says what the matter is.** On every step: the application number (read
+  from the action's cover sheet when no bookmark names it), the latest action and its date, the
+  computed deadline, with a chip when its mailing date is not confirmed, the claims in use, and where
+  the model runs, with the deadline's warning beneath; dates on screen read *September 1, 2020*, and
+  the model's chip says *Local* or *Remote*. Matter facts open from it: the deadline with what
+  it was counted from and what that date rests on (Patent Center's bookmark, a date read from the
+  paper and not yet confirmed, or one you confirmed), the earliest date the application claims, the
+  claims paper in use, with a warning when it carries no date, and the matter's cost so far. The
+  deadline says the period for reply it was counted with, as read from the action. The
+  deadline on The action and in the exported report says what its mailing date rests on too.
+- **A response approach is chosen for each item before it is drafted.** Each item offers its own:
+  arguments, amendments, both, or cancelling the claims for a rejection; for a nonstatutory double
+  patenting rejection also a terminal disclaimer, written as a statement over the patent the action
+  names with the section's closing request kept; for a statutory one no terminal disclaimer, with
+  MPEP 804.02 quoted beside the list; for an objection, the correction or an argument; for a
+  restriction, an election with or without traverse. Every list ends with Other, in your own words,
+  which the drafter is given as you wrote them. One click gives arguments and amendments to every item
+  without an approach. An item with no approach is not drafted, and a drafting request typed in the
+  conversation says which items were left without one.
+- **A statement of what a reference does not describe shows what it rests on, and is added only once
+  you say what you reviewed.** Beside such a unit are the reference's passages the examiner cited for
+  the item and its passages closest to the claim, with a note that the rest of it was not read here.
+  *Confirm review scope* asks what you reviewed: the passages the examiner cited, the passages shown,
+  or the whole of each reference; the answer is kept with the unit, and short of the whole, *Draft this
+  item again about the passages read* drafts the item saying what the passages read do not describe.
+  The drafter marks which references each unit is about; a unit it did not mark is still held to the
+  confirmation when its wording reads as one, and says which applied.
+- **Each critique finding names its kind, the claim's words and a suggested change.** A finding is
+  labelled as a possible issue of a kind (antecedent basis, form, support and the others the
+  critique checks), with the claim's own words it is about and the change it suggests, and a
+  weight saying where it came from: *Checked in the text* when the program confirmed it from the
+  claims with no model, *For your review* otherwise. An antecedent-basis finding is checked against
+  the claim and the claims it depends from: where they introduce the term, the finding is not shown
+  and the count of such findings is stated; where they introduce it within a longer phrase (*a
+  temperature-actuated valve assembly* for *the valve assembly*), and where a non-limiting-preamble
+  finding quotes words after the claim's transition, the finding is set aside with one line saying what
+  the critique said and what the claim's text holds; where nothing introduces the term, the finding is
+  marked checked. Findings set aside are not given to the revise passes. In a check of your reply, a
+  finding also in the last check says so, and *Dismiss this check* sets one aside with Restore. The best-practices review's set-level findings now reach the page.
+
 ## [0.9.0] - 2026-10-13
 
 ### Added
