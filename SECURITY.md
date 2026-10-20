@@ -75,7 +75,11 @@ In scope:
   never do.
 - Flaws in offline license verification, such as accepting a token that was not
   signed by the embedded key, or verifying with an attacker-supplied key
-- Path traversal or symlink escape when reading spec and claim files
+- Path traversal or symlink escape when reading spec and claim files, or when serving a kept
+  PDF (a paper, the specification or a reference): one matter's request reaching another
+  matter's files, a file its own record no longer names, or any file outside the matter's own
+  folder
+- A margin note, on a reply or on the claims, reaching an exported document
 - Dependency vulnerabilities that materially affect any of the above
 
 Out of scope:

@@ -297,9 +297,9 @@ DRAFT_MODEL=qwen3:32b ./continuation-drafter draft \
   | ./continuation-drafter export --from-json - --out claims.docx
 ```
 
-LaTeX is also supported, for drafters who keep matter documents that way. The
-format follows the `--out` extension, so `--out claims.tex` writes LaTeX; state
-`--format` explicitly to override it.
+LaTeX and plain text are also supported, LaTeX for drafters who keep matter documents
+that way. The format follows the `--out` extension, so `--out claims.tex` writes LaTeX
+and `--out claims.txt` plain text; state `--format` explicitly to override it.
 
 Claim numbering is preserved exactly as drafted, never renumbered, because a
 continuation's claims are commonly numbered on from the parent. The document is
@@ -357,44 +357,96 @@ The binary includes a local web UI. Start it with `serve`:
 The interface starts with what you are working on: a reply to an Office action, or claims for
 a continuation application. Each matter then runs in steps.
 
-**A reply to an Office action** runs Papers, The action, Address the items and The reply. A line
+**A reply to an Office action** runs Papers, The action, Address the Rejections and Objections, and
+The reply. A line
 above the steps says what the matter is: the application, the latest action and its date, the
 computed deadline and whether its mailing date is confirmed, and the claims in use. Under Papers you
 add each paper as you have it, as a PDF, a Word file or text, one at a time or several at once: the
 Office action, the current claims, the specification, the previous response, earlier papers or the
 complete Patent Center file history, and any cited reference. Each paper's kind and date are read
 from its own words, for you to confirm, and Papers says which claims the reply reads and what is
-still missing. The action shows each item in the examiner's own words, grouped by what the examiner
+still missing. At a first action the application alone will do: given as the specification, its claims
+under its claims heading are the claims in use, and once the action is read Papers names any claim the
+action names that they do not hold, as when a preliminary amendment added claims. A Patent Center download carries the application as filed, and when the matter has no
+specification yet that is read as its specification; one you add under Papers is kept. A history
+over Patent Center's 100 MB download limit can be downloaded in parts and added one after another. Scanned pages
+are read several at a time, as many as half the machine's cores and at most eight. A scanned claim listing is read claim by claim: a page whose claim numbers the scan
+set apart from their claims is read again as one column, and what a scan makes of struck-through
+words, and each page's header and footer, are left out of the claims. Check the claims in use
+against the paper all the same, since a struck word the scan reads as an ordinary word cannot be told
+from one the claim keeps. Each PDF you add, the specification and references included, is kept with the
+matter on this machine, in the matter's own folder, as is a granted reference's PDF fetched for
+its column citations, and each goes with the matter when you delete it; the record links each
+paper, and a quotation of the action, the specification, the claims or a reference opens its PDF
+at the page the quotation is on, a scanned paper read by OCR included. Every quotation is checked
+against its paper and shown as the paper's own text: a quotation shortened with an ellipsis is found
+part by part, in order and close together, and shown with each cut marked, and one that runs across a
+page's header and footer is found across it. The action shows each item in the examiner's own words, grouped by what the examiner
 applied, with the response deadline computed from the mailing date and a table of the claims, what
-each depends from and every item stated against it. Check the deadline against your docket, which
-is the system of record: the deadline is your responsibility.
+each depends from and every item stated against it. Beside the deadline it gives where today falls:
+the cost of filing today, by month of extension and fee, and after a final action whether today is
+within two months of it. When the file history holds a Notice of Abandonment or a letter of express
+abandonment, the line above the steps names it, and the action it names shows the notice's own
+sentences, any petition dated after it, and the rules on revival, quoted; the reply is still drafted,
+as a petition to revive is filed with it. Check the deadline against your docket, which is the system
+of record: the deadline is your responsibility. Today is this computer's date.
 
-Address the items gives each item of the action a workspace of its own: its state, the examiner's
+Address the Rejections and Objections (and Requirements, when the action states one) gives each
+item of the action a workspace of its own: its state, the examiner's
 citations limitation by limitation, a response approach you choose (arguments, amendments, both, cancelling the
 claims, a terminal disclaimer where the item allows one, or your own words), and its drafted units.
 Each unit is marked as a record fact (written from the record with no model), suggested text, or
 text for review; you add it to your reply, edit it or dismiss it, and an added unit can be taken out
-again. A unit saying what a reference does not describe shows the passages it rests on and is added
-only once you say what you reviewed. The reply holds your reply to that action and the checks over
-it, led by their counts.
+again. A unit saying what a reference does not describe names the claim's words the drafter did not
+find, shows the passages it rests on, and is added only once you say what you reviewed. Arguments on
+a section 103 rejection address the combination the examiner proposes, and on a section 102
+rejection the single-reference standard. Adding a drafted amendment writes its words into the claim
+it names in your proposed claims (filled with the claims in use if you have not typed any), and
+choosing to cancel claims marks them canceled; either can be taken out again, and the claims keep a
+history of each change. A drafted amendment that brings in a dependent claim's words names that
+claim; one proposing words a claim already recites says so, and adding one to a claim your proposed
+claims do not hold tells you its words were not written. A restriction requirement is always listed
+as an item to answer. The reply holds your reply to that action and the checks over
+it, led by their counts, and reads as a document with its section headings and what changed since
+your last export. Reply in Word is laid out as a filed response: a running header, a title naming
+the rule the reply is filed under (37 CFR 1.111, 1.116, or 1.114 with a request for continued
+examination, as you choose after a final action), a caption filled from the file history with a bracketed place
+for anything it lacks (the title is read from the papers that state it, or typed in *Matter facts*),
+the amendments to the specification, title and abstract you adopted, marked up against the text they
+replace, with the abstract on its own sheet, the claim listing marked up from your proposed claims with only what changed marked (a period that
+becomes a semicolon is shown in double brackets, and the word before it stays plain), the remarks, a
+conclusion and an unsigned signature block. Two sample layouts are built in, and each can be
+downloaded as Word to adapt; a reply of yours uploaded as a template gives its own layout instead.
+Notes on the reply, on a section or the whole of it, are resolved rather than
+deleted, counted beside the export and in Next steps, and never written into the exported reply.
 
-**Continuation claims** run Papers, Embodiments and Claims. Embodiments reads the parent's
+**Continuation claims** run Papers, Embodiments and Claims. With the parent's Patent Center download,
+the line above the steps names the parent and its issue date, before or after today, and *Matter
+facts* gives its notice of allowance with three months from it, the issue fee paid, and any notice of
+abandonment, beside MPEP 211.01(b) on copendency. Embodiments reads the parent's
 specification and its claims (or a whole application, read at its claims heading) and lists what
 the specification discloses beyond them, each saying how it differs from the parent's claims, or
-that it only narrows one, with its supporting passage. Draft first claims toward one (an
+that it only narrows one, with the specification passage cited for it, for you to verify. With the
+parent's file history attached, each is then related to the parent's prosecution record: which
+limitations of the claims as allowed it builds on, whether each was in the claims as filed or added in
+a round of prosecution, and the examiner's reasons for allowance, every claim, round and quotation
+checked against the record. Draft first claims toward one (an
 independent claim and two dependents), edit them or revise them with an instruction of your own,
 then expand them into a full set of the size and claim types you choose, keeping your reviewed
 claims first. Draft straight through finds the embodiments and drafts toward them in one run. Each
 embodiment names the paragraph its passage was found at, and those found at one paragraph are listed
 together. Critique findings are shown by weight: those the program checked in the text, those for
 your review, and notes; a finding the claim text answers is set aside, with one line saying why.
+As on a reply, Next steps lists what the matter has left, notes go on a claim or the whole set and
+are never exported, the claims' download is recorded so what changed since can be shown, and the
+claims keep a history of how they came to be.
 
 **The conversation** sits below every step. You ask in your own words, and the tool selects one
 of its passes and runs it:
 
 | You ask about | It runs |
 |---|---|
-| what the specification discloses that the claims do not reach | Find what the parent left unclaimed |
+| what the specification discloses that the claims do not reach | Find what the specification discloses beyond the parent's claims |
 | how to broaden what you already claim | Find broader scope in what you already claim |
 | another application around the same claim center, framed differently | Keep this claim center and recast it |
 | drafting claims to the directions you have chosen | Draft continuation claims |
@@ -405,7 +457,7 @@ of its passes and runs it:
 The broadening pass works through six moves against your existing claims: who performs the
 reciprocal or downstream operation, which limitations are one implementation rather than the
 invention, whether a per-element step can be an aggregate, whether the artifact the process
-produces can be claimed instead, which phase of the system's life is unclaimed, and which other
+produces can be claimed instead, which phase of the system's life the claims do not recite, and which other
 disclosed product could perform the same role.
 
 The continuation directions it finds are listed beside the conversation, each labelled with
@@ -422,10 +474,13 @@ eligible. It drafts claim language and reports on drafting quality against the s
 you supply. Every output is for a licensed practitioner to check and decide on.
 
 The server binds to `127.0.0.1` only (localhost, not network-accessible). Your inputs
-(spec, parent claims, drafts) stay on your machine; the only place they are sent is the
-LLM provider you configure. The web UI loads everything it needs, including the Alpine.js
+(spec, parent claims, drafts) stay on your machine; they are sent to the LLM provider you
+configure, and a patent search you ask for sends its query, which describes the invention, to
+the search service you chose (SerpApi, or your own Google Cloud project). The web UI loads everything it needs, including the Alpine.js
 library, from this program, so the browser makes no request to any other site and the web
-UI works with no network access. With a local model and no paid licence it runs fully offline; with a paid
+UI works with no network access. With a local model and no paid licence it runs fully offline,
+apart from what you ask it to fetch or install (an update, a cited reference, a search, a model,
+or OCR through your own Homebrew on a Mac); with a paid
 licence it additionally makes the monthly licence-renewal call described under Setup, which
 `CD_NO_LICENSE_RENEWAL=1` disables. An air-gapped firm should run with that variable set and a
 long-dated token issued out of band.

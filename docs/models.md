@@ -189,6 +189,12 @@ local drafts 2.5 points behind the cloud copy of the same weights, which places 
 specification runs past about 150 pages, use `gemma4:26b`**, which is slower to nothing
 and weaker on quality but finished every specification tested.
 
+**Re-measured on 2026-10-17 on ten further specifications** (40 to 263 KB, continuations filed in
+2023 and 2024), after the reload fix below: `qwen3.8:27b` drafted all ten, in **3 to 18.5 minutes**
+each, and `gemma4:26b` all ten in 1 to 4.3 minutes, on the same machine one model at a time. A
+four-vendor panel scored the two batches 88.8 and 63.4, which keeps their order; those two figures
+compare with each other only, not with the scores above, since a panel score is relative to its batch.
+
 It is NOT placed above `gemma4:31b`: 85.5 against 81.3 is 4.2 points measured in
 different batches, and a cross-batch difference under about four points is not a
 ranking here.
@@ -267,7 +273,8 @@ before and after and comparing.
 **The timings published on this page predate that change and were measured with the reload
 present.** The measured drafting results, scores and coverage figures are unaffected, because the
 reload cost time and changed nothing the model produced. The wall-clock figures ("2 to 12 minutes
-each") are therefore an upper bound on this hardware rather than a current measurement, and the
+each") were measured with the reload present, and the re-measurement above, on different and longer
+specifications, took longer still, so they are not an upper bound for every specification, and the
 larger your model the more of that time was weights rather than drafting. They are left as
 recorded rather than adjusted by estimate, because a timing this page has not re-measured is not
 a timing this page should publish.

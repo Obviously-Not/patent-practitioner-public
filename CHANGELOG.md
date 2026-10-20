@@ -10,6 +10,218 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-10-20
+
+### Added
+
+- **Embodiments are related to the parent's prosecution record.** With the parent's file history
+  attached, each embodiment Embodiments finds carries one sentence on how it relates to the parent's
+  prosecution: the limitations of the claims as allowed it builds on, each named with its claim and
+  whether it was in the claims as filed or added in a round of prosecution, and the examiner's reasons
+  for allowance, the notice of allowance read first when it has not been. Every claim, round and
+  quotation the sentence names is checked against the record, and a sentence that does not check is
+  not shown. The run says what of the record it read; give the claims as allowed as the parent claims
+  to have their limitations placed.
+- **Next steps for continuation claims.** On a continuation matter the rail lists what the matter has
+  left, under the same headings as a reply's: discover or keep an embodiment, draft first claims,
+  check the claims, review the findings not yet marked reviewed, and read the words a claim uses that
+  the specification's text does not. The Claims tab shows how many claims there are and how many
+  findings wait for review.
+- **Every quotation with a PDF in hand opens at its page.** The specification and the references
+  are kept as PDFs with the matter as well as the Office action: an attached reference, and a granted
+  patent's printed copy when it is fetched by number. A drafted unit's quotation of the action, the
+  specification, the claims or a reference, and an embodiment's passage on the Embodiments step,
+  each offer *Open at its page*, a scanned paper read by OCR included, and a quotation that runs
+  over a page break opens at the page it starts on. A specification dropped on the Embodiments step
+  or attached in the conversation is read the same way as one added under Papers, and the step says
+  it is reading it.
+- **Changes since your download, for the claims.** Downloading the claims from the Claims step, as
+  Text, Word or PDF, is recorded with the matter, and *Changes since your download* shows each claim
+  that has changed since, word by word, as a reply's document view does. The command line's `export`
+  writes plain text too (`--out claims.txt`).
+- **A history of the claims.** *History of these claims*, under the claims, lists how they came to
+  be what they are: drafted and by which model, revised, expanded into a full set, edited by hand, a
+  revision used or undone. After every change to the claims, by any route, the numbers a claim uses
+  that the specification's text does not state are checked again.
+- **Keys on the embodiment and claim lists.** As on a reply's drafted units, j and k move between
+  embodiments or claims; on the Embodiments step a keeps one just found and d dismisses one, and on
+  the Claims step r marks a claim's next finding reviewed.
+- **Notes on the claims.** A note can go on one claim or on the whole claim set, as on a reply, and
+  is resolved rather than deleted. A note on a claim keeps the claim's opening words, so after a
+  revision renumbers the set it says which claim it was written on. Notes are never written into
+  any export.
+
+- **An amendment you add to a reply goes into your proposed claims.** Each drafted amendment names
+  the claim its words go into and shows them. Adding it to your draft writes those words into that
+  claim, as its last element, so *Reply in Word*'s claim listing shows them underlined and the claim
+  as currently amended; the claims are filled first with the claims in use, one element per line.
+  Choosing to cancel claims marks them canceled the same way. Taking the unit out takes its words or
+  the cancellation out exactly, and leaves anything you changed since. The proposed claims keep a
+  history of each change, and *Changes to these claims since your export* shows them word by word.
+  *Check my reply* reports an amendment in your draft whose words your proposed claims do not hold.
+
+- **Reply in Word is laid out as a filed response.** It opens with a caption of the facts the Office
+  action's own cover prints (application number, filing date, first named inventor, examiner, art
+  unit, confirmation and docket numbers, and the title from your previous response when it is in
+  hand), a title naming the rule the reply is filed under (37 CFR 1.111 after a non-final action;
+  1.116 after a final one, or 1.114 with a request for continued examination), and lines saying where
+  the claim listing and the remarks begin, as MPEP 714 recommends. Every page carries a running
+  header, and the remarks end with a conclusion inviting a call and a signature block for you to
+  sign. A fact the record does not hold, a page number, a signature or a fee authorization is a
+  bracketed place to fill.
+- **Choose what a reply to a final action is filed as.** Under *After a final action*, *This reply is
+  filed as* records a reply under 37 CFR 1.116, a request for continued examination or an appeal; the
+  reply's title follows it, and *Check my reply* reads your choice.
+- **Replies to restriction requirements and Quayle actions** are drafted and saved like any other
+  reply, and their Word file is titled for the paper they answer.
+
+- **Two sample layouts, and your own.** *Layout*, beside *Reply in Word*, exports a reply in Sample A
+  (the application's facts as labelled lines, titled with the rule it is filed under) or Sample B
+  ("In re Application of", a mail stop and a salutation, titled Amendment), each composed from the
+  parts most filed responses carry, and each downloadable as Word to adapt. A reply of yours uploaded
+  as a template now gives its layout too: its caption's labels with this matter's facts in place of
+  the ones it held, its title, salutation, conclusion and signature block, unsigned. A template that
+  carries a claim listing, such as a paralegal's draft, adds its claims to the record, to choose as
+  the claims in use.
+
+- **The caption's title, from the papers that state it.** Reply in Word's caption gives the
+  application's title as the papers in hand state it as of the action answered: the application data
+  sheet, a notice of allowance (an examiner's amendment to the title included), or the bibliographic
+  data sheet. *Matter facts* shows it, with a field to type or correct it, which is used over the
+  papers'; with neither, the caption keeps a bracketed place for it.
+- **Amendments to the specification, its title and its abstract.** Answering an objection to the
+  specification, the title or the abstract with *Make the correction*, a drafted amendment names what it
+  replaces, a numbered paragraph, the title or the abstract, and is drafted over that text as it
+  stands. Its replacement text is edited on the unit, marked up against the original as you type, with
+  the changes since your export shown. Added to the reply, Reply in Word carries it under "Amendments to
+  the Specification", before the claims, as 37 CFR 1.121(b) lays out a replaced paragraph, with the
+  abstract on its own sheet; the contents line says where the section begins, and the check sheet
+  quotes the rule. A paragraph number the specification in hand does not hold is flagged.
+- **A first action answered from the application.** On a reply matter, an application given as the
+  specification, as a Word file, a PDF or text, supplies the claims under its claims heading ("What is
+  claimed is:") as the claims in use, so a first action needs only the action and the application. A
+  claims paper dated on or before the action, such as a preliminary amendment or a previous response,
+  is used before them.
+- **Claims the action names that the claims in use lack.** Once the action is read, Papers names any
+  claim the action names that the claims in use do not hold, and asks for the claims paper the action
+  examined, such as a preliminary amendment.
+- **A notice of abandonment is shown where the deadline is.** When a file history holds the Office's
+  Notice of Abandonment or the applicant's letter of express abandonment, the line above the steps
+  names it, and the action it names carries it on the action step and in the action's report: the
+  notice's own sentences, any petition or decision dated after it by its title, and the rules on
+  revival quoted (37 CFR 1.135(a) and 1.137, and the 2026 rule on a petition filed more than a year
+  after abandonment). A notice added on its own is read as a notice. The reply is still drafted, as a
+  petition to revive is filed with it.
+- **Dates against today.** Beside the deadline, the cost of filing a reply today: within the period,
+  in which month of extension and at what fee, or past six months from the mailing; after a final
+  action, whether today is within two months of it. The cost check uses today when no date is
+  entered. Today is this computer's date, and each date keeps the warning that the program does not
+  docket.
+- **A continuation's parent, issued or abandoned.** On a continuation matter the line above the steps
+  names the parent and gives its issue date from its Issue Notification, before or after today, and
+  *Matter facts* its notice of allowance with three months from it (the notice's own words on the
+  issue fee quoted), the issue fee paid, and any notice of abandonment, beside MPEP 211.01(b) on
+  copendency.
+
+### Changed
+
+- **A quotation is checked as it was quoted.** When a model shortens the examiner's words with an
+  ellipsis, each part is found in the paper, in the order quoted and within about a paragraph of the
+  one before, and the page shows the paper's own words for each part joined by an ellipsis. A
+  quotation is found across a page's running header and footer, through a character a model's copy
+  damaged, and through a scan's misreading of a letter in a word; a word added, left out or put in
+  place of another, and a different number, are shown as not found in the paper. The reading of a
+  paper, a drafted reply and its check sheet, and the notes relating an embodiment to the prosecution
+  record all check a quotation the same way.
+- **Labels you verify read that way.** An embodiment's badge reads *Passage cited, [0045]*, the
+  specification passage cited for it, for you to verify; a unit written from the record with no model
+  reads *From the record*. Every response date is labelled estimated, with the note that it comes from
+  the mailing date and response period entered or read from the action, to be verified against the
+  Office action and your docket, which is the system of record; the dates for an extension of time
+  read as what they would be if an extension is available and taken.
+- **The conversation's first discovery pass** is named *Find what the specification discloses beyond
+  the parent's claims*.
+- **The network inventory says when each connection happens**, and lists installing OCR on a Mac
+  through your own Homebrew, which happens only when you ask.
+- **An embodiment stays a candidate.** Its own sentence on how it differs from the parent's claims is
+  removed when it states a conclusion about the subject matter, and the embodiment says so.
+- **The prosecution record the conversation reads** places where each limitation entered the record
+  against the parent claims you give as allowed or issued, as the *Prosecution record* panel does;
+  with none given, it reads the rounds and says that placing the limitations needs those claims.
+- **Address the Rejections and Objections.** The step that works through an action's items is named as
+  practitioners name it, with the action's date, and with requirements when the action states one.
+- **A statement of absence names what was not found.** Before a drafted statement that a reference
+  does not describe something is added, it names the claim's words the drafter did not find in the
+  passages it was given, and asks you to confirm that against the rest of the reference.
+- **Arguments on a section 103 rejection engage the combination.** Drafted arguments address the
+  combination the examiner proposes as a whole, can accept part of the examiner's mapping for the sake
+  of argument without conceding it, and argue teaching away or a modification that defeats a
+  reference's purpose where the references' own words support it; a passage that lacks the claim's
+  words is not a ground by itself. A section 102 rejection is answered on the single-reference
+  standard. The rules each kind of argument answers to are quoted from cached copies of the MPEP.
+
+- **The buttons that save a file read alike on every step.** Claims are saved as Text, Word or PDF,
+  wherever they are shown: the Claims step, a revision, or claims drafted in the conversation. The
+  reply step offers *Reply in Word* and *Report of the action in Word*.
+- **Reply in Word saves your last edit first.** A download started just after typing waits for the
+  reply to be saved, so the file and *Changes since your export* both hold the text as you left it.
+- **Scanned claim listings are read claim by claim.** A page of a claim listing whose claim numbers
+  a scan placed apart from their claims is read again as one column, so each claim keeps its number
+  and none runs into the claim before it. What a scan makes of struck-through words, letters joined by
+  hyphens that no Office action in the record uses, is left out of the claims, and so is a response's
+  page furniture: the firm's name, the paper's title, the application's title as a header and a
+  document classification label or page marker ("2/9") printed on every page. A claim number OCR
+  read with a comma for its period ("4, (Canceled)") opens its own claim. Where a scan moved a
+  listing's claim numbers or lost them, the claims are numbered in the order the listing gives them,
+  and a claim number or status identifier the scan misread by a letter or a stroke ("1}." for 11,
+  "(Origmal)") is read as the one it is. A listing that names each claim ("Claim 4 (Currently
+  Amended):", "Claims 1-3 (Canceled)."), as some firms write it, is read, and a previous response
+  written that way is divided into its claims and its remarks.
+- **The local model guide gives `qwen3.8:27b`'s drafting time as measured on further
+  specifications**: 2 to 19 minutes each, where it said 2 to 12, in `models` and in `docs/models.md`.
+- **A drafted amendment that brings in a dependent claim's words says so.** It names the claim it
+  incorporates, which the action has already examined, and does not present words the claim already
+  recites as new.
+- **A restriction requirement is always an item to answer.** When the reading quotes only the Office
+  Action Summary's "subject to restriction" line, the requirement the action's body states is kept
+  as the item, quoting the body.
+- **A claim listing marks only what changed.** When an amendment adds an element, the claim's last
+  word stays as it was and only its period is marked, in double brackets, before the added semicolon
+  and element; within a changed stretch, the deleted words come before the added ones.
+- **A drafted amendment that proposes words a claim already recites says so.** Adding it writes nothing
+  into your proposed claims when the claim it names already recites them, and one proposing the words
+  of another pending claim names that claim.
+- **Adding an amendment says when its words could not go into the claims.** When the claim it names
+  is not in your proposed claims with its words, the unit is added to your draft and you are told the
+  words were not written into the claim.
+- **The caption is complete on more actions.** The first named inventor is read from the Office
+  Action Summary's applicant where the cover's scan left it out, and the examiner where the scan set
+  a bar between the name and the art unit.
+- **The statement of dependent claims names only claims the claims hold.** A dependency a scan
+  misread to a claim that is not there ("claim 1044") is left out of it.
+- **The statement of dependent claims reads for one claim.** "Claim 5 depends from claim 4 and includes
+  every limitation of claim 4."
+- **A reply started mid-prosecution lists each claim's status as you last typed it.** Starting from
+  the latest Office action and your previous response, the claim listing gives an unchanged claim the
+  status your previous listing typed: Original stays Original, and a claim amended or added earlier is
+  Previously presented. A previous response is dated by the date beside its signature, a form's blank
+  included, and a running header or footer repeated on its pages is kept out of the claims.
+- **A Patent Center download brings its specification.** The download carries the application as
+  filed, and when the matter has no specification yet it is read with the Office papers and used as
+  the matter's specification: support for an amendment, the section 101 material and every quotation
+  of the specification come from it, and a quotation opens at its page in the download. When the
+  reading finishes it names the paper it took; a specification you add under Papers is kept.
+- **Scanned pages are read several at a time**, as many as half the machine's cores and at most
+  eight, and a download's papers are read together. On a 16-core Mac a Patent Center download is read
+  in about a seventh of the time.
+- **Uploads of up to 128 MB**, so any file Patent Center gives in one download, up to its own 100 MB
+  limit, is accepted.
+- **A file history downloaded in parts is one history.** Patent Center gives at most 100 MB in one
+  download, so a long prosecution is downloaded in parts; each later part of the same application
+  keeps the papers of the parts before it.
+- **A quotation of a paper in a Patent Center download opens at its page.** Each paper read by OCR
+  keeps where its pages begin.
+
 ## [0.10.0] - 2026-10-14
 
 ### Added
