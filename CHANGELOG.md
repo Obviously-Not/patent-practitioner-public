@@ -10,6 +10,18 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.10.2] - 2026-10-22
+
+### Changed
+
+- **OpenAI's reasoning models through your own OpenAI key.** With `--provider openai`, the o1, o3
+  and o4 models and the GPT-5 and GPT-6 models are sent without a temperature, which they accept only
+  at its default, and the run's record says so, since their answers can then differ from run to run.
+- **A key the provider does not accept is answered as one.** When a provider refuses the key, the
+  command line and the web interface say to set the key, whatever words the refusal uses.
+- **Updated components**: the OpenAI-compatible client library, the image decoder that reads scanned
+  pages, and the web interface's Alpine.js, now 3.17.5.
+
 ## [0.10.1] - 2026-10-20
 
 ### Added
