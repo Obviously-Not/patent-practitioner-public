@@ -23,6 +23,12 @@ number and nothing else; and a patent search, either on the operator's own Googl
 tool writes from the operator's request and shows, with where it will go, before it is sent
 unless the operator has turned that confirmation off.
 
+**A fourth, when the operator saves a USPTO Open Data Portal key**, under the same conditions: the
+Portal's API (`api.uspto.gov`), to read a cited reference Google Patents does not have, by its number,
+or the copy of a cited foreign reference in the application's own file history, with the key in a
+request header. The Portal answers a file with a redirect to the USPTO's own file host
+(`data.uspto.gov` or `data-documents.uspto.gov`), which the tool follows without the key.
+
 **On this machine means on this machine, and the binary decides that from the address
 rather than from the name.** A local model can be pointed at another host through
 `OLLAMA_BASE_URL` or `CD_LOCAL_OPENAI_BASE_URL`, and a host on your own network is

@@ -10,6 +10,53 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-27
+
+### Changed
+
+- **Draft again, avoiding what you dismissed.** Drafting an item again gives the drafter the units you
+  dismissed for it, so it writes different ones; the dismissed units stay listed with Restore, and the
+  button says how many it avoids.
+- **More of the reference beside a statement that it lacks something.** When a drafted unit says a
+  reference does not describe a claim's words, the passages shown with it are searched for the claim
+  words the unit restates, and, for a rejection over a combination, the other references of the
+  combination are searched too and shown as read because the rejection combines them.
+- **A drafted unit that speaks of the text its drafter was given is flagged**, so a sentence telling the
+  examiner what "the provided text" of a reference contains is shown for review before it is added.
+- **Drafted arguments rest on what the references describe.** The drafter is asked for arguments that
+  would still stand if the examiner cited more precisely or explained further, and writes fewer that only
+  ask the examiner to explain.
+- **A reference described in the claim's words is flagged.** A sentence that names a reference's
+  element with the claim's own term, where the reference's text uses other words, is shown for review,
+  so the reply can describe the reference in its own words beside the claim's.
+- **A private note when no argument is drafted.** When the drafter finds no argument for an item, the
+  item shows a note to you, never offered for the reply or any export, naming the claim's words compared
+  and what the reference says of them, with a button to draft amendments for the item instead.
+- **Read all of a reference for one item.** Beside a statement that a reference lacks something, you
+  can have the item drafted again with the whole of that reference. Before it runs, the page says how
+  much it will read for the selected model, and the drafted units say the drafter was given the whole
+  reference; what you reviewed is still yours to confirm.
+- **The text around a citation.** The citations panel shows, marked as context, the paragraphs just
+  before and after a cited one that continue its discussion, and the description's discussion of a
+  cited figure.
+- **A reference not in hand says why, and can be uploaded where it is cited**, including one the action
+  cites with no number, such as an article.
+- **References from the USPTO Open Data Portal with your key.** Save a Portal key in Settings and a cited
+  US reference Google Patents does not have is read from the Portal instead; a reference neither has
+  names both sources tried.
+- **A cited foreign reference read from the file history.** With a Portal key, a foreign patent document
+  the action cites can be read from the copy filed in the application's own file history.
+- **American spelling throughout the app.** Settings shows "License", the start screen reads "Draft a
+  response to an Office Action", and drafted statements say claims "are canceled".
+
+### Fixed
+
+- **Current Claude models run through the Anthropic provider.** A model whose provider no longer
+  accepts a sampling temperature is called with its default sampling, and the run's record says that
+  its answers can differ from run to run.
+- **`serve --provider` chooses where the interface's models run** for that session, as the provider
+  setting does, and an unknown provider is refused when the server starts.
+
 ## [0.10.2] - 2026-10-22
 
 ### Changed
@@ -88,7 +135,7 @@ repository is private and its commit subjects are not published.
   reply, and their Word file is titled for the paper they answer.
 
 - **Two sample layouts, and your own.** *Layout*, beside *Reply in Word*, exports a reply in Sample A
-  (the application's facts as labelled lines, titled with the rule it is filed under) or Sample B
+  (the application's facts as labeled lines, titled with the rule it is filed under) or Sample B
   ("In re Application of", a mail stop and a salutation, titled Amendment), each composed from the
   parts most filed responses carry, and each downloadable as Word to adapt. A reply of yours uploaded
   as a template now gives its layout too: its caption's labels with this matter's facts in place of
@@ -147,7 +194,7 @@ repository is private and its commit subjects are not published.
   record all check a quotation the same way.
 - **Labels you verify read that way.** An embodiment's badge reads *Passage cited, [0045]*, the
   specification passage cited for it, for you to verify; a unit written from the record with no model
-  reads *From the record*. Every response date is labelled estimated, with the note that it comes from
+  reads *From the record*. Every response date is labeled estimated, with the note that it comes from
   the mailing date and response period entered or read from the action, to be verified against the
   Office action and your docket, which is the system of record; the dates for an extension of time
   read as what they would be if an extension is available and taken.
@@ -341,7 +388,7 @@ repository is private and its commit subjects are not published.
   deadline says the period for reply it was counted with, as read from the action. The
   deadline on The action and in the exported report says what its mailing date rests on too.
 - **A response approach is chosen for each item before it is drafted.** Each item offers its own:
-  arguments, amendments, both, or cancelling the claims for a rejection; for a nonstatutory double
+  arguments, amendments, both, or canceling the claims for a rejection; for a nonstatutory double
   patenting rejection also a terminal disclaimer, written as a statement over the patent the action
   names with the section's closing request kept; for a statutory one no terminal disclaimer, with
   MPEP 804.02 quoted beside the list; for an objection, the correction or an argument; for a
@@ -358,7 +405,7 @@ repository is private and its commit subjects are not published.
   The drafter marks which references each unit is about; a unit it did not mark is still held to the
   confirmation when its wording reads as one, and says which applied.
 - **Each critique finding names its kind, the claim's words and a suggested change.** A finding is
-  labelled as a possible issue of a kind (antecedent basis, form, support and the others the
+  labeled as a possible issue of a kind (antecedent basis, form, support and the others the
   critique checks), with the claim's own words it is about and the change it suggests, and a
   weight saying where it came from: *Checked in the text* when the program confirmed it from the
   claims with no model, *For your review* otherwise. An antecedent-basis finding is checked against
@@ -383,9 +430,9 @@ repository is private and its commit subjects are not published.
   under the first-inventor-to-file provisions, that is stated as a fact about the dates, with 35
   U.S.C. 102(a) quoted. Whether a reference is prior art stays yours to decide.
 - **The previous round, compared.** When the matter holds the action before, each item of the
-  latest action is labelled maintained, modified or new against it, with what changed (claims named
+  latest action is labeled maintained, modified or new against it, with what changed (claims named
   or no longer named, references cited or no longer cited), and each earlier item it no longer
-  states is labelled withdrawn, beside the action's own statement of the withdrawal and the sentences
+  states is labeled withdrawn, beside the action's own statement of the withdrawal and the sentences
   of its Response to Arguments that name the item. The labels also show on Address the items.
 - **Decisions carried into each draft.** Under any message of yours in a matter's conversation,
   *Keep for every draft* keeps it as an instruction that every later draft of that matter's claims
@@ -462,7 +509,7 @@ repository is private and its commit subjects are not published.
   tells you where your server shows it.
 - **`models` and the model picker show what your OpenAI-compatible server declares**: each
   model's window and where the server states it, or what a run does when it does not. An Ollama
-  address given there is recognised as Ollama. Nothing is sent to find out.
+  address given there is recognized as Ollama. Nothing is sent to find out.
 - **The memory a larger window needs is worked out before a model on Ollama is loaded at it**,
   counting each request your server runs at once. A window this machine cannot hold is declined
   before anything is sent, and a tight fit is pointed out.
@@ -617,7 +664,7 @@ repository is private and its commit subjects are not published.
   (an abstract idea, a law of nature, a natural phenomenon) rather than a software-shaped "technical
   effect", enablement depth and the mechanism question name structures, compositions, steps and
   conditions, and a support quotation's location is asked for as the specification marks it. Each
-  score is labelled with its rubric version, `judge-rubric@1.2.0`, so drafts are compared with
+  score is labeled with its rubric version, `judge-rubric@1.2.0`, so drafts are compared with
   drafts scored under the same version.
 - **A panel report gives each draft one score.** The panel's score across the dimensions it assesses
   was also printed as a support score anchored to 35 U.S.C. 112(a); it is reported once, as the
@@ -693,7 +740,7 @@ repository is private and its commit subjects are not published.
   of a claim.
 - **The claim listing gives every pending claim a status.** A claim left out of your proposed claims
   was listed as unchanged; it is listed as not in the proposed claims and the check names it. A
-  cancelled range ("1-20. (Canceled)") cancels each claim in it, and a claim number followed by a
+  canceled range ("1-20. (Canceled)") cancels each claim in it, and a claim number followed by a
   comma, a scan's running header, and the characters a scan confuses no longer make an unchanged
   claim read as amended.
 - **Reading an Office action that states two kinds of requirement no longer fails.** A restriction
@@ -965,7 +1012,7 @@ repository is private and its commit subjects are not published.
 - **A reading lists every rejection the action states.** Where the model reading an Office action
   leaves out a rejection, objection or requirement that the action states in its standard form,
   the item is now added from the action's own statement of it and marked as such. Claim lists
-  written with "&" are now recognised. References in a rejection statement are read whole.
+  written with "&" are now recognized. References in a rejection statement are read whole.
 - **Reopening a matter keeps each answer's result**, such as a citation table or a reading, not
   only the sentence written around it.
 - **An answer that says why an amendment was made carries a note** that the record shows when a
@@ -1005,7 +1052,7 @@ repository is private and its commit subjects are not published.
   citation the examiner gave once for several limitations as covering them. Paragraph marks that a
   scan misreads, lists of paragraphs (including several inside one bracket, "[0034-0038, 0107]")
   and element numbers are now read as citations. A reference the examiner misspells is still
-  recognised, and a very short limitation is placed only where all of its words are restated.
+  recognized, and a very short limitation is placed only where all of its words are restated.
 - **A claim number a scan reads as letters is repaired** ("AO. (New)" for claim 40) when it is the
   next claim in sequence, so that claim no longer runs into the one before it.
 
@@ -1038,10 +1085,10 @@ repository is private and its commit subjects are not published.
   final action is held to. Each quotation is checked against a copy of its source.
 - **The examiner's citations, limitation by limitation.** For a rejection under 35 U.S.C. 102 or
   103, on request, each limitation of the claims that action examined beside the reference and
-  passage the examiner cited for it. Every passage is labelled as cited by the examiner and not
+  passage the examiner cited for it. Every passage is labeled as cited by the examiner and not
   checked against the reference.
-- **Restriction requirements are recognised and read** in a file history; they were previously
-  listed as other papers and not read. Ex parte Quayle actions are recognised too.
+- **Restriction requirements are recognized and read** in a file history; they were previously
+  listed as other papers and not read. Ex parte Quayle actions are recognized too.
 - **Numbers in neither the specification nor the parent claims.** A drafted claim reciting a
   number found in neither is now listed under that claim, with the phrase around it.
 
@@ -1054,7 +1101,7 @@ repository is private and its commit subjects are not published.
   before a claims paper is compared or split.
 - **The file-history timeline uses the claim numbers printed in the paper,** and says which
   numbering it shows, rather than counting claims by position. It also lists a claim's preamble
-  apart from its limitations, and recognises an Advisory Action, so an amendment the examiner
+  apart from its limitations, and recognizes an Advisory Action, so an amendment the examiner
   did not enter is credited to the response that did enter it.
 
 ## [0.6.4] - 2026-10-01
@@ -1250,7 +1297,7 @@ repository is private and its commit subjects are not published.
   flagged with the surrounding text, because an invented quantity reads perfectly well in
   otherwise correct prose. And a direction wholly contained in another is flagged as
   redundant, so that near-duplicates are not several readings of one decision. Both report
-  what they found and where; neither is a verdict, and every judgement about what a finding
+  what they found and where; neither is a verdict, and every judgment about what a finding
   means remains yours.
 
 - **Small local models are asked for output in a shape the server enforces.** Where the server
@@ -1464,7 +1511,7 @@ repository is private and its commit subjects are not published.
   continuation decision turns on: the Office Actions, the responses with their claim
   listings and remarks, the Notice of Allowance, and the references of record. Every page
   of such a file is an image; the pages are read from a text layer if you have run
-  recognise-text over the file, or by tesseract if it is installed on your machine, with
+  text recognition over the file, or by tesseract if it is installed on your machine, with
   each page passed on standard input and nothing written to disk. A paper that cannot be
   read says why. Nothing is sent anywhere.
 - **Where each limitation of the parent's claims entered the record.** With the parent's
@@ -1648,7 +1695,7 @@ repository is private and its commit subjects are not published.
 - **The model picker lists each provider separately and curates what it shows.** Text models
   only, no purpose-built variants (codex, search, deep-research), no billing or preview
   variants, and nothing much older than the previous generation. OpenRouter is further limited
-  to the frontier labs, which is an editorial judgement rather than a popularity ranking:
+  to the frontier labs, which is an editorial judgment rather than a popularity ranking:
   no usage data is published, so no such ranking can be computed. With an empty search box you
   see the fifty most recent and a count of the rest; searching reaches the whole curated list.
   Every provider pane also has a box to name a model directly, which reaches past the catalog.
@@ -1677,7 +1724,7 @@ repository is private and its commit subjects are not published.
   happens to execute it, points out recitations that only establish that software runs on a
   computer, and names which existing dependent claims are worth carrying forward. It never
   recommends preserving: whether your current center deserves another family member turns on
-  commercial and prosecution judgement it cannot see.
+  commercial and prosecution judgment it cannot see.
 
 - **The broadening pass considers two more moves.** Alongside actor, abstraction, granularity
   and artifact, it now asks which phase of the system's life is unclaimed (provisioning,
@@ -1686,7 +1733,7 @@ repository is private and its commit subjects are not published.
   while the product performing it changes.
 
 - **The continuation directions found for you are listed beside the conversation**, each
-  labelled with whether its supporting quote was located verbatim in your specification, and
+  labeled with whether its supporting quote was located verbatim in your specification, and
   each removable. Directions you keep are what the drafting pass writes claims to.
 
 ### Changed
@@ -1765,7 +1812,7 @@ repository is private and its commit subjects are not published.
   the picker was saved in the browser and never read back, so after a reload a remote model
   was tagged with a provider name that no longer existed, and a computed default told the
   browser one thing and the tool another. Both now record the same choice, and a provider name
-  the tool does not recognise is refused when it is set rather than surfacing later as a
+  the tool does not recognize is refused when it is set rather than surfacing later as a
   failed drafting run.
 
 - **A revision you keep is now actually kept.** Revising produced a proposal, and the button
@@ -1965,25 +2012,25 @@ repository is private and its commit subjects are not published.
   (mode 0600) because it holds client claim language, and it will not overwrite an
   existing file unless you pass `--force`, so re-running the command cannot destroy
   edits you made in Word. The maturity notice is written inside the document, where
-  it is visible to whoever opens the file later. Free, and not licence-gated.
+  it is visible to whoever opens the file later. Free, and not license-gated.
 - **LaTeX export**, for drafters who keep matter documents that way:
   `export --draft claims.txt --out claims.tex`. The format follows the output
   extension, so you do not have to say it twice; pass `--format` to override.
-- **Licence renewal, for paid subscriptions only.** So that you activate a licence
+- **License renewal, for paid subscriptions only.** So that you activate a license
   once and never handle a key again, the binary fetches a replacement when the
   current one is close to expiring: roughly once a month, on launch, not on a
-  timer. It sends the licence key and nothing else, and carries no specification
+  timer. It sends the license key and nothing else, and carries no specification
   text, no matter identifiers and no usage data. Set `CD_NO_LICENSE_RENEWAL=1` to
-  switch it off entirely; a licence that is never renewed simply works until it
+  switch it off entirely; a license that is never renewed simply works until it
   expires, and the tool keeps working normally if the renewal cannot be reached.
-  **Without a paid licence the binary makes no such call at all.**
+  **Without a paid license the binary makes no such call at all.**
 - **A dependency and standard-library vulnerability scan now runs on every change, and
   again when a release is built.** The second one is the half that reaches you: the
   release pipeline resolves its Go toolchain fresh when it runs, so the standard library
   compiled into a published binary is not necessarily the one that was scanned when the
   change was reviewed. The scan runs before anything is published, so a release stops
   rather than shipping a binary built from an unscanned standard library.
-- A warning if a build's embedded licence key is malformed, so a broken build says
+- A warning if a build's embedded license key is malformed, so a broken build says
   so instead of quietly behaving as unlicensed.
 - **A `See also` line at the end of the suggestions**, pointing at the
   documentation site, so a pointer to something worth reading does not have to
@@ -2050,7 +2097,7 @@ repository is private and its commit subjects are not published.
 - **`upgrade` now tells you there is nothing to upgrade to, instead of opening a broken
   page.** The command opened a payment link that returned an access-denied error, and
   always would have. There is no paid tier to buy yet; every feature is available in the
-  build you have, and no licence key changes that. The same applies to the Upgrade button
+  build you have, and no license key changes that. The same applies to the Upgrade button
   in the local web interface, which now says the link is not configured rather than
   opening the error page.
 - **The startup banner no longer names a scoring criterion that does not exist.**
@@ -2059,7 +2106,7 @@ repository is private and its commit subjects are not published.
   that can veto a claim outright. It now says what the tool scores against rather
   than naming a partial and partly invented list.
 
-- **Licence tiers collapsed to a single `pro` tier.** The earlier set (`panel`,
+- **License tiers collapsed to a single `pro` tier.** The earlier set (`panel`,
   `export`, `batch`, `history`, and the domain packs) was a guess at which axis to
   price before any of it had been sold. Notably, `panel` is gone: the multi-model
   panel remains free, because this project's own testing shows a panel score
@@ -2107,7 +2154,7 @@ rather than boilerplate. Read them before using output for anything real.
   a legal determination.
 - **License tiers are reported, not enforced.** Verification and reporting are
   implemented; feature gating is deferred by owner decision, so all capabilities
-  are available regardless of tier. Release builds DO carry the licence public
+  are available regardless of tier. Release builds DO carry the license public
   key, since v0.1.1 on 2026-08-18, so the deferral is a policy choice and no longer
   also a build-time gap.
 - **No coverage metric.** The embedding-based coverage map from the originating

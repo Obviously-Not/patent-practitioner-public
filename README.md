@@ -397,8 +397,10 @@ citations limitation by limitation, a response approach you choose (arguments, a
 claims, a terminal disclaimer where the item allows one, or your own words), and its drafted units.
 Each unit is marked as a record fact (written from the record with no model), suggested text, or
 text for review; you add it to your reply, edit it or dismiss it, and an added unit can be taken out
-again. A unit saying what a reference does not describe names the claim's words the drafter did not
-find, shows the passages it rests on, and is added only once you say what you reviewed. Arguments on
+again. Drafting an item again avoids the units you dismissed, which stay listed with Restore. A unit
+saying what a reference does not describe names the claim's words the drafter did not find, shows the
+passages it rests on (on a rejection over a combination, the other references' nearest passages too),
+and is added only once you say what you reviewed. Arguments on
 a section 103 rejection address the combination the examiner proposes, and on a section 102
 rejection the single-reference standard. Adding a drafted amendment writes its words into the claim
 it names in your proposed claims (filled with the claims in use if you have not typed any), and
