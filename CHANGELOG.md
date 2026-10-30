@@ -10,6 +10,29 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-10-29
+
+### Changed
+
+- **Open the figure the examiner cited.** Beside a citation of a figure, and beside a cited paragraph
+  that discusses one, "Open FIG. 5" opens the reference's printed copy at the drawing sheet that shows
+  it. The printed copy is kept for every fetched or attached reference, and each sheet's figure labels
+  are read on this computer.
+- **The text around a citation is one click away.** The paragraphs before and after a cited one, and
+  the description's discussion of a cited figure, are listed collapsed beside the citation, so the
+  cited passage reads first.
+- **An argument about an apparatus claim that rests on what the reference's part is for is flagged**,
+  with MPEP 2114's rule on intended use beside it, so the difference argued can be checked against the
+  structure the claim recites.
+
+### Fixed
+
+- **An examiner's acknowledgement of an election is shown with the claim statuses**, not listed as a
+  requirement to address.
+- **A figure the examiner embedded in the action is no longer read as a reference's name.** Office
+  actions saved from the Office's word processor mark each embedded image with a line of text, which
+  the program now recognizes as an image.
+
 ## [0.11.0] - 2026-10-27
 
 ### Changed
