@@ -10,6 +10,33 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-10-31
+
+### Changed
+
+- **The action's dates, in fewer words.** The action shows its mailing date, the first due date and
+  the final deadline, each marked as an estimate, with one note: the program is not a docketing system,
+  and the due date is yours to determine, including after any extension. How the dates were counted is
+  one click away.
+- **Matters by client.** Type a client for a matter, and the matter list groups matters by client, with
+  each matter's Office actions beneath it. A click on an action opens it.
+- **The claims page.** Before the response, the whole claim set: each independent claim with the
+  examiner's citations against its limitations, and its dependent claims beneath it. Hover over or tab
+  to a citation to read the examiner's own words.
+- **Fold a dependent claim into the claim it depends from.** The amendment is written into your proposed
+  claims at once, marked up as the claim listing marks it, with Undo, and the specification's passages
+  that carry the folded words are shown. A claim left depending from a canceled claim is named in the
+  check of the reply.
+- **A dependent claim's citations.** The examiner's citations are laid out for a one-clause dependent
+  claim ("The device of claim 1, wherein ...") too.
+- **Get the file history from the USPTO.** With your Open Data Portal key, the Papers step gets a
+  published application's file history and reads it as a Patent Center download is read; it sends the
+  application number, with your key, and nothing else. A paper the Portal holds back for a moment is asked for again, so the
+  whole history arrives. A setting, off unless you turn it on, checks each matter for new papers when
+  the app opens.
+- **Drafting from your amended claims.** Once your reply amends the claims, the drafter argues the
+  claims as amended, so its arguments address the words you added.
+
 ## [0.11.1] - 2026-10-29
 
 ### Changed
