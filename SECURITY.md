@@ -28,6 +28,10 @@ Portal's API (`api.uspto.gov`), to read a cited reference Google Patents does no
 or the copy of a cited foreign reference in the application's own file history, with the key in a
 request header. The Portal answers a file with a redirect to the USPTO's own file host
 (`data.uspto.gov` or `data-documents.uspto.gov`), which the tool follows without the key.
+The same key gets a published application's whole file history when the operator asks for it by its
+application number, which is what the request sends. And when the operator turns on the check for new
+papers in Settings, the tool asks the Portal once when the web interface opens for each matter's
+application, sending each matter's application number and nothing else.
 
 **On this machine means on this machine, and the binary decides that from the address
 rather than from the name.** A local model can be pointed at another host through

@@ -10,6 +10,67 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.12.1] - 2026-11-04
+
+### Added
+
+- **Import from Patent Center.** Drop the papers you downloaded from Patent Center, as a zip of separate
+  files or as one PDF, for any number of applications. Each application's papers are shown together
+  with the matter that holds that application, or a new matter with its client, and nothing is added
+  until you choose. A paper Patent Center named is sorted by its document code; any other is read and
+  sorted by its own words, for you to confirm on its matter's Papers.
+
+### Changed
+
+- **A Patent Center zip on Papers.** The several-papers drop on Papers, and the related application's
+  file history, each take a zip of Patent Center papers as they take its single-file download. A file
+  in the zip that is not a PDF, Word or text file is named rather than added.
+- **A paper that does not fit its matter is pointed out.** A paper whose caption names another
+  application, or one of a kind and date the matter already holds, is added with a note saying so, for
+  you to keep or remove. A matter with no application number yet takes the one its paper names.
+- **A quotation across a page break is checked past the page's header.** An Office action's running
+  header and art unit are passed over when they fall between a quotation's words, on scanned papers and
+  on papers with a text layer alike, including a header the scan misread.
+- **A smaller download.** The built-in web interface is packed without the notes written for its
+  maintainers, which makes each binary about 280 KB smaller, and source file locations are recorded
+  relative to the project rather than to the machine that built it, so a release can be rebuilt to
+  the same bytes.
+
+### Fixed
+
+- **An item's work stays with it when the action is read again.** When an Office action is read again
+  and the new reading words an item's heading differently, its approach and drafted units move with it,
+  matched by where the examiner's own sentence sits in the action. Work the program cannot place, such
+  as work on two rejections a new reading takes as one, is listed under the items as work from an
+  earlier reading, with the item it seems to belong to, for you to move or discard.
+- **Papers for another application are offered a matter of their own.** A zip or download dropped on a
+  matter whose papers all name another application leaves the matter's file history as it is, says
+  which application they belong to, and offers to start a new matter for them through Import from
+  Patent Center. Papers whose names give no application are added to the matter they were dropped on.
+- **A number that is not the matter's application gets a warning first.** Getting a file history from
+  the USPTO by a number other than the matter's says it may be a patent number, and offers a new matter
+  for it or this one anyway.
+- **Two papers of one kind filed on one day each keep their own text**, from a zip or from the USPTO.
+- **A matter keeps its client** when a new specification is added.
+- **A document larger than the program reads is refused by name**, wherever it is fetched or read.
+- **The check for new papers names each matter it could not check**, with why, and runs only when it
+  is turned on in Settings. The checks for an update and for new papers answer only the app's own page.
+- **A paper's own application number is read from its running header**, and a parent's, a
+  provisional's or a copending application's number in its text is not taken for it.
+- **The note that no argument was found** names the rejection by its section as the action does,
+  appears only when the drafter wrote no argument, and goes when you add one.
+- **A cited foreign reference read from the file history** is the copy that carries the cited number as
+  its own; a copy that could not be read is counted in what the note says.
+- **Importing again after a failure** continues where it stopped, and a paper that could not be read is
+  named.
+- **A failure at the USPTO Open Data Portal** is answered with steps about the Portal and your key, and
+  a key a model provider refused names that provider's key.
+- **Figures in a scanned reference** are placed on its drawing sheets rather than on description pages
+  that name them, and are found faster.
+- **Smaller fixes:** a list of figures after a single figure, a lettered range of figures, a grant's
+  figure discussion label, a priority date the USPTO gives labelled as the earliest foreign priority,
+  and two files of one name in a zip.
+
 ## [0.12.0] - 2026-10-31
 
 ### Changed

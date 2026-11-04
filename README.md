@@ -369,7 +369,11 @@ still missing. At a first action the application alone will do: given as the spe
 under its claims heading are the claims in use, and once the action is read Papers names any claim the
 action names that they do not hold, as when a preliminary amendment added claims. A Patent Center download carries the application as filed, and when the matter has no
 specification yet that is read as its specification; one you add under Papers is kept. A history
-over Patent Center's 100 MB download limit can be downloaded in parts and added one after another. Scanned pages
+over Patent Center's 100 MB download limit can be downloaded in parts and added one after another. Patent
+Center's zip of separate papers is added the same way: each paper it names by its document code is sorted by
+that code, and any other file in it is read by its words. **Import from Patent Center**, on the matter list,
+takes downloads for several applications at once: each application's papers are shown with the matter that
+holds that application, or a new one, and are added once you choose. Scanned pages
 are read several at a time, as many as half the machine's cores and at most eight. A scanned claim listing is read claim by claim: a page whose claim numbers the scan
 set apart from their claims is read again as one column, and what a scan makes of struck-through
 words, and each page's header and footer, are left out of the claims. Check the claims in use
@@ -600,8 +604,10 @@ key verifies and reports a tier without changing what the tool will do.
   the run fails: a model server that was unreachable throughout must not read as a
   specification with nothing left to claim.
 - `CD_NO_BROWSER=1` stops the tool opening a browser window, which matters if you script it.
-- `CD_NO_LICENSE_RENEWAL=1` disables the one outbound call this binary makes on its own,
-  described under Setup, and refuses update checks (see Updating).
+- `CD_NO_LICENSE_RENEWAL=1` disables license renewal, the one outbound call this binary makes
+  on its own with no switch for it, described under Setup, and refuses update checks (see
+  Updating). The checks at launch for an update and for new papers at the USPTO run only when
+  turned on in Settings.
 
 **Model choice matters more than it looks, and context is the first filter.**
 A specification is ~1 token per 4 characters and the whole thing goes into the
