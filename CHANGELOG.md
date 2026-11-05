@@ -10,6 +10,42 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.12.2] - 2026-11-05
+
+### Changed
+
+- **The scoring panel keeps each draft apart from its own model family.** A judge, or the adversarial
+  support check, from the same family as the model that wrote a draft is not counted toward that draft,
+  as the draft's own author already was not. A model whose family cannot be read from its name is named
+  in the run's notes. Panel scores carry the rubric version `judge-rubric@1.3.0`, so drafts are compared
+  with drafts scored under the same version.
+
+### Fixed
+
+- **An analysis that finds nothing says so.** When discovery, a straight-through draft or an analysis
+  asked for in the conversation finds no additional supported direction, the run completes with "No
+  additional supported direction was found in this analysis." and offers another reading. The
+  directions you already keep stay as they are. On the command line, `draft` exits successfully with
+  the same sentence in its notice.
+- **The revision report says whether what is left was checked.** After a revision run that stops
+  before the check finds nothing more to fix, the revised claims are checked again, and the findings
+  that check reports are the ones shown. When that check does not finish, the revision is marked
+  unchecked, including after you use it as the drafted claims.
+- **A clean check of the claims clears the findings before it,** and marks the claims checked.
+- **The limitation audit's findings are shown as suggestions.** They stay with the audit's turn in the
+  conversation, so revising the claims works from the check's findings alone.
+- **Every claim of a revision is held to the same checks.** When those checks hold back every rewrite
+  in a revision pass, the full set is revised, and each of its claims goes through the same checks.
+- **Claims numbered 100 and above are read from the record.** A claims paper with a large claim set,
+  common in biotechnology and chemistry, shows every claim in the claims as filed, the pending claims
+  and the timeline, and a claim's dependency on a claim numbered 100 or more is read.
+- **A typed claims paper keeps names such as `NAD+`, `Na+` and `C#`.** The cleanup that removes what
+  a scan makes of struck-through text runs on scanned papers only.
+- **The claim timeline shows an amendment that changes a number.** A limitation whose range or value
+  was amended, such as a temperature range narrowed between rounds, is placed in the round that recites
+  its numbers. A claim reference, the claim's own number and an application number in a page header do
+  not count.
+
 ## [0.12.1] - 2026-11-04
 
 ### Added
