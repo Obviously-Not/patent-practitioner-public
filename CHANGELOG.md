@@ -10,6 +10,13 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.12.3] - 2026-11-05
+
+### Fixed
+
+- **Try the sample opens the Office Action already read.** The reply sample shows its rejections, and
+  you can choose an approach for each, before any model is set up.
+
 ## [0.12.2] - 2026-11-05
 
 ### Changed
