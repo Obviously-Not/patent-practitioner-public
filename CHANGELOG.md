@@ -10,6 +10,62 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-07
+
+### Added
+
+- **Find in the papers.** Ask in the conversation where the matter's papers discuss something, and the
+  program searches the specification, the parent's claims, the file history's papers and the references
+  in hand. The model writes the search terms from your question, and every passage shown is the paper's
+  own words, with its page, or a reference's paragraph or column, and a line for every paper saying
+  whether it was searched. A passage read by OCR, one holding a word such as "not" or "may", and one
+  that appears in another paper too are each marked. A search term can hold a figure as the papers print
+  it, such as `18%`, `6.5` or `50 mJ/cm2`, so a question about a numeric limitation can be searched. A long sentence is shown around the words found,
+  with each cut end marked.
+- **Digest the files.** Ask in the conversation for a digest, and the program reads every file of the
+  matter (the specification, the file history's papers, and your own files) and shows statements of
+  what each one states, each above the file's own words it rests on and a link to its page. Each
+  statement's wording is a model's and passed a second model's reading, from another family of models
+  than the one that wrote it; a passage carrying a word of determination or outcome is shown as its own
+  words with no statement above it. Statements are grouped under the questions they answer, and can be
+  read file by file, with what the reading did not reach. Mark a statement checked or flag it, start
+  with a sample the program draws, and export the digest to Word. A digest runs on its own while you
+  keep working, and nothing it wrote is shown until it has finished.
+- **Your own files for a matter**, such as a client's notes or a declaration's exhibits, kept outside
+  the file history and on this machine only: no reply feature reads them, and they are never sent to a
+  remote model. A file's text that its pages do not show is noted, and a digest writes nothing about it.
+- **Settings name the model for each step of a digest.**
+- **Third-party notices.** Each release publishes `THIRD_PARTY_NOTICES.md` beside this changelog, with
+  the licence of every third-party component the program is built with, reproduced in full.
+
+### Changed
+
+- **The conversation checks the quotations in its answers.** A quotation found in none of the matter's
+  papers, or only in the applicant's own, is named in a note under the answer.
+- **The claims and the remarks of a response keep their pages** when the response is divided, so a
+  passage of either is placed on its page.
+
+### Fixed
+
+- **A figure the examiner cites opens at its own drawing sheet on more references.** The program finds
+  the drawing sheets of a reference's printed copy by the sheet numbers its publisher prints, so a sheet
+  with dense drawing is read as a sheet, and it reads a sheet's label printed as "Fig-4", "FIGS. 7B-7G" or
+  "FIGS. 3 and 4". Where no sheet carries the cited figure's label, it opens at the first drawing sheet.
+- **Every drawing paper in a file history is read as drawings**, whichever kind of drawing Patent Center
+  lists it as, and two drawing papers filed the same day are not named as the same paper added twice.
+- **The reply and the conversation confirm a remote model before they send.** Drafting an item of
+  the reply, reading an Office paper and sending a message in the conversation ask the same question
+  the drafting buttons ask before a matter goes to a remote model, or to a local model whose address
+  is another machine, which the question then names. You answer it once per session; a message you
+  decline to send stays in the box, and a message you edit before answering is sent as edited.
+- **Every page of an exported PDF carries the whole notice.** The maturity notice at the foot of each
+  page is printed in full, over as many lines as it takes, inside the bottom margin and clear of the
+  claims.
+- **A quotation that turns a passage's sense is not found.** The quotation check accepts a long
+  quotation a few characters off its source, as a scan's misreading. A quotation that changes, drops
+  or adds a word such as "not", "cannot", "may", "must" or "if" now reads as not found, so Check my
+  reply names a quotation saying "does include" where the paper says "does not include".
+
 ## [0.12.3] - 2026-11-05
 
 ### Fixed
@@ -1606,10 +1662,9 @@ repository is private and its commit subjects are not published.
   from the exact length of each prompt, so no two passes of a run asked for the same one. Two
   consecutive passes over one specification asked for windows nine tokens apart, and the model
   was moved in and out of memory between them. The window is now rounded up to a fixed step, so
-  the passes of a run ask for the same one and the model stays where it is. Nothing about the
-  output changes: the same specification produces the same claims, the same coverage figure and
-  the same flags. What changes is how much of a run is spent waiting, and the larger your model
-  the more of it there was.
+  the passes of a run ask for the same one and the model stays where it is. Each pass still sends
+  the same text, instructions and output budget; what changes is how much of a run is spent
+  waiting, and the larger your model the more of it there was.
 
 - **Drafting no longer comes back empty on some local models.** The shared prompt layout sent
   one system message for every step of a drafting run, and it told the model to answer in JSON.
@@ -1813,8 +1868,8 @@ repository is private and its commit subjects are not published.
 
 - **A malformed reply from the model is asked again.** Roughly one review in eight came back
   with a stray character that made it unreadable, and the whole review was discarded for it.
-  The retry also varies its sampling, since repeating an identical request produces an
-  identical answer.
+  The retry also varies its sampling, since repeating an identical request often produces the
+  same answer.
 
 - **Errors say what happened and keep the evidence.** A failed review reported only a byte
   count. It now distinguishes a reply that ran out of room from one that was never valid, and

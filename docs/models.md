@@ -266,13 +266,14 @@ Measured on the running server: two calls at a context of 8192 left the model lo
 **8193** reloaded it. One token.
 
 The window is now rounded up to a fixed step, so the passes of a run ask for the same one and the
-model stays where it is. **Nothing about the output changes**: the same specification produces the
-same claims, the same coverage figure and the same flags. Verified by running the same fixture
-before and after and comparing.
+model stays where it is. Each pass sends the same text, instructions and output budget as before;
+only the context window it asks for is rounded. **A model's answers can differ from one run to the
+next**, as they always could: two runs of one specification are two samples, so compare them as
+samples rather than expecting the same claims.
 
 **The timings published on this page predate that change and were measured with the reload
-present.** The measured drafting results, scores and coverage figures are unaffected, because the
-reload cost time and changed nothing the model produced. The wall-clock figures ("2 to 12 minutes
+present.** The drafting results, scores and coverage figures on this page were measured before it,
+under the conditions each one states, and are reported as measured. The wall-clock figures ("2 to 12 minutes
 each") were measured with the reload present, and the re-measurement above, on different and longer
 specifications, took longer still, so they are not an upper bound for every specification, and the
 larger your model the more of that time was weights rather than drafting. They are left as
