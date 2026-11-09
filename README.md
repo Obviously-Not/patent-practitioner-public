@@ -33,7 +33,7 @@ Without a paid licence the binary makes no such call at all.
 
 | Piece | Role |
 |---|---|
-| `go/main.go` | CLI: `draft`, `export`, `critique`, `bestpractice`, `judge`, `panel`, `compare`, `bench`, `serve`, `models`, `version`, `license`, `activate`, `upgrade` |
+| `go/main.go` | CLI: `draft`, `export`, `critique`, `bestpractice`, `judge`, `panel`, `compare`, `bench`, `figure`, `serve`, `models`, `version`, `license`, `activate`, `upgrade` |
 | `go/internal/server/` | HTTP server for the local web UI (runs on localhost:9473) |
 | `go/web/` | Alpine.js SPA served by the binary (no build step). HTML, CSS, fonts and Alpine itself are embedded via go:embed and served from the binary, so the web UI makes no request to any other site |
 | `go/internal/pipeline/draft.go` | Spec analysis, target extraction, drafting, and the verify->revise loop |
@@ -335,6 +335,20 @@ server and the model format rather than on this tool, so `bench` measures it and
 whether to say in Settings how many requests your server runs at once. A remote provider runs
 three at once already.
 
+**Patent figures** for a utility application, on files (`FIGURE_MODEL` names the model, else the
+drafting model):
+
+```bash
+./continuation-drafter figure brief --spec app.txt --out briefs     # confirm each brief, then
+./continuation-drafter figure draw --brief briefs/fig-1.json --out fig1
+./continuation-drafter figure redraw --brief briefs/fig-2.json --pdf drawings.pdf --page 1 --figure 2 --out fig2
+./continuation-drafter figure check --dir fig1 --dir fig2
+./continuation-drafter figure export --dir fig1 --dir fig2 --out sheets.pdf
+```
+
+Each figure is a folder holding every answer the model gave, the source, the sheet as SVG and PDF
+review copies, and the facts measured on it; the web UI's Figures tab imports it.
+
 **Other commands:** `judge` scores one draft against the rubric, returning
 per-claim verdicts with spec-anchor validation (T1) and honest-null: a claim it
 cannot anchor to the spec comes back `indeterminate`, not a low score (R&D; the
@@ -354,8 +368,8 @@ The binary includes a local web UI. Start it with `serve`:
 ./continuation-drafter serve --port 8080 --no-browser
 ```
 
-The interface starts with what you are working on: a reply to an Office action, or claims for
-a continuation application. Each matter then runs in steps.
+The interface starts with what you are working on: a reply to an Office action, claims for a
+continuation application, or patent figures. Each matter then runs in steps.
 
 **A reply to an Office action** runs Papers, The action, Address the Rejections and Objections, and
 The reply. A line
@@ -447,6 +461,19 @@ As on a reply, Next steps lists what the matter has left, notes go on a claim or
 are never exported, the claims' download is recorded so what changed since can be shown, and the
 claims keep a history of how they came to be.
 
+**Patent figures**, for utility applications, run Papers and Figures, and every matter has a Figures
+tab. A figure starts from a brief, read from the figure the specification's brief description lists or
+from a description you type, which you edit and confirm. A model on this machine draws it by default;
+you can revise it with an instruction, edit its source, or redraw a figure from a sheet on file, a cited
+reference or a picture you upload (a picture goes to a model off this machine only once you agree to it).
+The program places every reference character, lead line and number, and lists facts about each sheet
+with the part of 37 CFR 1.84 each concerns. Review copies carry the maturity notice; the sheets are
+written without it only after you record that you have reviewed them. On a reply, the check panel
+shows four checks on the figure numbers of the drawings on file, each with its measured rates, and
+**Read the drawings** reads the drawing papers for them; an objection to the drawings offers a
+replacement sheet, which the reply in Word attaches. **Try a sample with a drawing objection** opens a
+public application's own action objecting to its drawings.
+
 **The conversation** sits below every step. You ask in your own words, and the tool selects one
 of its passes and runs it:
 
@@ -486,10 +513,20 @@ the search service you chose (SerpApi, or your own Google Cloud project). The we
 library, from this program, so the browser makes no request to any other site and the web
 UI works with no network access. With a local model and no paid licence it runs fully offline,
 apart from what you ask it to fetch or install (an update, a cited reference, a search, a model,
-or OCR through your own Homebrew on a Mac); with a paid
+or OCR through your own Homebrew on a Mac) and its usage reports; with a paid
 licence it additionally makes the monthly licence-renewal call described under Setup, which
-`CD_NO_LICENSE_RENEWAL=1` disables. An air-gapped firm should run with that variable set and a
-long-dated token issued out of band.
+`CD_NO_LICENSE_RENEWAL=1` disables.
+
+**Usage reports.** A release build reports how the program is used: which steps run, how long
+they take and whether they finish, with the hour of use and the time zone, under a random install
+number that is not tied to you. A report never carries a specification, a claim, a file name, a
+matter, model output or an error message: only counts and values from a fixed list. Nothing is
+sent until the notice the web interface shows on first launch has been dismissed. Offline mode
+and `CD_NO_LICENSE_RENEWAL=1` hold the reports on this machine and send them once they are off;
+`DO_NOT_TRACK=1` stops reporting and deletes what is stored, and so does a licence or an IT
+department's `ForceOfflineMode` policy. `continuation-drafter telemetry show` prints what is
+waiting to be sent. An air-gapped firm should set `ForceOfflineMode` by policy, or run with
+`DO_NOT_TRACK=1` and `CD_NO_LICENSE_RENEWAL=1`, with a long-dated token issued out of band.
 
 ## Updating
 
@@ -604,10 +641,11 @@ key verifies and reports a tier without changing what the tool will do.
   the run fails: a model server that was unreachable throughout must not read as a
   specification with nothing left to claim.
 - `CD_NO_BROWSER=1` stops the tool opening a browser window, which matters if you script it.
-- `CD_NO_LICENSE_RENEWAL=1` disables license renewal, the one outbound call this binary makes
-  on its own with no switch for it, described under Setup, and refuses update checks (see
-  Updating). The checks at launch for an update and for new papers at the USPTO run only when
-  turned on in Settings.
+- `CD_NO_LICENSE_RENEWAL=1` disables license renewal, described under Setup, refuses update
+  checks (see Updating), and holds usage reports on this machine until it is unset. The checks
+  at launch for an update and for new papers at the USPTO run only when turned on in Settings.
+- `DO_NOT_TRACK=1` stops usage reporting and deletes the install number and anything queued
+  (see Usage reports, above).
 
 **Model choice matters more than it looks, and context is the first filter.**
 A specification is ~1 token per 4 characters and the whole thing goes into the

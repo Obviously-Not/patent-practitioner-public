@@ -10,6 +10,86 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-11-08
+
+### Added
+
+- **Usage reports.** The program now reports how it is used, so the tool can improve from real
+  use: which steps run, how long they take and whether they finish, with the hour of use and the time
+  zone, under a random install number that is not tied to you. A report never carries a
+  specification, a claim, a file name, a matter, model output or an error message. Nothing is sent
+  until the welcome notice in the web interface has been dismissed. Offline mode keeps the reports on
+  this machine and sends them later; `DO_NOT_TRACK=1` stops reporting and deletes what is stored, and so
+  does a licence or the `ForceOfflineMode` policy. `continuation-drafter telemetry show` prints what is
+  waiting to be sent.
+- **Patent figures, for utility applications.** The opening page offers a third task, Make patent
+  figures, beside a reply and continuation claims, and every matter has a Figures tab. A figure starts
+  from a brief: what the figure is to show, read from the figure the specification's brief description
+  lists, or from a description you type, with each part's reference character and the passage that
+  names it, for you to edit and confirm. A model on this machine draws it by default; you can choose
+  another, and the program asks before a matter goes to a model off this machine, as drafting does.
+  Revise a figure with an instruction of your own, or edit its source by hand, and redraw a figure from
+  a sheet on file, a cited reference's figure or a picture you upload, including a colour figure; a
+  picture is sent to a model off this machine only once you agree to it on screen. Every reference
+  character, lead line, lettered word and number on a sheet is placed by the program, and each sheet
+  comes with a list of facts about it, each with the part of 37 CFR 1.84 it concerns quoted. The tab
+  shows each sheet at its printed size and at two-thirds, with any label set closer than usual or
+  forced into place marked, the reference characters as a list tied to the sheet, the brief and the
+  passage, a table of the reference numerals across the figures, and draft "FIG. n is" lines. Review copies (PDF, SVG and
+  PNG) carry the maturity notice; once you record that you have reviewed the sheets as they are now,
+  they can be written without it, and a change to a figure withdraws that record. The claims in Word
+  carry the drawn figures. Each figure says which model drew it and where it ran; its shapes and
+  arrangement are the model's, for you to judge against the invention. Design and plant applications
+  are not covered. Try the sample with the valve application's specification.
+- **Checks on the drawings on file.** The reply's check panel and the continuation's Claims tab show
+  four checks on figure numbers: a figure the specification refers to and its brief description of the
+  drawings does not list, a listed figure the specification does not refer to, a figure labelled on a
+  drawing sheet and not listed, and a listed figure on no sheet read. Each is shown with the rates
+  measured for it on public applications beside its findings, and each finding quotes the rule it
+  concerns. **Read the drawings** reads the matter's drawing papers when you ask, and the sheet checks
+  then read the sheets in force, a replacement sheet taking the place of the sheet it replaces.
+- **A replacement sheet for a drawing objection.** An item of the action objecting to the drawings
+  offers Prepare a replacement sheet: choose a figure from the Figures tab, and the program lays out
+  the sheet labelled "Replacement Sheet", carrying the sheet's other figures as filed, or a new sheet
+  for an added figure. The reply in Word gains an Amendments to the Drawings section with each sheet's
+  facts and the sheets attached, and Next steps asks for the sheet until it is prepared. **Try a sample
+  with a drawing objection** opens application 17/095,189's own non-final rejection, which objects to
+  its drawings, with its claims, specification and drawings as filed. In continuation work, a new
+  figure can be briefed from the parent's specification and drawn on the Claims tab.
+- **Figures on the command line.** `continuation-drafter figure` works on files: `figure brief` reads
+  what each figure is to show from a specification, `figure draw` draws a figure from a confirmed
+  brief into a folder, `figure redraw` redraws one from a page of a PDF or a picture, `figure check`
+  measures folders' sheets again with no model, and `figure export` writes their sheets as a review
+  copy, or without the notice once you record your review. A folder the command line wrote can be
+  imported into a matter's Figures tab.
+
+### Changed
+
+- **Licence keys name the product they are for.** A key now carries the product it unlocks, its own
+  identifier, an expiry and the signing key's name, and this program accepts only a key issued for it:
+  a key for another product is refused with a message saying so. No licence key had been issued before
+  this change, so no key anyone holds stops working.
+
+### Fixed
+
+- **A drawing paper you add is listed as Drawings.** The Papers tab offers Drawings as a kind of
+  paper, and a paper the Office files as drawings is listed with the sorted papers under that name;
+  the drawings are kept with the matter and are not read for the record unless you ask.
+- **A paper whose kind is not yet chosen says so.** Its menu reads "Choose what this is" until you
+  choose, where it could show the first kind on the list.
+- **A cited figure's link says how its sheet was found.** It reads "Open FIG. n" where a sheet's
+  label names the figure, "FIG. n (sheet inferred)" where the sheet is found from its lettered views or
+  the figures either side of it, and "FIG. n (drawing sheets)" otherwise; its tooltip names the sheet
+  it opens and how many drawing pages could not be read.
+- **A figure list is read whole.** A citation such as "FIGS. 1, 2, and 3", "FIGS. 5 and 6A-6C" or
+  "Figures 6, 14, 17, or 26" names every figure in it, in the citations and on the drawing sheets alike.
+- **More drawing pages are read.** Pages a PDF stores in compressed form are read, and in the right
+  order; a page drawn in many pieces is reported as not read, rather than read as a page with nothing
+  on it.
+- **Getting the cited references again reads their drawing sheets again** when an earlier version
+  read them, from the copy already on this machine, so a matter started before this version opens a
+  cited figure as a new matter would. Nothing is fetched for it.
+
 ## [0.13.0] - 2026-11-07
 
 ### Added
@@ -34,7 +114,11 @@ repository is private and its commit subjects are not published.
 - **Your own files for a matter**, such as a client's notes or a declaration's exhibits, kept outside
   the file history and on this machine only: no reply feature reads them, and they are never sent to a
   remote model. A file's text that its pages do not show is noted, and a digest writes nothing about it.
-- **Settings name the model for each step of a digest.**
+- **Settings name the model for each step of a digest.** A digest runs on Ollama, LM Studio, or another
+  OpenAI-compatible server on this machine. Its checking model must come from a different maker's base
+  model than the model writing the statements: the program reads that from the family Ollama or LM
+  Studio reports, and for a server that reports none, such as llama.cpp or vLLM, you state the maker in
+  Settings. Each digest records which it used.
 - **Third-party notices.** Each release publishes `THIRD_PARTY_NOTICES.md` beside this changelog, with
   the licence of every third-party component the program is built with, reproduced in full.
 

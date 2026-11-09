@@ -292,8 +292,10 @@ model being slow or the tool being broken:
 - a long wait, then nothing, with no error that names a cause
 - more `--max-tokens` makes it slower and no more likely to succeed
 
-**Set `--reasoning-effort`.** `low`, `medium` or `high`; unset keeps the provider's own
-default, which for some models is effectively unbounded.
+**Set `--reasoning-effort`.** `none`, `low`, `medium` or `high`; unset keeps the provider's own
+default, which for some models is effectively unbounded. The run now names this case when it
+happens: a model that spends its whole output limit reasoning, with no answer, stops with advice
+to lower the effort or choose another model, and its limit is not raised for it.
 
 ```
 continuation-drafter draft --spec spec.txt --parent claims.txt \
@@ -375,8 +377,12 @@ prose-shaped rather than element-delimited.
 against `num_predict`**, so the model can spend its whole budget reasoning and
 return a truncated, empty answer.
 
-The binary sends `think: false` by default, so this is handled. Set
-`CD_OLLAMA_THINK=1` to restore the model's own default when comparing behavior.
+The binary sends `think: false` by default, so this is handled. A call that
+asks for a reasoning effort with `--reasoning-effort` sends that effort as the level instead, to a model whose description
+lists the thinking capability, because a model that cannot turn its reasoning off
+answers at a level and not at `false`. `--reasoning-effort none` sends `think: false`
+to every model, and so does a figure call that names no effort. Set `CD_OLLAMA_THINK=1` to restore the
+model's own default when comparing behavior.
 
 Symptom if you ever hit it: `done_reason=length` with no usable content, on an
 input far too small to justify it.
@@ -441,6 +447,13 @@ checks what a window costs in memory, and can see a model the server would forwa
 machine. LM Studio is the alternative: it declares the window of a model it has loaded, refuses
 a prompt longer than it rather than cutting it, and runs several requests at once since 0.4.0.
 An Ollama address given as `local-openai` is run on Ollama's own API, and the run says so.
+
+**A digest needs to know which maker each of its models comes from**, because the model that checks
+its statements must come from a different maker's base model than the one writing them. Ollama and LM
+Studio report it. llama.cpp, vLLM and most other OpenAI-compatible servers do not, so for a model on
+one of them, state its maker in Settings, under the lineage of a model on your OpenAI-compatible
+server, as the model's card names it. A family the server reports is used instead, and each digest
+records which it used.
 
 **A server that declares no window can run your Mac out of memory.** `mlx_lm.server` reads a
 prompt of any length until memory runs out: measured on a 128 GiB MacBook on 2026-10-10, a prompt
@@ -529,10 +542,12 @@ and reaches a third party. For published patents that is fine. For an
 unpublished or privileged application it is not: use a local model. The
 "nothing leaves your machine" property belongs to the local path only, and to a model the
 local server runs itself (see "Cloud models in an Ollama list"), and is
-not a property of the tool as a whole. Two things can leave, and they are different in kind:
-your SPECIFICATION, only ever to a model provider you configure, and, if you hold a paid
-licence, your LICENCE KEY to the renewal endpoint about once a month. The second carries no
-specification text and is disabled by `CD_NO_LICENSE_RENEWAL=1`.
+not a property of the tool as a whole. Three things can leave, and they are different in kind:
+your SPECIFICATION, only ever to a model provider you configure; if you hold a paid licence,
+your LICENCE KEY to the renewal endpoint about once a month, which `CD_NO_LICENSE_RENEWAL=1`
+disables; and, from a release build with no licence, USAGE REPORTS, which hold counts and values from a
+fixed list and never any text, and which `DO_NOT_TRACK=1` stops. Neither of the last two carries
+specification text.
 
 **The local path costs more than speed and context.** On a real spec, the strong
 local models drafted well-grounded, cleanly-formed claims that were aimed at the

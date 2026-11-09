@@ -33,6 +33,15 @@ application number, which is what the request sends. And when the operator turns
 papers in Settings, the tool asks the Portal once when the web interface opens for each matter's
 application, sending each matter's application number and nothing else.
 
+**And usage reports, from a release build, on its own** once the first-run notice in the web
+interface has been dismissed: counts and values from a fixed list (which steps ran, how long they
+took, whether they finished, the hour and the time zone) under a random install number, sent to
+the ingest API at the address the release embeds. A report never carries a specification, a
+claim, a file name, a matter, model output, an error message or a server address. Offline mode
+holds reports locally and sends them later; `DO_NOT_TRACK=1`, a licence, or the `ForceOfflineMode`
+policy stops reporting and deletes what is stored. `continuation-drafter telemetry show` prints
+what is queued.
+
 **On this machine means on this machine, and the binary decides that from the address
 rather than from the name.** A local model can be pointed at another host through
 `OLLAMA_BASE_URL` or `CD_LOCAL_OPENAI_BASE_URL`, and a host on your own network is
@@ -52,12 +61,15 @@ model. It cannot see forwarding by a server other than Ollama, or by a proxy in 
 that says nothing about it.
 
 **What the tool asks a local model server, and where.** Every such question goes to the address
-configured for that server and nowhere else, and each answer is read for numbers only. Of
+configured for that server and nowhere else, and each answer is read for numbers only, except the
+name of a model's architecture, which a digest reads to check that its two models come from different
+makers. Of
 Ollama: its version and what it holds (`/api/version`, `/api/ps`), what it says about a model
 (`/api/show`), and its list of models (`/api/tags`), the last to see where each model runs and to
 work out what a window costs in memory before asking for it. Of an OpenAI-compatible server: its model list, and the tables in
 which llama.cpp (`/props`, `/slots`) and LM Studio (`/api/v1/models`) say what window a model is
-loaded at. Of a server that says nothing, the tool measures the window with three prompts of
+loaded at, and, for a digest, the architecture LM Studio lists for a model (`/api/v1/models`, else
+`/api/v0/models`). Of a server that says nothing, the tool measures the window with three prompts of
 generated text that carry nothing of the specification.
 
 In scope:
