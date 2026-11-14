@@ -35,7 +35,7 @@ Without a paid licence the binary makes no such call at all.
 |---|---|
 | `go/main.go` | CLI: `draft`, `export`, `critique`, `bestpractice`, `judge`, `panel`, `compare`, `bench`, `figure`, `serve`, `models`, `version`, `license`, `activate`, `upgrade` |
 | `go/internal/server/` | HTTP server for the local web UI (runs on localhost:9473) |
-| `go/web/` | Alpine.js SPA served by the binary (no build step). HTML, CSS, fonts and Alpine itself are embedded via go:embed and served from the binary, so the web UI makes no request to any other site |
+| `go/web/` | Alpine.js SPA served by the binary (no build step). The page is written in parts under `go/web/page/`, joined in the order `go/web/parts.txt` lists. HTML, CSS, fonts and Alpine itself are embedded via go:embed and served from the binary, so the web UI makes no request to any other site |
 | `go/internal/pipeline/draft.go` | Spec analysis, target extraction, drafting, and the verify->revise loop |
 | `go/internal/pipeline/critic.go` | Cross-family critic that flags per-claim defects for the revise loop |
 | `go/internal/pipeline/judge.go` | Claim-quality rubric judge with spec-anchor validation |
@@ -123,7 +123,7 @@ minutes on a large model. When that says nothing either, the number is needed fr
 export CD_LOCAL_OPENAI_CONTEXT_TOKENS=16384   # LM Studio's context length, llama.cpp's -c / -np, vLLM's --max-model-len
 ```
 
-or Settings in the web interface, for one model. With no window known the run is refused and
+or Settings in the web interface (under Model servers and advanced), for one model. With no window known the run is refused and
 says where your server shows it. An Ollama address given here is run on Ollama's own API, which
 sets the window on every call, so nothing has to be stated.
 
@@ -332,7 +332,7 @@ on it.
 A multi-model panel is several requests. On a server that runs them together it finishes in a
 fraction of the time; on one that queues them it does not. Which yours does depends on the
 server and the model format rather than on this tool, so `bench` measures it and tells you
-whether to say in Settings how many requests your server runs at once. A remote provider runs
+whether to say in Settings (under Model servers and advanced) how many requests your server runs at once. A remote provider runs
 three at once already.
 
 **Patent figures** for a utility application, on files (`FIGURE_MODEL` names the model, else the
@@ -340,14 +340,40 @@ drafting model):
 
 ```bash
 ./continuation-drafter figure brief --spec app.txt --out briefs     # confirm each brief, then
-./continuation-drafter figure draw --brief briefs/fig-1.json --out fig1
-./continuation-drafter figure redraw --brief briefs/fig-2.json --pdf drawings.pdf --page 1 --figure 2 --out fig2
+./continuation-drafter figure draw --brief briefs/fig-1.json --spec app.txt --out fig1
+./continuation-drafter figure redraw --brief briefs/fig-2.json --image sketch.png --spec app.txt --out fig2
 ./continuation-drafter figure check --dir fig1 --dir fig2
 ./continuation-drafter figure export --dir fig1 --dir fig2 --out sheets.pdf
 ```
 
-Each figure is a folder holding every answer the model gave, the source, the sheet as SVG and PDF
-review copies, and the facts measured on it; the web UI's Figures tab imports it.
+With `--spec`, a figure is drawn from what the specification says about it: the model first writes a
+description from the paragraphs that discuss the figure, kept with it for you to check. `--said "..."`
+gives your own words on how the figure looks, which the model follows where they differ from the
+specification. For a drawing other than a schematic, your words take the place of that description, so
+the figure is drawn from your words and the specification's sentence about it, in less time. The model
+draws what your words say: name each part you want drawn, including one the specification gives no
+reference character, and say which lines, if any, are broken.
+
+**For a mechanical drawing, start from a picture if you have one.** `figure redraw` takes a rough
+sketch, a photo of a pencil sketch (`--image`), or a figure on a page of a PDF on file (`--pdf`,
+`--page`, `--figure`), and with `--spec` reads the specification as `figure draw` does. In the runs
+measured, a rough sketch made a better starting point than words alone ([`docs/models.md`](docs/models.md)).
+The model draws what the picture shows, so a part the picture leaves out is left out of the figure.
+On the Figures tab, a drawing's brief opens its redraw from a picture first, and the form shows the
+picture it will start from, cut from its page and turned, before any model is asked.
+
+Each figure is a folder holding every answer the model gave, the source, the sheet as SVG and PDF,
+and the facts measured on it; the web UI's Figures tab imports it. **To finish a figure, edit it on
+the Figures tab:** *Edit the drawing* draws the figure's shapes over its sheet to drag, resize, reshape
+point by point, turn and flip by part, add to, and place and size in millimetres on the sheet, with zoom
+up to eight times and a list of each part's shapes, and *Edit the diagram* is a form of a flowchart's or
+block diagram's boxes and connections; a flowchart drawn too large for its sheet opens there too. A
+kept edit is the figure's next version, lettered and measured again, and the version before is kept. To finish a figure in your own
+drawing program instead, `figure export --editable --out fig1.svg` writes a copy for Inkscape, with each part
+in a named group (a whole's boxes inside the whole's group) and its words as live text, and a `.vsdx`
+`--out` writes a flowchart or block diagram as Visio boxes and connectors. A `.png` sheet records its
+300 dots per inch, so a word processor places it at its size on paper. An edited copy stays outside the program: the checks and the record of
+how the figure was made do not follow it.
 
 **Other commands:** `judge` scores one draft against the rubric, returning
 per-claim verdicts with spec-anchor validation (T1) and honest-null: a claim it
@@ -367,6 +393,24 @@ The binary includes a local web UI. Start it with `serve`:
 ./continuation-drafter serve           # opens http://localhost:9473 in your browser
 ./continuation-drafter serve --port 8080 --no-browser
 ```
+
+The page answers only a browser the program has signed in. The program signs in the browser it
+opens with a ticket that works once and for two minutes, handed over through a file in its own
+folder that only your account can read, and a bookmark and a page left open stay signed in. It also
+prints an address that signs a browser in, once and within two minutes, for when no browser opens
+signed in, and with `--no-browser`. A browser that is not signed in is told to open the program
+again, from its icon or by running `continuation-drafter` with nothing after it, which signs it in
+to the copy already running. When the program finds a copy already running, it first has that copy
+prove it holds the session kept in your account's folder, without sending the session to it; a
+program on that port that cannot prove it is sent nothing, and the program opens on another port.
+
+That keeps the page from other accounts on the computer and from web pages in your browser. It
+does not keep it from programs your own account runs, which can read your files, or from a server
+another account runs on another port of this computer, if your browser is led to open that
+server's page: a browser sends what it holds for `127.0.0.1` to every port there.
+
+Until a model is chosen, each step shows one line saying what to do next on this computer: start
+Ollama, or download the model measured for it, or use a key or another choice.
 
 The interface starts with what you are working on: a reply to an Office action, claims for a
 continuation application, or patent figures. Each matter then runs in steps.
@@ -412,10 +456,11 @@ of record: the deadline is your responsibility. Today is this computer's date.
 Address the Rejections and Objections (and Requirements, when the action states one) gives each
 item of the action a workspace of its own: its state, the examiner's
 citations limitation by limitation, a response approach you choose (arguments, amendments, both, cancelling the
-claims, a terminal disclaimer where the item allows one, or your own words), and its drafted units.
-Each unit is marked as a record fact (written from the record with no model), suggested text, or
-text for review; you add it to your reply, edit it or dismiss it, and an added unit can be taken out
-again. Drafting an item again avoids the units you dismissed, which stay listed with Restore. A unit
+claims, a terminal disclaimer where the item allows one, or your own words), and what **Draft the response**
+drafts for it: arguments, amendments and statements, each named by what it is. Each is marked as a record
+fact (written from the record with no model), suggested text, or text for review; you add it to your
+reply, edit it or dismiss it, and anything added can be taken out again. Drafting an item again avoids
+what you dismissed, which stays listed with Restore. An argument
 saying what a reference does not describe names the claim's words the drafter did not find, shows the
 passages it rests on (on a rejection over a combination, the other references' nearest passages too),
 and is added only once you say what you reviewed. Arguments on
@@ -463,16 +508,22 @@ claims keep a history of how they came to be.
 
 **Patent figures**, for utility applications, run Papers and Figures, and every matter has a Figures
 tab. A figure starts from a brief, read from the figure the specification's brief description lists or
-from a description you type, which you edit and confirm. A model on this machine draws it by default;
+from a description you type, which you edit and confirm; each brief can show what a draw will give the
+model, such as how much of the specification is read first. A model on this machine draws it by default;
 you can revise it with an instruction, edit its source, or redraw a figure from a sheet on file, a cited
 reference or a picture you upload (a picture goes to a model off this machine only once you agree to it).
 The program places every reference character, lead line and number, and lists facts about each sheet
-with the part of 37 CFR 1.84 each concerns. Review copies carry the maturity notice; the sheets are
-written without it only after you record that you have reviewed them. On a reply, the check panel
+with the part of 37 CFR 1.84 each concerns. A sheet holds the drawing and nothing else, and reviewing
+each sheet is yours to do, as it is for everything the program drafts. On a reply, the check panel
 shows four checks on the figure numbers of the drawings on file, each with its measured rates, and
 **Read the drawings** reads the drawing papers for them; an objection to the drawings offers a
 replacement sheet, which the reply in Word attaches. **Try a sample with a drawing objection** opens a
 public application's own action objecting to its drawings.
+
+**Try the sample** for a reply opens a public non-final rejection already read, with a reply already
+drafted for each item: one saved run of the program, labelled with the model and the day, so you can
+see what drafting produces before setting up a model. Each part is yours to add, edit or dismiss, and
+drafting an item again replaces it with your own model's.
 
 **The conversation** sits below every step. You ask in your own words, and the tool selects one
 of its passes and runs it:
@@ -506,7 +557,9 @@ activation.
 eligible. It drafts claim language and reports on drafting quality against the specification
 you supply. Every output is for a licensed practitioner to check and decide on.
 
-The server binds to `127.0.0.1` only (localhost, not network-accessible). Your inputs
+The server binds to `127.0.0.1` only (localhost, not network-accessible), and it answers only a
+browser the program has signed in, which keeps it from other accounts on the computer and from web
+pages in your browser; Web UI above says what that does not cover. Your inputs
 (spec, parent claims, drafts) stay on your machine; they are sent to the LLM provider you
 configure, and a patent search you ask for sends its query, which describes the invention, to
 the search service you chose (SerpApi, or your own Google Cloud project). The web UI loads everything it needs, including the Alpine.js
@@ -627,7 +680,7 @@ key verifies and reports a tier without changing what the tool will do.
   largest stretch nothing cited. The tool could always tell you a proposed direction was
   fabricated; this is what tells you it never looked at part of the document.
 - **How many model calls run at once** (a panel's rounds, a reply's items): one at a time on
-  a model server you run, unless Settings says it runs more; three at once at a remote
+  a model server you run, unless Settings (under Model servers and advanced) says it runs more; three at once at a remote
   provider. A panel on your own server runs model by model, so each model loads once.
   `CD_CONCURRENCY` overrides both. Run `bench` before raising the local number: on a server
   that queues requests, more at once buys no speed and raises peak memory.
@@ -666,7 +719,7 @@ claims than frontier models, so treat a local draft's claim aim as a first pass.
 
 ## Honest maturity
 
-This is **R&D-grade**, not a finished product. The originating experiment's
+This is **Beta**, not a finished product. The originating experiment's
 conclusions still hold: the pipeline drafts real, well-formed, spec-grounded
 continuation claims, but a **single AI judge cannot reliably rank drafters**, the
 revise loop is a modest positive, and only a multi-model panel gives a stable

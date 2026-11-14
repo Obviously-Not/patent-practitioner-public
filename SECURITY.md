@@ -91,6 +91,11 @@ In scope:
 - Vulnerabilities in the local web UI's server: request handling that reaches
   files outside the working set, or that lets another local user or a web page
   in the operator's browser drive the tool
+- Any way past the local web UI's session. The server answers a request only when it
+  carries a session cookie whose secret is kept in `~/.continuation-drafter/session`,
+  readable by your account alone, and the browser gets that cookie from a ticket that is
+  good once. In scope: a request answered without the cookie, a ticket accepted twice,
+  and disclosure of the secret through logs, error text or process arguments
 - Flaws in licence renewal: a renewal response that can replace a valid token with one the
   client should have rejected, a payload that carries more than the licence key, or any way to
   make the client fail closed (stop working) when the endpoint is unreachable, which it must
@@ -109,7 +114,7 @@ Out of scope:
 - Issues in third-party services the tool can be pointed at, including Ollama
   itself and any remote inference provider
 - The quality, correctness, or completeness of drafted claims. Output is
-  R&D-grade drafting input for a licensed practitioner, never filing-ready and
+  Beta drafting input for a licensed practitioner, never filing-ready and
   never a legal determination; a weak draft is a product limitation, not a
   vulnerability
 - That all capabilities are currently available regardless of license tier.

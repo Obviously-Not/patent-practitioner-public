@@ -10,6 +10,339 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-11-14
+
+### Added
+
+- **Edit a figure on its sheet.** On the Figures tab, *Edit the drawing* draws the figure's shapes over its
+  sheet: click a shape and drag it, drag its handles to resize it or move its points one by one, or move
+  it with the arrow keys; pick whole parts to move, turn or flip a part with its reference character's
+  point; add a line, rectangle, ellipse or polyline to a part, change a shape's line, move it to another
+  part, and type exact numbers. A flowchart's or block diagram's *Edit the diagram* is a form of its boxes,
+  connections and flow, laid out again by the program. Each edit is kept as the figure's next version,
+  lettered and measured again, and *Return to the version before* undoes it. Both views and the source
+  as text edit one draft, with one Undo and Redo across them. Zoom in up to eight times with the buttons,
+  Command or Control with the scroll wheel, or a pinch, or zoom to the selected shape; choose a reference
+  character to select its part and pick from the shapes it is drawn with; and set a shape's or a part's
+  place and size on the sheet in millimetres. A draft not yet kept is held in this browser and offered
+  again after a reload, the draft says which version it was made from, and an edit that does not fit its
+  sheet says why beside the editor while the draft stays open. A flowchart the model drew too large for
+  its sheet opens in the form, to shorten its words or change its flow and keep it with no model. Copies
+  for Inkscape and Visio are still offered, under *Export to another program*, and are made from the kept
+  version.
+
+- **Figure edits that keep newer work.** An edit is kept only over the version it was opened from, a
+  diagram that did not fit its sheet included, so an edit opened earlier never replaces one kept since.
+  While an edit is being kept, its draft and controls wait for the answer. Showing a figure offers an
+  unkept edit this browser holds, to open or drop, and closing an edit in one tab never removes a copy
+  another tab wrote. The label, rename, delete and return controls wait while an edit is open, since each
+  makes a version of its own. Return to the version before is offered only where a drawn version comes
+  before, and clicking the figure shown, or drawing, redrawing, putting back or importing another, keeps
+  an open edit with its own figure and asks before leaving changes.
+
+- **A digest read by level.** A digest's new *By level* view starts from the matter as the program reads
+  it from the papers and their readings: the actions in order, the grounds the latest action that rejects
+  claims states and those only earlier actions stated, and the claims' changes across claims papers. Each
+  round opens onto its files and what each action states of the claims, each file onto its rejections,
+  claim groups and headings, and each of those onto the digest's statements, with the file's own words
+  beneath them. Where the program's reading of an action recorded no statement of the claims' status, the
+  round says so. Each line of the matter's and each round's account opens onto what it rests on: the
+  papers it reads and, where it was read from particular words, those words, marked when they could not be
+  verified against the paper. A paper the digest could not read, such as one with no text or one whose
+  reading failed, is named in the accounts as not read, with the reason.
+
+- **Figures drawn from what the specification says.** A figure read from the specification now starts
+  from a description the model writes out of the paragraphs that discuss it, so a flowchart carries the
+  steps the specification states, and you can read that description with the figure. If the description
+  cannot be written, the figure is still drawn, and the program says so.
+- **Your own words on how a figure looks.** A box on the brief, or `figure draw --said`, takes which way
+  the figure is viewed, where the parts sit and the outline of a part, and the model follows them.
+- **A fuller parts list to check.** A flowchart's brief lists every numbered step, other figures offer
+  the further parts their text names, one click from the list, and the form flags a part your words name
+  that the list lacks.
+- **Your words go straight to the drawing.** A drawing other than a schematic is drawn from your words
+  and the specification's sentence about it, in less time. A schematic, flowchart or block diagram is
+  still drawn from what the specification says. The model draws what your words say, so name each part
+  you want drawn, including one with no reference character, and say which lines, if any, are broken.
+- **A mechanical drawing from your picture.** `figure redraw --spec`, and a redraw from the Figures tab,
+  now read what the specification says about the figure, as a draw does, and redraw from the picture
+  you give: a rough sketch, a photo of one, or a figure on file. In the runs measured, a rough sketch made
+  a better starting point than words alone. The Figures tab opens a drawing's redraw from a picture
+  first. The model draws what the picture shows, so put every part you want in the picture.
+- **Redrawing from a picture, made safer.** On the Figures tab a picture and the consent to send it are
+  cleared once a figure is redrawn and when another matter opens, and consent holds only for the model it
+  was given for. A one-box flowchart is refused before any model is asked. A redraw that comes out close
+  to blank points you at the picture.
+- **Figures on a model that always reasons.** A figure is drawn with no reasoning, and a model whose
+  provider lists its reasoning as mandatory, such as `google/gemini-3.1-pro-preview` or
+  `openai/gpt-oss-120b` on OpenRouter, is now sent the lowest reasoning it takes instead, and the run's
+  record says so. Any other call that asks for no reasoning does the same. A model that reasons takes
+  longer and its reasoning is charged as output.
+- **A figure folder anywhere you name it.** `figure draw --out` and `figure redraw --out` now make the
+  folders above the figure's folder, as `figure brief --out` does, before any model is asked.
+- **A suggested model for figures.** `continuation-drafter models` names the local model measured best for
+  figures that fits your machine, a figure command run with no model names it, and the Figures tab shows it.
+- **Lead lines that reach their parts.** Each reference character now has one lead, and it ends on the
+  part the character names. Leads are gently curved and about three character heights long where there
+  is room, and characters stand outside the view where they can. The sheet check says how far a lead
+  that misses its part is from it.
+- **Numbers inside flowchart steps, and an arrow for the whole figure.** Each step of a flowchart and each
+  block of a block diagram now carries its reference character underlined inside it, under its words; a
+  diagram too tall for that keeps its characters on lead lines and says so. A figure's own number, where
+  the drawing groups every part under it, now stands just outside the view on a freestanding arrow.
+- **Parts that meet are hatched apart.** In a section, two different parts that meet are now always hatched
+  in different directions, or one is cross-hatched, as the drawing rules ask. The sheet's facts say each
+  part whose hatching the program changed.
+- **Words that give way to their numbers.** A word on a drawing that names a numbered part, and finds no
+  room at that part, is left off, and the part is read by its reference character; the sheet's facts say
+  which words, and by which numbers. A word that names nothing numbered, such as where a line leaves the
+  sheet, is always lettered.
+- **See what a draw will use before it runs.** On the Figures tab, each brief can show what the model will
+  be given: whether the specification is read first and how much of it, that no paragraph names the
+  figure, or that your words or your edited description stand in its place.
+- **See the picture before a redraw.** The redraw form shows the picture it will start from, the figure cut
+  from its page and turned as you chose, before any model is asked. A redrawn figure shows the picture it
+  came from, and the figure laid over it, beside its sheet.
+- **Each stage of a figure said as it runs.** A figure's progress names its stage: preparing the picture,
+  reading the specification, drawing, and, when the reading could not be written, that the figure is drawn
+  without it.
+- **Wholes made of parts, set from a list.** On the brief, a whole's parts can be picked from the brief's
+  own reference characters; wholes that would hold each other in a ring are flagged as they are set; and a
+  line says how each whole will be drawn. Choosing another figure while its source holds edits not yet
+  kept asks before leaving them.
+- **Editable copies that keep wholes together, and sheets that keep their size.** In the editable SVG, the
+  boxes inside a whole are grouped inside it, so moving the whole moves them. The PNG sheet records its 300
+  dots per inch, so a word processor places it at its size on paper. In the Visio copy, a freestanding
+  arrow reaches its part and every shape has a name of its own.
+- **A part given as a lettered range.** A part the specification names as a range, such as "processors
+  440A-N", is listed with both ends of the range.
+- **The crowding check sees strokes that run together.** Two strokes drawn so close that their lines merge
+  when the sheet is reduced are now reported, where before the check saw no gap between them and passed.
+- **More drawing sheets read.** A drawing paper whose text is set in a font with no character map, but whose
+  encoding names each character, is now read by those names, and a figure label a file stores in pieces
+  ("FIG", ".", "1") is read as one label. On the 999 sheets of 40 public applications' drawing papers, the
+  sheets with no figure label read fell from 120 to 81, and those pages' reference characters are read too.
+- **A redraw from a sheet whose label cannot be read.** Asked to redraw one figure from a sheet that names no
+  figure the program can read (a handwritten label, say), the program now sends the sheet's whole drawing and
+  says so, where before it stopped; the picture shown before the redraw lets you check it holds that figure
+  alone. A sheet that names other figures and not the one asked for is still refused, naming those it does.
+- **A figure kept when asking for a better one goes wrong.** When the program asks the model to correct a
+  drawing's size or contents and the answer comes back unusable, the drawing it asked about is now kept as
+  the figure, with the facts it was asked to correct still stated and a line saying why, where before the
+  whole figure was lost. This holds for drawing, redrawing and revising a figure.
+- **Revisions that say what they did.** A revision that comes back unchanged is no longer kept as a new
+  version: the figure stays as it was and you are told so, and when the change needs a part the brief does
+  not list, you are told to add it to the brief. An edit of a figure's source lists what it changed,
+  including words on a drawing, its section lines and which way a flowchart runs.
+- **Sheets that read upright.** A figure is laid out on an upright sheet whenever it fits there, so a
+  sheet is read without turning the page. A sheet is turned on its side only when the figure does not
+  fit upright, or, for a drawing, when its reference characters would crowd upright and fit turned.
+  A figure already drawn shows upright the next time it is opened.
+- **A figures sample to try.** Try the sample on the figures task now opens a public application's
+  specification and its drawings, so a brief is read for each of its thirteen figures and a sheet on
+  file can be redrawn.
+- **Edits that stay with their figure.** A figure's source opened for editing is saved to that figure,
+  whatever is chosen meanwhile, and an edit or a revision made from a version that has since changed is
+  refused with the version to start from, so neither replaces newer work.
+- **Figures that keep what you gave them.** A description you change is drawn as you wrote it; a
+  specification that reached the program as one long line is still read for the figure, and the command
+  line says when no paragraph names the figure; a connection a box round its parts would hide is drawn
+  with the parts beside it; a ring of parts inside each other is refused, naming them; and setting a part
+  aside takes it out of the boxes that held it. A redraw from a sheet on file uses the sheet you chose.
+- **Reference characters that stay marked.** A character moved a little off its place keeps its underline,
+  the sheet check reports any character with neither underline nor lead, and the Visio copy keeps a
+  subscripted character a subscript.
+- **Parts named by an abbreviation, read with care.** When a number is named both by capitals and by
+  words, such as a steel grade and a spring, the part is the one the words name.
+- **The Visio copy** names its typeface, and on a sheet turned on its side its top-margin label runs
+  along the margin.
+- **Next steps that point at the cause.** A figure that comes out close to blank now points you at your
+  words on it and at redrawing it from a picture; a flowchart with no room on its sheet, at splitting it
+  or shortening its words; and a figure with no part marked, at its parts list. A specification whose list
+  of figures cannot be read says what is read for, a heading such as BRIEF DESCRIPTION OF THE DRAWINGS
+  over lines that each open with their figure, rather than that the figure is not listed.
+- **Box words that read evenly.** The lines of words in a flowchart or block diagram box, and a word
+  broken over lines on a drawing, now stand an even distance apart whatever their letters. A box can be
+  a little taller for it, so a flowchart that only just fitted a sheet may now be refused for room, with
+  the advice to split it. In a block diagram with parts inside parts, a whole's reference character
+  stays underlined on it when a connection crosses where it would sit.
+- **Which local model to use for figures.** `docs/models.md` names `qwen3.8:27b`, measured against
+  `gemma4:31b` on two sets of public figures, with what each drew.
+- **Block diagrams with parts inside parts.** A box you mark as made of other parts is drawn round them.
+  When that would not fit on the sheet at the required lettering height, the parts are drawn beside it,
+  and the figure's record says so.
+- **More parts found.** The brief reads parts named by an abbreviation, and a description placed before
+  the brief description of the drawings.
+- **A flowchart or block diagram needs two parts or more.** Each box is a part with its reference
+  character, so a list of one is refused before any model call, with what to add. A specification that
+  numbers no steps leaves you to number them on the brief.
+- **Copies to finish in your own drawing program.** From a figure's page, or `figure export`, an SVG for
+  Inkscape with each part in a named group and its words as live text, and a flowchart or block diagram as
+  Visio boxes and connectors. An edited copy stays outside the program: the checks and the record of how
+  the figure was made do not follow it.
+- **Block diagrams that nest.** A part the brief marks as a whole is drawn as a box round its members, each
+  box carrying its reference character underlined beneath its words.
+- **The page answers only your own browser.** The program signs in the browser it opens, and its
+  server answers only a browser signed in that way, so on a shared computer another account cannot read
+  your matters. The address that signs a browser in is never shown where other accounts on the computer
+  can see it, and opening the program again first checks that the copy already running is your own
+  before signing your browser in to it. A bookmark and a page left open stay signed in. If a browser is
+  not signed in, the page says to open the program again. When the program cannot open a browser, and
+  with `serve --no-browser`, it prints an address that signs a browser in, once and within two minutes.
+  The README says what the sign-in protects (other accounts, and web pages in your browser) and what it
+  does not (programs your own account runs, or a server another account runs on this computer that your
+  browser is led to open). If a copy of an earlier version is still running, this version opens beside it
+  and says so; press Stop on the earlier copy's page.
+
+- **Support holes repaired on request.** `panel --repair-holes <folder>`, with an adversary named, gives
+  each draft's support holes to the first panel model for one revision and writes each repaired set to
+  the folder as a draft of its own, beside the one scored: the panel's scores describe the drafts as you
+  gave them. It says for each draft what its holes led to, and that the holes after the revision were not
+  checked again; a draft the adversary did not assess is said to be not assessed.
+
+### Changed
+
+- **A rejection's ground keeps its subsection.** The program's reading of an Office action now records a
+  rejection's ground at the precision the examiner states it, such as 35 U.S.C. 112(b) rather than 112,
+  wherever the action names a subsection or paragraph.
+
+- **A stopped digest keeps more of its work.** A digest resumed after an update that changes only how
+  statements are checked or grouped now reuses the statements already proposed for each window, rather
+  than reading every window again. A digest stopped before this release reads its windows again once.
+
+- **A drawing sheet holds the drawing and nothing else**, in every format, and the PDF is one page per
+  sheet. Reviewing each sheet is yours to do, as it is for everything the program drafts.
+- **A flowchart stops and says why when the specification cannot be read for it** and you have added no words
+  of your own, since its one sentence names no steps. A chart too large for its sheet says how to split it.
+- **The work has room at every window width.** The matter list sits beside the work from a 1200
+  pixel window and the next-steps panel joins it from 1640; between them the panel sits under the
+  work, so every step's tabs are in view.
+- **One caution about dates on each screen.** The dates on The action carry it, and the matter's
+  header carries it on the other steps.
+- **Settings and the model page stand alone**, with one link back to the open matter.
+- **A drafted part of a reply is named by what it is**: an argument, an amendment, a statement. The
+  summary of a drafted reply counts them by name, and the button that drafts an item reads "Draft the
+  response". A quotation the program could not match is labelled "not matched on the page".
+- **One line says how to get a model.** With no model chosen, each step and the first screen show what
+  to do next on this computer: start Ollama, or download the model measured for it, with a button for
+  that and one for a key or the other choices.
+- **Settings has two levels.** Settings for a model server you run yourself, the models a digest
+  uses, and what the build assumes are folded under "Model servers and advanced". Nothing was removed.
+- **The Office action sample opens with a reply already drafted**, so you can see what drafting
+  produces before installing a model. It is one saved run of the program by an open-weight model,
+  labelled with the model and the day; each part waits for you to add, edit or dismiss it, and drafting
+  an item again replaces it with your own model's. Its first rejection is now matched on the page.
+- **Shorter screens.** The first screen, the conversation's closing note and several hints say the
+  same things in fewer words.
+- **A matter opens showing its own steps from the first moment**, and an address inside a matter that
+  names no step opens that matter's Papers.
+
+- **The welcome notice is one line.** It says the program sends anonymous usage stats, never your
+  work or your clients', and links to the privacy policy, where the details are.
+
+### Fixed
+
+- **A digest's counts follow what it shows.** A digest's counts of statements and passages match what it
+  shows after files change or after it is checked again on opening, and quotations refused when a file
+  returns are counted. When a limitation's words were added, and in which claims paper, is read from the
+  text each uploaded claims paper's pages show, in the digest and in the File history timeline alike.
+- **An analysis the program cannot read is asked again.** When the analysis of a specification comes back
+  in a form the program cannot read, it now asks the model once more, and if the second answer cannot be
+  read either, the run stops and describes both answers, rather than reporting that no direction was
+  found. A specification read in parts no longer reports that nothing was found when one of its parts
+  could not be read.
+- **Claims read from the record, read more carefully.** A claim printed only as its number and status,
+  such as "2. (Canceled)", is no longer read as an independent claim, and a claim that refers to itself or
+  to a later claim is still counted as dependent but no longer shown as depending from that claim.
+- **The claim listing shows every change.** When your proposed claim differs from the claim as pending
+  only in where a space falls between two words, such as "a synchronous" against "asynchronous", in a
+  space inside a number, as in "1 0" against "10", or in one letter for another that a scan could mistake
+  for it, such as "tall" for "tail", the reply's claim listing shows it as currently amended with its
+  markings, where it could list the claim as unchanged with its earlier text. Spacing between a number
+  and a word, or beside a mark, still reads the same. A paper whose text ran two words together now shows
+  as a change in the listing for you to review.
+- **Each judge score goes to the claim it names.** When the judge scores a claim set, each score now goes
+  to the claim the judge named for it. A claim the judge skipped is shown as unscored with a note saying
+  so, every other score stays with its own claim, and answers naming no claim in the set are left out and
+  counted in the run's summary. A draft numbered from a number other than 1 is scored in full whether the
+  judge answers by the claims' own numbers or by their places, and a judge that numbers no answer but
+  gives one for each claim is taken in order, and the run says so.
+- **A critic that lists no claims is not a clean review.** When the critic, or the best-practices critic,
+  answers a claim set with a reply that lists no claims, the program asks once more, and if no review
+  arrives it says no review was made, rather than reporting no defects. A drafting run keeps its claims
+  as they stand and says they were not checked, and an instruction you gave is still applied.
+- **A digest that draws nothing says so.** When a digest runs to its end and no window of its files gives a
+  statement or a passage, its turn says it drew nothing and is empty, names the step that proposes
+  statements when that step gave nothing usable, and suggests another model for that step, where it said
+  the digest had finished with no statements. When the second model read none of the sentences written for
+  the passages, the turn now says that, rather than that none passed its reading. A digest whose files were
+  all taken out of the matter while it ran says so, rather than that it drew nothing.
+- **A withdrawn claim you change is marked in the claim listing.** When your proposed claims change the
+  text of a withdrawn claim, the reply's claim listing and its Word export show it as "Withdrawn -
+  currently amended", with the changes underlined and struck through against the claim as pending, as
+  37 CFR 1.121(c)(2) asks of a withdrawn claim that is being amended. A withdrawn claim you keep as it
+  was is still listed "(Withdrawn)", clean. A withdrawn claim you change is checked as an amended claim
+  (its support, its terms, its statements) whether or not you type its status, and a withdrawn claim
+  pending with no text of its own shows the text you propose as added. Claim listings that write the two
+  statuses joined by "and" or a comma, or "Withdrawn - Previously Presented", are now read as withdrawn.
+- **A figure's edits are kept whole.** Renaming a reference character across several figures now
+  changes every figure or none, and a figure whose last save was interrupted can still be edited. An
+  edit that cannot be saved on this computer says so, with steps about the disk.
+- **A picture sent off this computer is always asked about first.** When your local model server runs
+  on another computer, redrawing a figure from a picture asks for your consent first, as a remote model
+  does, and the figure's record names that server. When the specification was read for a figure on a
+  model off this computer, the figure's record says the specification's paragraphs were sent too.
+- **The parts a model proposes, and the description it writes, are checked.** A brief whose proposal
+  names no part says the model chose none. A description that names none of the figure's reference
+  characters is recorded as a reading that failed, and the figure is still drawn. Your own words and the
+  specification's description now both reach the model whole, and a description shortened to fit is
+  said on the figure.
+- **Figures numbered once each.** A new figure with no number of its own never takes the number of a
+  figure you took out of the set, a rename reaches figures taken out of the set, and a revision that
+  finishes after its figure was taken out is kept with it.
+- **The continuation's .docx is written when one figure cannot be.** A figure whose saved drawing cannot
+  be made again is left out of the claims .docx, which says which figure and why; the drawing sheets
+  download names that figure instead of failing without one.
+- **Return to the version before shows only where it works**, and a revision asks the model about only
+  what the revision changed.
+- **A claim printed withdrawn and currently amended keeps both words.** Where a claims listing prints a
+  claim as "(Withdrawn - currently amended)" or "(Currently Amended - Withdrawn)", the claims the program
+  reads from that paper now keep both, and a digest's file line names the claim as withdrawn and currently
+  amended.
+- **A model offered only as a preview can be chosen.** A model a provider offers only as a preview
+  or experimental build, such as `google/gemini-3.1-pro-preview` on OpenRouter, is in the model list,
+  and in the list for redrawing a picture when its provider says it reads images. A preview is still
+  left out beside the model it previews, and a `:free` or `:batch` listing beside nothing.
+- **Your saved model is selected again, or the page says why not.** A remote model you chose, from a
+  provider's list or typed by hand, is selected again when the page opens while its provider is set
+  up. When a saved model cannot be used (its provider has no key or is turned off, or the model is
+  not on this machine), the model page says which model it was, why, and what is selected instead,
+  and the model chip is marked until you choose.
+- **The model list offers only models that write text.** An installed embedding or decision model
+  is left out of the list and is never chosen by default, and a line under the list says how many were
+  left out and why. A request for text to such a model, from the command line or a saved setting, says
+  that the model does not write text and that choosing another is the remedy.
+- **A digest uses only models that write text.** A model Ollama lists as able only to embed or decide,
+  such as an embedding model, is never chosen as a digest's checking model, and choosing one for any
+  step in Settings is refused before the digest starts, with the reason.
+- **A digest with no checking model saved checks with a measured model.** Of the models on this
+  machine from another maker that fit its memory, it takes the first of those measured for drafting in
+  the local model guide (`docs/models.md`), and the largest only when none of them qualifies.
+- **A digest reads a model's maker from Ollama whatever its name's shape.** With Ollama chosen, a model
+  installed under a namespace (`namespace/model:tag`) is read by the family and weights Ollama reports,
+  so a checking model of the same maker is refused whatever it is named.
+- **A digest's flags and views keep what they show.** A flag on a group and a flag on its question are
+  kept apart, and both appear in the Word export. A rechecked digest's map of what the reading reached
+  counts only the passages it still shows. The sample tab shows the sample each time it is opened, and a
+  digest that finished while the page was away is found again in the matter.
+- **A digest's group check is applied only when it answers in full.** A group the second model answered
+  without saying which members do not belong keeps its question marked as unchecked, and a group of one
+  whose member does not answer its question takes the program's neutral label.
+- **A model on Ollama's MLX engine is listed with its size and window.** Ollama's model list leaves
+  them out for such a model, so the program reads them from Ollama's model details: the model list
+  sorts it by its size and shows its window, and a digest reads its maker from the family Ollama
+  reports.
+
 ## [0.14.0] - 2026-11-08
 
 ### Added

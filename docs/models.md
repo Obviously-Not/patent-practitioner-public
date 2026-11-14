@@ -370,6 +370,47 @@ That is a model capability limit, not a configuration problem.
 **`deepseek-r1:14b` produced zero structured claim bodies.** Its claims are
 prose-shaped rather than element-delimited.
 
+## Figures: use `qwen3.8:27b`
+
+Measured on 2026-11-10 on this machine's Ollama (0.40.14), at a 24,576-token window, one sample per
+figure, each sheet read blind by one AI reader against the published figure. Two sets of public
+figures that share no figure: six (five drawings and a block diagram), then seven (five drawings and
+two flowcharts), each figure drawn in two ways on each model.
+
+| Model | Resident, 24,576-token window | Points, first set | Points, second set | Sheets delivered, second set | Minutes, second set |
+|---|---|---|---|---|---|
+| `qwen3.8:27b` | 18.5 GB | 14 | 16 | 13 of 14 | 37.5 |
+| `gemma4:31b` | 17.2 GB | 12 | 10 | 11 of 14 | 58.7 |
+
+Resident is the memory in use with the model loaded at the window figures run at, measured on the same
+machine. `continuation-drafter models` suggests the first of these that fits your machine for figures, and
+a figure command with no model names it. A sheet scores 2 when the reader would start from it rather
+than a blank page, 1 for maybe. A gap under 4 points is read as even, so the first set ranked the two even and the second ranks
+`qwen3.8:27b` ahead. On the second set `qwen3.8:27b` drew both flowcharts as the published structure
+in every run; `gemma4:31b` wrote one flowchart's boxes too long to fit the sheet at the required
+lettering height, and the program refused it with what to change. A mechanical drawing on either model
+is a starting point at best: the right parts, roughly arranged.
+
+**A mechanical drawing comes out better redrawn from a picture**, and `qwen3.8:27b` redraws as well as
+`gemma4:31b`. Measured on the same day and machine, on the second set's five drawings: each was
+redrawn from a rough sketch (drawn for the test by an AI model shown the published figure, with no
+reference characters) with the program's own description of the figure, and read in one blind line-up
+beside the same figures drawn from words alone. The sketch scored 12 points of 20 over both models with
+3 sheets a reader would start from, against 6 points and none for the specification's words or a
+person's words with no picture. Over all their redraws (from the sketch, from the sketch with words,
+and from the published figure) `qwen3.8:27b` scored 14 and `gemma4:31b` 16, which is even, delivering
+13 and 14 of 15. A redraw draws what the picture shows, so a part the sketch leaves out is left out of
+the figure.
+
+**From the command line, `qwen3.8:27b` can reason before it draws**, which gives a better sheet in
+about four times the time. Add `--reasoning-effort low --max-tokens 32000` to `figure draw`: the room
+matters, because a figure call at `low` used 15,000 to 39,000 output tokens. Measured on 2026-11-12 on
+an Apple M3 Ultra with Ollama 0.40.13, its graphics shared with other models, one sample per figure. On
+five tuning figures it drew all five, with an exploded view in perspective and a schematic that reads as
+the circuit. On ten held-out figures read blind it scored 11 points of 20 (3 sheets a reader would start
+from) against 8 (2) with no reasoning, a median of 194 seconds a figure against 44, and a cloud model,
+Gemini 3.1 Pro, scored 13 (5) on the same ten, ahead on the four mechanical drawings.
+
 ## Thinking models
 
 `qwen3`, `glm`, and `deepseek-r1` are thinking models. On Ollama's native
@@ -497,7 +538,7 @@ not the same kind of decision:
 |---|---|
 | Text output only | read from the provider's own capability field, not guessed from the name |
 | No purpose-built variants | `codex`, `-search`, `deep-research` and `instruct` builds take a prompt but are specialised away from drafting |
-| No suffixed variants | `:free`, `:batch`, `preview` and `-exp` are the same model under different billing or stability terms |
+| No duplicate variants | `:free` and `:batch` are a listed model under other billing terms; a `preview` or `-exp` build is left out beside the model it previews, and listed when it is the only form of its model |
 | Nothing older than about 18 months | keeps the current and previous generation; the rest are not serious candidates |
 | **Major labs only, on OpenRouter** | **an editorial choice, not a measurement.** See below |
 
