@@ -8,10 +8,10 @@ Patent Practitioner Tools (`continuation-drafter`) is built with the software li
 | github.com/sashabaranov/go-openai | v1.43.0 | Apache-2.0 | every release build |
 | github.com/spf13/cobra | v1.10.2 | Apache-2.0 | every release build |
 | github.com/spf13/pflag | v1.0.10 | BSD-3-Clause | every release build |
-| golang.org/x/image | v0.47.0 | BSD-3-Clause, with a patent grant | every release build |
-| golang.org/x/sys | v0.49.0 | BSD-3-Clause, with a patent grant | darwin/amd64, linux/amd64, windows/amd64 |
-| golang.org/x/text | v0.43.0 | BSD-3-Clause, with a patent grant | every release build |
-| The Go fonts, in golang.org/x/image v0.47.0 (golang.org/x/image/font/gofont) | | BSD-3-Clause | every release build |
+| golang.org/x/image | v0.48.0 | BSD-3-Clause, with a patent grant | every release build |
+| golang.org/x/sys | v0.50.0 | BSD-3-Clause, with a patent grant | darwin/amd64, linux/amd64, windows/amd64 |
+| golang.org/x/text | v0.44.0 | BSD-3-Clause, with a patent grant | every release build |
+| The Go fonts, in golang.org/x/image v0.48.0 (golang.org/x/image/font/gofont) | | BSD-3-Clause | every release build |
 | The Go standard library and runtime | | BSD-3-Clause, with a patent grant | every release build |
 
 ## github.com/inconshreveable/mousetrap v1.1.0
@@ -646,7 +646,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
-## golang.org/x/image v0.47.0
+## golang.org/x/image v0.48.0
 
 LICENSE:
 
@@ -707,7 +707,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-## golang.org/x/sys v0.49.0
+## golang.org/x/sys v0.50.0
 
 LICENSE:
 
@@ -768,7 +768,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-## golang.org/x/text v0.43.0
+## golang.org/x/text v0.44.0
 
 LICENSE:
 
@@ -829,7 +829,7 @@ rights granted to you under this License for this implementation of Go
 shall terminate as of the date such litigation is filed.
 ```
 
-## The Go fonts, in golang.org/x/image v0.47.0 (golang.org/x/image/font/gofont)
+## The Go fonts, in golang.org/x/image v0.48.0 (golang.org/x/image/font/gofont)
 
 font/gofont/ttfs/README:
 

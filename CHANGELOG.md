@@ -10,6 +10,46 @@ repository is private and its commit subjects are not published.
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-11-15
+
+### Added
+
+- **The matter and each round as the program reads them, beside the record.** The matter page's
+  Prosecution record opens onto the matter as the program reads it from the papers and their readings,
+  and each round heading onto that round's account, every line opening onto what it rests on; no digest
+  is needed. A digest's *By file* view opens each file onto its rejections, claim groups and headings, and
+  each of those onto the digest's statements with the file's own words, in place of the *By level* view.
+  Your own files for the matter are a group of their own, and a file of yours given as markdown or plain
+  text, or pasted, opens onto its headings.
+
+- **A digest of many files grouped across them.** When a digest's statements are too many for one grouping
+  call, they are grouped in several calls, each holding whole files in the order the files are listed, so
+  a question can gather statements from several of your notes at once. The record says how they were
+  grouped, and names any file too large to group.
+
+- **Drag a reference character on the sheet.** A reference character, word or numeral is dragged where it
+  goes and pinned where it is dropped, its lead reaching the side of its own part nearest it; the label
+  tools below the sheet do the same from the keyboard or by millimetres. The chosen figure now opens at
+  the top of the Figures tab, its editing tools right under its sheet, with what was measured and how it
+  was made folded beneath; a figure just drawn is brought into view.
+
+### Changed
+
+- **A reference character stands outside its part.** A character's lead now ends on the side of its own
+  part nearest the character, wherever on the part's outline that is, so a character beside a box, a
+  column or a housing leads to the near edge rather than across the part to one fixed point, and stands
+  in the open paper rather than inside the part. On 40 sheets drawn by eight models, leads crossed 614
+  drawn lines where they had crossed 980, and the measured collisions went from 6 to 2. Placing a sheet
+  takes about a third longer.
+
+### Fixed
+
+- **A specification headed in sentence case has its figures read.** *Read a brief for each figure the
+  specification lists* reads a list of figures under "Brief description of the drawings" on a line of its
+  own, as a word processor's draft often heads it, and under "DRAWING FIGURES", with Windows line ends
+  too. When no list is read, the reason and what to do now stand beside the button, not only in the
+  screen reader's announcement.
+
 ## [0.15.0] - 2026-11-14
 
 ### Added
